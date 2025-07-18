@@ -2,7 +2,7 @@ import { useCart } from "../context/CartContext";
 import { FaTrashAlt } from "react-icons/fa";
 
 function CartPage() {
-  const { cart, removeFromCart } = useCart();
+  const { cart = [], removeFromCart } = useCart(); // ✅ default value
 
   const totalAmount = cart.reduce((total, item) => total + item.price, 0);
 
@@ -60,3 +60,4 @@ function CartPage() {
 }
 
 export default CartPage;
+  
