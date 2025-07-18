@@ -1,0 +1,104 @@
+{
+   "Products": [
+  {
+    "id": 1,
+    "title": "Soney WH4500",
+    "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+    "price": 999,
+    "onSale": false
+  },
+  {
+    "id": 2,
+    "title": "Rocky Mountain",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+    "price": 5250,
+    "onSale": false
+  },
+  {
+    "id": 3,
+    "title": "Boat Roakerz 1922",
+    "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+    "price": 9250,
+    "onSale": false
+  },
+  {
+    "id": 4,
+    "title": "MacBook Pro M2",
+    "image": "/p-4.png",
+    "price": 102990,
+    "originalPrice": 111990,
+    "onSale": true
+  },
+  {
+    "id": 5,
+    "title": "Boat Airpods 322",
+    "image": "/p-7.png",
+    "price": 1499,
+    "onSale": false
+  },
+  {
+    "id": 6,
+    "title": "Beat Solo 4",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcmFdqfPQMxNNBYzJMP1lwXcYKzfm4nhU5WA&s",
+    "price": 13550,
+    "onSale": false
+  },
+  {
+    "id": 7,
+    "title": "Apple Watch 3",
+    "image": "/p-8.png",
+    "price": 18250,
+    "onSale": false
+  },
+  {
+    "id": 8,
+    "title": "iPhone 16 Pro",
+    "image": "/p-6.png",
+    "price": 111950,
+    "originalPrice": 131990,
+    "onSale": true
+  },
+  {
+    "id": 9,
+    "title": "asus tuf ",
+    "image": "https://cdn.lotuselectronics.com/webpimages/670861IM.webp",
+    "price": 62950,
+    "originalPrice": 131990,
+    "onSale": true
+  },
+  {
+    "id": 10,
+    "title": "Asus Vivobook ",
+    "image": "https://i5.walmartimages.com/asr/2f5bc4c2-4451-4630-88bd-0fc460b4109e.7d99a0a90187b467173ea5ed6b495c62.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
+    "price": 65950,
+    "originalPrice": 131990,
+    "onSale": true
+  },
+  {
+    "id": 11,
+    "title": "Airdopes Alpha ",
+    "image": "https://www.boat-lifestyle.com/cdn/shop/files/ACCG6DS7WDJHGWSH_0_900x.png?v=1727669669",
+    "price":  950,
+    "originalPrice": 131990,
+    "onSale": true
+  },
+  {
+    "id": 12,
+    "title": "Portable Speaker",
+    "image": "https://images.philips.com/is/image/philipsconsumer/53f913edc2674885ae71b0c400e6ec9e?wid=700&hei=700&$pnglarge$",
+    "price": 13500,
+    "originalPrice": 131990,
+    "onSale": true
+  },
+  {
+    "id": 13,
+    "title": "Samsung galexy A15 5g",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
+    "price": 20999,
+    "originalPrice": 131990,
+    "onSale": true
+  }
+]
+
+
+}
