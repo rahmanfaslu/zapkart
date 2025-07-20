@@ -11,7 +11,7 @@ import ProductPage from './pages/ProductPage';
 import Search from './pages/search'; 
 import OrderPage from './pages/OrderPage'
 import { useAuth } from './context/AuthContext';
-
+import Checkout from './pages/Checkout' ;
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -31,7 +31,8 @@ function App() {
         <Route path="/whishlist" element={ <PrivateRoute> <Whishlist /> </PrivateRoute>} />
         <Route path="/products" element={ <ProductPage/>} />
         <Route path="/search" element={<Search/>} />
-        <Route path="/orderpage" element={ <PrivateRoute>  <OrderPage/> </PrivateRoute>} />
+        <Route path="/order" element={ <PrivateRoute>  <OrderPage/> </PrivateRoute>} />
+        <Route path="/checkout" element={ <PrivateRoute>  <Checkout/> </PrivateRoute>} />
 
 
       </Routes>

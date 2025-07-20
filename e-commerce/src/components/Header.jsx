@@ -25,6 +25,7 @@ export default function Header() {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') handleSearch();
   };
+     
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -54,7 +55,7 @@ export default function Header() {
         <nav className="flex items-center space-x-6">
           <Link to="/" className={navLinkClass}>Home</Link>
           <Link to="/products" className={navLinkClass}>Products</Link>
-          <Link to="/orders" className={navLinkClass}>Orders</Link>
+          <Link to="/order" className={navLinkClass}>Orders</Link>
           <Link to="/whishlist" className="relative text-2xl text-gray-700 hover:text-blue-500">
             <FaHeart />
             {wishlist.length > 0 && (

@@ -1,4 +1,31 @@
 {
+  "wishlist": [
+    {
+      "id": "1",
+      "userId": "1",
+      "productId": 303,
+      "title": "Headphones",
+      "price": 2500
+    },
+    {
+      "id": "2",
+      "userId": "7804",
+      "productId": 404,
+      "title": "Smartwatch",
+      "price": 2000
+    }
+  ],
+  "cart": [
+    {
+      "id": "2",
+      "userId": "7804",
+      "productId": 202,
+      "title": "Laptop",
+      "price": 1500,
+      "quantity": 1
+    }
+  ],
+  "orders": [],
   "Products": [
     {
       "id": "1",

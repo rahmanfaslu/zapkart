@@ -1,18 +1,29 @@
 import { useWishlist } from "../context/WishlistContext";
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function Wishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
-
+    const navigate = useNavigate();
   return (
     <section className="py-10 bg-white px-4">
-      <h1 className="text-center text-3xl font-bold mb-10 text-red-600">
+      <h1 className="text-center text-5xl font-bold mb-10 text-blue-600">
         Wishlist
       </h1>
 
       {wishlist.length === 0 ? (
+        <>
         <p className="text-center text-gray-500">Your wishlist is empty.</p>
-      ) : (
+        <div className="flex justify-center items-center min-h-10 bg- -100">
+  <button
+    onClick={() => navigate("/products")}
+    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-300"
+  >
+    Browse Products
+  </button>
+</div>
+
+      </>) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {wishlist.map((item) => (
             <div

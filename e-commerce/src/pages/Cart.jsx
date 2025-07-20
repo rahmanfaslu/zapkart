@@ -1,21 +1,42 @@
+// src/pages/CartPage.jsx
 import { useCart } from "../context/CartContext";
 import { FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
-  const { cart = [], removeFromCart } = useCart(); // ✅ default value
+  const {
+    cartItems = [],
+    removeFromCart,
+    incrementQty,
+    decrementQty,
+  } = useCart();
 
-  const totalAmount = cart.reduce((total, item) => total + item.price, 0);
+  const navigate = useNavigate();
+  const totalAmount = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
     <section className="py-10 px-6 bg-gray-100 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-700 mb-8">Your Cart</h1>
+        <h1 className="text-5xl font-bold text-blue-700 mb-5 text-center">
+          Your Cart
+        </h1>
 
-        {cart.length === 0 ? (
-          <p className="text-gray-600 text-lg">Your cart is empty 🛒</p>
+        {cartItems.length === 0 ? (
+          <div className="text-center py-10">
+            <p className="text-gray-600 text-lg mb-4">Your cart is empty 🛒</p>
+            <button
+              onClick={() => navigate("/products")}
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-300"
+            >
+              Browse Products
+            </button>
+          </div>
         ) : (
           <div className="space-y-6">
-            {cart.map((item) => (
+            {cartItems.map((item) => (
               <div
                 key={item.id}
                 className="bg-white p-5 rounded-xl shadow flex items-center gap-6"
@@ -31,7 +52,31 @@ function CartPage() {
                     {item.title}
                   </h2>
                   <p className="text-gray-500 text-sm">{item.category}</p>
-                  <p className="text-purple-700 font-bold mt-2">₹{item.price}</p>
+                  <p className="text-purple-700 font-bold mt-2">
+                    ₹{item.price} each
+                  </p>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center mt-2 space-x-3">
+                    <button
+                      className="bg-gray-200 text-lg px-3 rounded hover:bg-gray-300"
+                      onClick={() => decrementQty(item.id)}
+                    >
+                      −
+                    </button>
+                    <span className="font-semibold">{item.quantity}</span>
+                    <button
+                      className="bg-gray-200 text-lg px-3 rounded hover:bg-gray-300"
+                      onClick={() => incrementQty(item.id)}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Item Total */}
+                  <p className="text-sm text-gray-600 mt-2">
+                    Total: ₹{item.price * item.quantity}
+                  </p>
                 </div>
 
                 <button
@@ -46,9 +91,15 @@ function CartPage() {
             {/* Subtotal */}
             <div className="text-right mt-6">
               <h3 className="text-xl font-semibold">
-                Subtotal: <span className="text-green-600">₹{totalAmount}</span>
+                Subtotal:{" "}
+                <span className="text-green-600 font-bold">
+                  ₹{totalAmount}
+                </span>
               </h3>
-              <button className="mt-3 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+              <button
+                className="mt-3 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                onClick={() => navigate("/checkout")}
+              >
                 Proceed to Checkout
               </button>
             </div>
@@ -60,4 +111,3 @@ function CartPage() {
 }
 
 export default CartPage;
-  

@@ -8,9 +8,15 @@ import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaHeart } from 'react-icons/fa';
-
+import { useWishlist } from "../context/WishlistContext";
+import { useCart } from "../context/CartContext";
 
 export default function Home() {
+
+  const { wishlist, addToWishlist } = useWishlist();
+ const { addToCart } = useCart();
+
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
 
@@ -135,56 +141,188 @@ export default function Home() {
 
       {/*Featured Products */}
      <section className="py-15 bg-gray-100 px-4">
-      <h1 className="text-center text-3xl font-bold mb-10 text-blue-700">Featured Products</h1>
+      <h1 className="text-center text-3xl font-bold mb-10 text-blue-700">
+        Featured Products
+      </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-       
-
         {/* Product 5 */}
-        <div className=" max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
+        <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
           <img src="/gaming.png" alt="Gaming Controller" className="mb-4 object-contain w-32 scale-100 transition-transform duration-300" />
           <p className="text-sm text-gray-500 mb-1">Gaming</p>
-          <h2 className="text-base font-semibold text-gray-800 mb-1">Sony PlayStation 4 </h2>
+          <h2 className="text-base font-semibold text-gray-800 mb-1">Sony PlayStation 4</h2>
           <p className="text-black-700 font-bold text-lg mb-4">₹19,999</p>
           <div className="flex justify-center items-center gap-3 mt-auto">
-            <button className="text-gray-400 hover:text-red-600 text-xl"><FaHeart /></button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm">Add to Cart</button>
+            <button
+              className={`text-xl ${
+                wishlist.find((w) => w.id === 101)
+                  ? "text-red-600"
+                  : "text-gray-400 hover:text-red-600"
+              }`}
+              onClick={() => {
+                const item = {
+                  id: 101,
+                  title: "Sony PlayStation 4",
+                  price: 19999,
+                  image: "/gaming.png",
+                  category: "Gaming",
+                };
+                const isInWishlist = wishlist.find((w) => w.id === item.id);
+                addToWishlist(item);
+                alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+              }}
+            >
+              <FaHeart />
+            </button>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
+              onClick={() =>
+                addToCart({
+                  id: 101,
+                  title: "Sony PlayStation 4",
+                  price: 19999,
+                  image: "/gaming.png",
+                  category: "Gaming",
+                })
+              }
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
 
         {/* Product 6 */}
-        <div className=" max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-          <img src="/p-6.png" alt="Portable Speaker" className="mb-4 object-contain w-32 scale-130 transition-transform duration-300" />
+        <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
+          <img src="/p-6.png" alt="iPhone 16 Pro" className="mb-4 object-contain w-32 scale-130 transition-transform duration-300" />
           <p className="text-sm text-gray-500 mb-1">Phones</p>
           <h2 className="text-base font-semibold text-gray-800 mb-1">I Phone 16 pro</h2>
           <p className="text-black-700 font-bold text-lg mb-4">₹1,11,099</p>
           <div className="flex justify-center items-center gap-3 mt-auto">
-            <button className="text-gray-400 hover:text-red-600 text-xl"><FaHeart /></button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm">Add to Cart</button>
+            <button
+              className={`text-xl ${
+                wishlist.find((w) => w.id === 102)
+                  ? "text-red-600"
+                  : "text-gray-400 hover:text-red-600"
+              }`}
+              onClick={() => {
+                const item = {
+                  id: 102,
+                  title: "I Phone 16 pro",
+                  price: 111099,
+                  image: "/p-6.png",
+                  category: "Phones",
+                };
+                const isInWishlist = wishlist.find((w) => w.id === item.id);
+                addToWishlist(item);
+                alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+              }}
+            >
+              <FaHeart />
+            </button>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
+              onClick={() =>
+                addToCart({
+                  id: 102,
+                  title: "I Phone 16 pro",
+                  price: 111099,
+                  image: "/p-6.png",
+                  category: "Phones",
+                })
+              }
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
 
         {/* Product 7 */}
-        <div className=" max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-          <img src="/p-4.png" alt="Smart Watch" className="mb-4 object-contain w-32 scale-160 transition-transform duration-300 pt-4"  />
+        <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
+          <img src="/p-4.png" alt="Smart Watch" className="mb-4 object-contain w-32 scale-160 transition-transform duration-300 pt-4" />
           <p className="text-sm text-gray-500 mb-1">Laptops</p>
           <h2 className="text-base font-semibold text-gray-800 mb-1">MacBook Pro M2</h2>
           <p className="text-black-700 font-bold text-lg mb-4">₹1,999</p>
           <div className="flex justify-center items-center gap-3 mt-auto">
-            <button className="text-gray-400 hover:text-red-600 text-xl"><FaHeart /></button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm">Add to Cart</button>
+            <button
+              className={`text-xl ${
+                wishlist.find((w) => w.id === 103)
+                  ? "text-red-600"
+                  : "text-gray-400 hover:text-red-600"
+              }`}
+              onClick={() => {
+                const item = {
+                  id: 103,
+                  title: "MacBook Pro M2",
+                  price: 1999,
+                  image: "/p-4.png",
+                  category: "Laptops",
+                };
+                const isInWishlist = wishlist.find((w) => w.id === item.id);
+                addToWishlist(item);
+                alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+              }}
+            >
+              <FaHeart />
+            </button>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
+              onClick={() =>
+                addToCart({
+                  id: 103,
+                  title: "MacBook Pro M2",
+                  price: 1999,
+                  image: "/p-4.png",
+                  category: "Laptops",
+                })
+              }
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
 
         {/* Product 8 */}
-        <div className=" max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-          <img src="/p-8.png" alt="Power Bank" className="mb-4  pt-4 object-contain w-32 scale-160 transition-transform duration-300" />
+        <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
+          <img src="/p-8.png" alt="Apple Watch 2" className="mb-4 pt-4 object-contain w-32 scale-160 transition-transform duration-300" />
           <p className="text-sm text-gray-500 mb-1">Watch</p>
           <h2 className="text-base font-semibold text-gray-800 mb-1">Apple Watch 2</h2>
           <p className="text-black-700 font-bold text-lg mb-4">₹1,799</p>
           <div className="flex justify-center items-center gap-3 mt-auto">
-            <button className="text-gray-400 hover:text-red-600 text-xl"><FaHeart /></button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm">Add to Cart</button>
+            <button
+              className={`text-xl ${
+                wishlist.find((w) => w.id === 104)
+                  ? "text-red-600"
+                  : "text-gray-400 hover:text-red-600"
+              }`}
+              onClick={() => {
+                const item = {
+                  id: 104,
+                  title: "Apple Watch 2",
+                  price: 1799,
+                  image: "/p-8.png",
+                  category: "Watch",
+                };
+                const isInWishlist = wishlist.find((w) => w.id === item.id);
+                addToWishlist(item);
+                alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+              }}
+            >
+              <FaHeart />
+            </button>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
+              onClick={() =>
+                addToCart({
+                  id: 104,
+                  title: "Apple Watch 2",
+                  price: 1799,
+                  image: "/p-8.png",
+                  category: "Watch",
+                })
+              }
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 // src/context/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useCart } from "./CartContext";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   });
 
 
-
+     const { clearCart } = useCart();
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
@@ -20,7 +20,11 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem("user");
+ 
+    clearCart();
     setUser(null);
+    alert("You have been logged out");
+
   
   };
 

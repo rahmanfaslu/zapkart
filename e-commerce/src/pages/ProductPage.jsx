@@ -122,25 +122,31 @@ function Products() {
                 ₹{item.price}
               </p>
               <div className="flex justify-center items-center gap-3 mt-auto">
+                
                 <button
                   className={`text-xl ${
-                    wishlist.find((w) => w.id === item.id)
-                      ? "text-red-600"
-                      : "text-gray-400 hover:text-red-600"
-                  }`}
-                  onClick={() => {
+                   wishlist.find((w) => w.id === item.id)
+                    ? "text-red-600"
+                   : "text-gray-400 hover:text-red-600"
+                   }`}
+                     onClick={() => {
+                    const isInWishlist = wishlist.find((w) => w.id === item.id);
                     addToWishlist(item);
-                    alert("Added to Wishlist");
-                  }}
-                >
-                  <FaHeart />
+                  alert(
+                   isInWishlist
+                    ? "Removed from Wishlist"
+                   : "Added to Wishlist"
+                     );
+                   }}
+                  >
+                   <FaHeart />
                 </button>
 
                 <button
                   className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-full text-sm"
                   onClick={() => {
                     addToCart(item);
-                    alert("Added to Cart");
+                    alert("Item added to cart!");
                   }}
                 >
                   Add to Cart
