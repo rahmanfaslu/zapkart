@@ -8,13 +8,12 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
   const navLinkClass = "text-gray-700 hover:text-blue-600 cursor-pointer transition";
-  const { wishlist } = useWishlist();
-  const { cartItems } = useCart();
+  const { wishlist, resetWishlist } = useWishlist();
+  const { cartItems, resetCart } = useCart();
+  const { user, logout } = useAuth();
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
-  // Search on icon click or enter key
   const handleSearch = () => {
     if (searchInput.trim() !== '') {
       navigate(`/search?q=${encodeURIComponent(searchInput)}`);
@@ -25,14 +24,20 @@ export default function Header() {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') handleSearch();
   };
-     
+
+  const handleLogout = () => {
+    logout();
+    resetCart();          
+    resetWishlist();       
+    navigate('/login');
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-blue-700 cursor-pointer">
-          ZapKart
+          Shingify.in
         </Link>
 
         {/* Search Bar */}
@@ -56,6 +61,7 @@ export default function Header() {
           <Link to="/" className={navLinkClass}>Home</Link>
           <Link to="/products" className={navLinkClass}>Products</Link>
           <Link to="/order" className={navLinkClass}>Orders</Link>
+
           <Link to="/whishlist" className="relative text-2xl text-gray-700 hover:text-blue-500">
             <FaHeart />
             {wishlist.length > 0 && (
@@ -64,6 +70,7 @@ export default function Header() {
               </span>
             )}
           </Link>
+
           <Link to="/cart" className="relative text-2xl text-gray-700 hover:text-blue-500">
             <FaShoppingCart />
             {cartItems.length > 0 && (
@@ -72,39 +79,35 @@ export default function Header() {
               </span>
             )}
           </Link>
-            
-          
-        {!user ? (
-          <>
-            <Link
-              to="/login"
-              className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600"
-            >
-              Register
-            </Link>
-          </>
-        ) : (
-          <>
-            <span className="text-gray-600">
-              Hi, {user.email.split("@")[0]}
-            </span>
-            <button
-  onClick={() => {
-    logout();
-    navigate('/login');
-  }}
-  className="ml-2 bg-blue-500 text-white px-4 py-1 rounded-2xl hover:bg-blu-600"
->
-  Logout
-</button>
-          </>
-        )}
+
+          {!user ? (
+            <>
+              <Link
+                to="/login"
+                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600"
+              >
+                Register
+              </Link>
+            </>
+          ) : (
+            <>
+              <span className="text-gray-600">
+                Hi, {user.email.split("@")[0]}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="ml-2 bg-blue-500 text-white px-4 py-1 rounded-2xl hover:bg-blue-600"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </nav>
       </div>
     </header>

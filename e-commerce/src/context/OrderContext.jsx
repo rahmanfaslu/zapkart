@@ -1,13 +1,42 @@
 // src/context/OrderContext.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
 
-  const placeOrder = (newOrder) => {
-    setOrders((prev) => [...prev, newOrder]);
+  // Fetch user's orders from JSON Server
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!user?.id) return;
+      try {
+        const res = await axios.get(`http://localhost:3001/orders?userId=${user.id}`);
+        setOrders(res.data);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [user]);
+
+  // Place new order and save to backend
+  const placeOrder = async (newOrder) => {
+    try {
+      const orderToSave = {
+        ...newOrder,
+        userId: user.id,
+        date: new Date().toLocaleString(),
+      };
+      const res = await axios.post("http://localhost:3001/orders", orderToSave);
+      setOrders((prev) => [...prev, res.data]);
+    } catch (error) {
+      console.error("Failed to place order:", error);
+    }
   };
 
   return (

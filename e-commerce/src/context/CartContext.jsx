@@ -1,106 +1,54 @@
-// src/context/CartContext.jsx
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
+
+export const useCart = () => useContext(CartContext);
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
-  // 🛑 Dummy userId (replace with real user ID from auth context if needed)
-  const userId = 1;
-
-  const fetchCart = useCallback(async () => {
-    try {
-      const res = await axios.get(`http://localhost:3001/cart?userId=${userId}`);
-      setCartItems(res.data);
-    } catch (err) {
-      console.error("Failed to fetch cart:", err);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCart();
-  }, [fetchCart]);
-
-  const addToCart = async (product) => {
-    try {
-      const res = await axios.get(`http://localhost:3001/cart?userId=${userId}&id=${product.id}`);
-      const existing = res.data[0];
-
+  const addToCart = (product, quantity = 1) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
       if (existing) {
-        // If already in cart, increase quantity
-        await axios.patch(`http://localhost:3001/cart/${existing.id}`, {
-          quantity: existing.quantity + 1
-        });
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
       } else {
-        // Add new product
-        await axios.post("http://localhost:3001/cart", {
-          ...product,
-          quantity: 1,
-          userId
-        });
+        return [...prev, { ...product, quantity }];
       }
-
-      fetchCart();
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-    }
+    });
   };
 
-  const removeFromCart = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3001/cart/${id}`);
-      fetchCart();
-    } catch (err) {
-      console.error("Error removing item:", err);
-    }
+  const removeFromCart = (id) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const incrementQty = async (id) => {
-    const item = cartItems.find((item) => item.id === id);
-    if (item) {
-      await axios.patch(`http://localhost:3001/cart/${id}`, {
-        quantity: item.quantity + 1
-      });
-      fetchCart();
-    }
-  };
-
-  const decrementQty = async (id) => {
-    const item = cartItems.find((item) => item.id === id);
-    if (item && item.quantity > 1) {
-      await axios.patch(`http://localhost:3001/cart/${id}`, {
-        quantity: item.quantity - 1
-      });
-    } else if (item && item.quantity === 1) {
-      await axios.delete(`http://localhost:3001/cart/${id}`);
-    }
-    fetchCart();
-  };
-
-  const clearCart = async () => {
-    const deleteAll = cartItems.map((item) =>
-      axios.delete(`http://localhost:3001/cart/${item.id}`)
+  const incrementQty = (id) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
     );
-    await Promise.all(deleteAll);
-    fetchCart();
+  };
+
+  const decrementQty = (id) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
   };
 
   return (
     <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        incrementQty,
-        decrementQty,
-        clearCart,
-      }}
+      value={{ cartItems, addToCart, removeFromCart, incrementQty, decrementQty }}
     >
       {children}
     </CartContext.Provider>
   );
 }
-
-export const useCart = () => useContext(CartContext);

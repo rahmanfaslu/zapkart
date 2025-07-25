@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
+import { Dialog, Transition } from "@headlessui/react";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,24 @@ function Products() {
   const { wishlist, addToWishlist } = useWishlist();
   const { addToCart } = useCart();
 
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalQuantity, setModalQuantity] = useState(1);
+
+  const marketingTexts = [
+    "Best choice for everyday use!",
+    "Loved by thousands of customers.",
+    "Limited stock. Hurry up!",
+    "Top-rated product in its category.",
+    "You won't regret this purchase!"
+  ];
+
+  function getRandomText() {
+    return marketingTexts[Math.floor(Math.random() * marketingTexts.length)];
+  }
+
+  const [randomText, setRandomText] = useState("");
+
   useEffect(() => {
     axios
       .get("http://localhost:3001/Products")
@@ -24,25 +43,21 @@ function Products() {
       .catch((err) => console.error("There is an error:", err));
   }, []);
 
-  // Filter + Sort Products whenever something changes
   useEffect(() => {
     let updatedProducts = [...products];
 
-    // Filter by search
     if (searchQuery) {
       updatedProducts = updatedProducts.filter((item) =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Filter by category
     if (category !== "All") {
       updatedProducts = updatedProducts.filter(
         (item) => item.category === category
       );
     }
 
-    // Sort by price
     if (sortOrder === "lowToHigh") {
       updatedProducts.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "highToLow") {
@@ -52,8 +67,7 @@ function Products() {
     setFilteredProducts(updatedProducts);
   }, [searchQuery, category, sortOrder, products]);
 
-  // Get unique categories
-  const categories = ["All", , ...new Set(products.map((p) => p.category))];
+  const categories = ["All", ...new Set(products.map((p) => p.category))];
 
   return (
     <section className="py-10 bg-gray-100 px-4">
@@ -61,9 +75,8 @@ function Products() {
         Our Products
       </h1>
 
-      {/*  Filters and Sorting */}
+      {/* Filters */}
       <div className="max-w-6xl mx-auto mb-6 flex flex-col md:flex-row items-center justify-between gap-4 px-2">
-        {/* Search */}
         <input
           type="text"
           value={searchQuery}
@@ -72,20 +85,18 @@ function Products() {
           className="border p-2 rounded w-full md:w-1/3"
         />
 
-        {/* Category Filter */}
         <select
-         value={category}
-         onChange={(e) => setCategory(e.target.value)}
-       className="border p-2 rounded w-full md:w-1/4"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border p-2 rounded w-full md:w-1/4"
         >
-         {categories.map((cat, index) => (
-       <option key={index} value={cat} >
-           {cat}
-       </option>
-        ))}
-       </select>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
 
-        {/* Sort Order */}
         <select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
@@ -97,7 +108,7 @@ function Products() {
         </select>
       </div>
 
-      {/*  Products Grid */}
+      {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {filteredProducts.length === 0 ? (
           <p className="text-center text-gray-500 col-span-full">
@@ -109,37 +120,44 @@ function Products() {
               key={item.id}
               className="w-[97%] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="mb-4 object-contain w-32 scale-125 transition-transform duration-300"
-              />
-              <p className="text-sm text-gray-500 mb-1">{item.category}</p>
-              <h2 className="text-base font-semibold text-gray-800 mb-1">
-                {item.title}
-              </h2>
-              <p className="text-purple-700 font-bold text-lg mb-4">
-                ₹{item.price}
-              </p>
+              <div
+                className="cursor-pointer w-full"
+                onClick={() => {
+                  setSelectedProduct(item);
+                  setModalQuantity(1);
+                  setRandomText(getRandomText());
+                  setIsModalOpen(true);
+                }}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="mb-4 object-contain w-32 scale-125 transition-transform duration-300 mx-auto"
+                />
+                <p className="text-sm text-gray-500 mb-1">{item.category}</p>
+                <h2 className="text-base font-semibold text-gray-800 mb-1">{item.title}</h2>
+                <p className="text-purple-700 font-bold text-lg mb-4">₹{item.price}</p>
+              </div>
+
+              {/* Wishlist + Add to Cart */}
               <div className="flex justify-center items-center gap-3 mt-auto">
-                
                 <button
                   className={`text-xl ${
-                   wishlist.find((w) => w.id === item.id)
-                    ? "text-red-600"
-                   : "text-gray-400 hover:text-red-600"
-                   }`}
-                     onClick={() => {
+                    wishlist.find((w) => w.id === item.id)
+                      ? "text-red-600"
+                      : "text-gray-400 hover:text-red-600"
+                  }`}
+                  onClick={() => {
                     const isInWishlist = wishlist.find((w) => w.id === item.id);
                     addToWishlist(item);
-                  alert(
-                   isInWishlist
-                    ? "Removed from Wishlist"
-                   : "Added to Wishlist"
-                     );
-                   }}
-                  >
-                   <FaHeart />
+                    alert(
+                      isInWishlist
+                        ? "Removed from Wishlist"
+                        : "Added to Wishlist"
+                    );
+                  }}
+                >
+                  <FaHeart />
                 </button>
 
                 <button
@@ -153,13 +171,128 @@ function Products() {
                 </button>
               </div>
             </div>
-            
           ))
-          
         )}
       </div>
+
+      {/* MODAL */}
+      <Transition.Root show={isModalOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={() => setIsModalOpen(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  {selectedProduct && (
+                    <div className="flex flex-col md:flex-row gap-4 ">
+                      <img
+                        src={selectedProduct.image}
+                        alt={selectedProduct.title}
+                        className="w-full md:w-1/2 object-contain"
+                      />
+
+                      <div className="flex-1 space-y-3 mt-2">
+                        <Dialog.Title as="h2" className="text-3xl font-bold text-gray-800">
+                          {selectedProduct.title}
+                        </Dialog.Title>
+
+                        {/* Random Marketing Line */}
+                        <p className="text-sm text-gray-500 italic">
+                          {randomText}
+                        </p>
+
+                        <p className="text-gray-600 text-sm">{selectedProduct.description}</p>
+                        <p className="text-black-700 font-bold text-lg">
+                          ₹{selectedProduct.price}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          Category: {selectedProduct.category}
+                        </p>
+
+                        {/* Wishlist inside modal */}
+                        <button
+                          className={`text-xl ${
+                            wishlist.find((w) => w.id === selectedProduct.id)
+                              ? "text-red-600"
+                              : "text-gray-400 hover:text-red-600"
+                          }`}
+                          onClick={() => {
+                            const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
+                            addToWishlist(selectedProduct);
+                            alert(
+                              isInWishlist
+                                ? "Removed from Wishlist"
+                                : "Added to Wishlist"
+                            );
+                          }}
+                        >
+                          <FaHeart />
+                        </button>
+
+                        {/* Quantity + Add to Cart */}
+                        <div className="flex items-center gap-2">
+                        <label>Quantity:</label>
+                        <input 
+                         type="number"
+                        min="1"
+                         value={modalQuantity}
+                         onChange={(e) =>
+                         setModalQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                         }
+                             className="w-16 p-0  border rounded"
+                          />
+                        </div>
+
+                        <div className="mt-4 flex gap-3">
+                        <button
+                         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                         onClick={() => {
+                         addToCart(selectedProduct, modalQuantity); // Pass quantity correctly
+                         alert("Added to cart!");
+                         setIsModalOpen(false);
+                         setModalQuantity(1); // Reset for next time
+                         }}
+                         >
+                         Add to Cart
+                         </button>
+
+                         <button
+                         className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                         onClick={() => setIsModalOpen(false)}
+                         >
+                          Cancel
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+                  )}
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
     </section>
-    
   );
 }
 

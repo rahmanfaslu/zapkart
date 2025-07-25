@@ -2,30 +2,157 @@
   "wishlist": [
     {
       "id": "1",
-      "userId": "1",
-      "productId": 303,
-      "title": "Headphones",
-      "price": 2500
+      "title": "Soney WH4500",
+      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+      "price": 999,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "1"
     },
     {
-      "id": "2",
-      "userId": "7804",
-      "productId": 404,
-      "title": "Smartwatch",
-      "price": 2000
+      "id": "4",
+      "title": "MacBook Pro M2",
+      "image": "/p-4.png",
+      "price": 102990,
+      "category": "Laptops",
+      "originalPrice": 111990,
+      "onSale": true,
+      "userId": "1"
+    },
+    {
+      "id": "5",
+      "title": "Boat Airpods 322",
+      "image": "/p-7.png",
+      "price": 1499,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "1"
+    },
+    {
+      "id": "1",
+      "title": "Soney WH4500",
+      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+      "price": 999,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "3487"
+    },
+    {
+      "id": "3",
+      "title": "Boat Roakerz 1922",
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+      "price": 9250,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "3487"
+    },
+    {
+      "id": "4",
+      "title": "MacBook Pro M2",
+      "image": "/p-4.png",
+      "price": 102990,
+      "category": "Laptops",
+      "originalPrice": 111990,
+      "onSale": true,
+      "userId": "3487"
     }
   ],
   "cart": [
     {
-      "id": "2",
-      "userId": "7804",
-      "productId": 202,
-      "title": "Laptop",
-      "price": 1500,
-      "quantity": 1
+      "id": "13",
+      "title": "Samsung galexy A15 5g",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
+      "price": 20999,
+      "category": "Phones",
+      "originalPrice": 131990,
+      "onSale": true,
+      "quantity": 1,
+      "userId": "3487"
+    },
+    {
+      "id": "1",
+      "title": "Soney WH4500",
+      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+      "price": 999,
+      "category": "Audio",
+      "onSale": false,
+      "quantity": 1,
+      "userId": "3487"
     }
   ],
-  "orders": [],
+  "orders": [
+    {
+      "id": "1675",
+      "items": [
+        {
+          "id": "2",
+          "title": "Rocky Mountain",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+          "price": 5250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 1,
+          "userId": "f59b"
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "upi",
+      "total": 5250,
+      "date": "25/07/2025, 15:19:09",
+      "userId": "f59b"
+    },
+    {
+      "id": "8f3c",
+      "items": [
+        {
+          "id": "3",
+          "title": "Boat Roakerz 1922",
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+          "price": 9250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 1,
+          "userId": "f59b"
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "card",
+      "total": 9250,
+      "date": "25/07/2025, 15:19:24",
+      "userId": "f59b"
+    },
+    {
+      "id": "051b",
+      "items": [
+        {
+          "id": "2",
+          "title": "Rocky Mountain",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+          "price": 5250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 3,
+          "userId": "3487"
+        },
+        {
+          "id": "1",
+          "title": "Soney WH4500",
+          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+          "price": 999,
+          "category": "Audio",
+          "onSale": false,
+          "userId": "3487",
+          "dbId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 6249,
+      "date": "25/07/2025, 15:49:36",
+      "userId": "3487"
+    }
+  ],
   "Products": [
     {
       "id": "1",
@@ -151,6 +278,18 @@
       "name": "MUHAMMAD RIFAEE",
       "email": "rahmanfaslu33@gmail.com",
       "password": "asdfghjklj7666@"
+    },
+    {
+      "id": "f59b",
+      "name": "adnan",
+      "email": "adnan@gmail.com",
+      "password": "adnan@gmail.com"
+    },
+    {
+      "id": "3487",
+      "name": "risal",
+      "email": "risal@gmail.com",
+      "password": "risal@gmail.com"
     }
   ]
 }
