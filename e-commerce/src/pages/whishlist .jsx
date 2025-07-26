@@ -1,18 +1,17 @@
-// src/pages/Wishlist.jsx
 import { useWishlist } from "../context/WishlistContext";
-import { useCart } from "../context/CartContext"; // ✅ Import cart context
+import { useCart } from "../context/CartContext"; 
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 
 function Wishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const { addToCart } = useCart(); // ✅ Get addToCart from context
+  const { addToCart } = useCart(); 
   const navigate = useNavigate();
 
   const handleAddToCart = (item) => {
     addToCart(item);
-    removeFromWishlist(item); // Optional: remove from wishlist after adding to cart
+    removeFromWishlist(item); 
     alert("Item added to cart!");
   };
 

@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
@@ -10,7 +9,7 @@ export function AuthProvider({ children }) {
   });
 
   const login = (userData) => {
-    const userObj = { id: userData.id, email: userData.email }; // Store email for display
+    const userObj = { id: userData.id, email: userData.email }; 
     setUser(userObj);
     localStorage.setItem("user", JSON.stringify(userObj));
   };

@@ -13,13 +13,10 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic Validation
     if (!formData.name || !formData.email || !formData.password) {
       setError('All fields are required!');
       return;
     }
-
-    // Check for existing user
     const res = await fetch(`http://localhost:3001/users?email=${formData.email}`);
     const existingUser = await res.json();
 
@@ -28,7 +25,7 @@ export default function Register() {
       return;
     }
 
-    // Register user
+    // Register
     await fetch('http://localhost:3001/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

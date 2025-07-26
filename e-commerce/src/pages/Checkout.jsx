@@ -1,4 +1,3 @@
-// src/pages/CheckoutPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrder } from "../context/OrderContext";
@@ -53,7 +52,6 @@ export default function CheckoutPage() {
         <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">Checkout</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Address Inputs */}
           {["name", "phone", "address", "city", "state", "pincode"].map((field) => (
             <input
               key={field}
@@ -66,8 +64,7 @@ export default function CheckoutPage() {
               required
             />
           ))}
-
-          {/* Payment Options */}
+          
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2">Select Payment Method</h3>
             <div className="space-y-2">

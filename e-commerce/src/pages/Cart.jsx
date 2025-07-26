@@ -1,4 +1,3 @@
-// src/pages/CartPage.jsx
 import { useCart } from "../context/CartContext";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +55,7 @@ function CartPage() {
                     ₹{item.price} each
                   </p>
 
-                  {/* Quantity Controls */}
+                  {/* Quantity */}
                   <div className="flex items-center mt-2 space-x-3">
                     <button
                       className="bg-gray-200 text-lg px-3 rounded hover:bg-gray-300"
@@ -73,7 +72,7 @@ function CartPage() {
                     </button>
                   </div>
 
-                  {/* Item Total */}
+                  {/* Total */}
                   <p className="text-sm text-gray-600 mt-2">
                     Total: ₹{item.price * item.quantity}
                   </p>

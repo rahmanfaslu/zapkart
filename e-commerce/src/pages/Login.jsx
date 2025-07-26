@@ -14,9 +14,9 @@ function Login() {
     try {
       const res = await axios.get(`http://localhost:3001/users?email=${email}&password=${password}`);
       if (res.data.length > 0) {
-        login(res.data[0]); // Save user in context
+        login(res.data[0]);
         alert("Login successful!");
-        navigate("/"); // Redirect to home
+        navigate("/"); 
       } else {
         alert("Invalid credentials!");
       }

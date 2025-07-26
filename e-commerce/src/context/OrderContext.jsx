@@ -9,7 +9,7 @@ export function OrderProvider({ children }) {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
 
-  // Fetch user's orders from JSON Server
+  // Fetch user 
   useEffect(() => {
     const fetchOrders = async () => {
       if (!user?.id) return;
@@ -24,7 +24,6 @@ export function OrderProvider({ children }) {
     fetchOrders();
   }, [user]);
 
-  // Place new order and save to backend
   const placeOrder = async (newOrder) => {
     try {
       const orderToSave = {

@@ -1,4 +1,3 @@
-// src/context/WishlistContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
@@ -9,14 +8,17 @@ export const WishlistProvider = ({ children }) => {
   const { user } = useAuth();
   const [wishlist, setWishlist] = useState([]);
 
-  // Fetch wishlist for the logged-in user
+  
   useEffect(() => {
     const fetchWishlist = async () => {
-      if (!user?.id) return;
+      if (!user?.id) {
+        setWishlist([]); 
+        return;
+      }
 
       try {
         const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
-        setWishlist(res.data.map((item) => ({ ...item, dbId: item.id }))); // keep dbId separate
+        setWishlist(res.data.map((item) => ({ ...item, dbId: item.id })));
       } catch (error) {
         console.error("Error fetching wishlist:", error);
       }
@@ -25,6 +27,7 @@ export const WishlistProvider = ({ children }) => {
     fetchWishlist();
   }, [user]);
 
+  // Toggle add/remove item
   const addToWishlist = async (product) => {
     const existing = wishlist.find((item) => item.id === product.id);
 
@@ -38,6 +41,7 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
+  // remove wishlist
   const removeFromWishlist = async (product) => {
     if (!product?.dbId) return;
 
@@ -49,8 +53,15 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
+  // to Clear wishlist
+  const clearWishlist = () => {
+    setWishlist([]);
+  };
+
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist }}>
+    <WishlistContext.Provider
+      value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}
+    >
       {children}
     </WishlistContext.Provider>
   );

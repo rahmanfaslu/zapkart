@@ -4,6 +4,8 @@ import { FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
 import { Dialog, Transition } from "@headlessui/react";
+import { useLocation } from "react-router-dom";
+
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,7 @@ function Products() {
 
   const { wishlist, addToWishlist } = useWishlist();
   const { addToCart } = useCart();
+  const location = useLocation();
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,6 +35,12 @@ function Products() {
   }
 
   const [randomText, setRandomText] = useState("");
+
+  useEffect(() => {
+  if (location.state && location.state.category) {
+    setCategory(location.state.category);
+  }
+}, [location.state]);
 
   useEffect(() => {
     axios
@@ -139,7 +148,7 @@ function Products() {
                 <p className="text-purple-700 font-bold text-lg mb-4">₹{item.price}</p>
               </div>
 
-              {/* Wishlist + Add to Cart */}
+              {/* Wishlist ,Add to Cart */}
               <div className="flex justify-center items-center gap-3 mt-auto">
                 <button
                   className={`text-xl ${
@@ -215,7 +224,7 @@ function Products() {
                           {selectedProduct.title}
                         </Dialog.Title>
 
-                        {/* Random Marketing Line */}
+                        {/* Random Marketing text */}
                         <p className="text-sm text-gray-500 italic">
                           {randomText}
                         </p>
@@ -248,7 +257,7 @@ function Products() {
                           <FaHeart />
                         </button>
 
-                        {/* Quantity + Add to Cart */}
+                        {/* Quantity, Add to Cart */}
                         <div className="flex items-center gap-2">
                         <label>Quantity:</label>
                         <input 
@@ -258,7 +267,7 @@ function Products() {
                          onChange={(e) =>
                          setModalQuantity(Math.max(1, parseInt(e.target.value) || 1))
                          }
-                             className="w-16 p-0  border rounded"
+                             className="w-16 p-1 border rounded"
                           />
                         </div>
 
@@ -266,10 +275,10 @@ function Products() {
                         <button
                          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                          onClick={() => {
-                         addToCart(selectedProduct, modalQuantity); // Pass quantity correctly
+                         addToCart(selectedProduct, modalQuantity); 
                          alert("Added to cart!");
                          setIsModalOpen(false);
-                         setModalQuantity(1); // Reset for next time
+                         setModalQuantity(1); 
                          }}
                          >
                          Add to Cart

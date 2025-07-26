@@ -1,3 +1,4 @@
+// src/components/Header.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoMdSearch } from "react-icons/io";
@@ -8,8 +9,8 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
   const navLinkClass = "text-gray-700 hover:text-blue-600 cursor-pointer transition";
-  const { wishlist, resetWishlist } = useWishlist();
-  const { cartItems, resetCart } = useCart();
+  const { wishlist, clearWishlist } = useWishlist(); 
+  const { cartItems, clearCart } = useCart();        
   const { user, logout } = useAuth();
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
@@ -26,9 +27,9 @@ export default function Header() {
   };
 
   const handleLogout = () => {
+    clearCart();
+    clearWishlist();
     logout();
-    resetCart();          
-    resetWishlist();       
     navigate('/login');
   };
 
@@ -40,7 +41,7 @@ export default function Header() {
           Shingify.in
         </Link>
 
-        {/* Search Bar */}
+        {/* Search Bar (Uncomment when needed)
         <div className="relative w-full max-w-xs">
           <input
             type="text"
@@ -55,6 +56,7 @@ export default function Header() {
             onClick={handleSearch}
           />
         </div>
+        */}
 
         {/* Navigation + Icons */}
         <nav className="flex items-center space-x-6">
@@ -82,24 +84,16 @@ export default function Header() {
 
           {!user ? (
             <>
-              <Link
-                to="/login"
-                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-              >
+              <Link to="/login" className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
                 Login
               </Link>
-              <Link
-                to="/register"
-                className="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600"
-              >
+              <Link to="/register" className="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600">
                 Register
               </Link>
             </>
           ) : (
             <>
-              <span className="text-gray-600">
-                Hi, {user.email.split("@")[0]}
-              </span>
+              <span className="text-gray-600">Hi, {user.email.split("@")[0]}</span>
               <button
                 onClick={handleLogout}
                 className="ml-2 bg-blue-500 text-white px-4 py-1 rounded-2xl hover:bg-blue-600"

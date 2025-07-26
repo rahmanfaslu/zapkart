@@ -10,16 +10,6 @@
       "userId": "1"
     },
     {
-      "id": "4",
-      "title": "MacBook Pro M2",
-      "image": "/p-4.png",
-      "price": 102990,
-      "category": "Laptops",
-      "originalPrice": 111990,
-      "onSale": true,
-      "userId": "1"
-    },
-    {
       "id": "5",
       "title": "Boat Airpods 322",
       "image": "/p-7.png",
@@ -38,15 +28,6 @@
       "userId": "3487"
     },
     {
-      "id": "3",
-      "title": "Boat Roakerz 1922",
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "price": 9250,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "3487"
-    },
-    {
       "id": "4",
       "title": "MacBook Pro M2",
       "image": "/p-4.png",
@@ -55,6 +36,24 @@
       "originalPrice": 111990,
       "onSale": true,
       "userId": "3487"
+    },
+    {
+      "id": "1",
+      "title": "Soney WH4500",
+      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+      "price": 999,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "f59b"
+    },
+    {
+      "id": "3",
+      "title": "Boat Roakerz 1922",
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+      "price": 9250,
+      "category": "Audio",
+      "onSale": false,
+      "userId": "f59b"
     }
   ],
   "cart": [
@@ -151,6 +150,49 @@
       "total": 6249,
       "date": "25/07/2025, 15:49:36",
       "userId": "3487"
+    },
+    {
+      "id": "a200",
+      "items": [
+        {
+          "id": "2",
+          "title": "Rocky Mountain",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+          "price": 5250,
+          "category": "Audio",
+          "onSale": false,
+          "userId": "f59b",
+          "dbId": "2",
+          "quantity": 1
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 5250,
+      "date": "25/07/2025, 22:39:50",
+      "userId": "f59b"
+    },
+    {
+      "id": "2a0a",
+      "items": [
+        {
+          "id": "4",
+          "title": "MacBook Pro M2",
+          "image": "/p-4.png",
+          "price": 102990,
+          "category": "Laptops",
+          "originalPrice": 111990,
+          "onSale": true,
+          "userId": "1",
+          "dbId": "4",
+          "quantity": 1
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 102990,
+      "date": "26/07/2025, 12:12:38",
+      "userId": "1"
     }
   ],
   "Products": [
@@ -262,6 +304,69 @@
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
       "price": 20999,
       "category": "Phones",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "14",
+      "title": "Amazon Echo Dot",
+      "image": "https://rukminim2.flixcart.com/image/704/844/xif0q/speaker/smart-speaker/a/6/l/b09b917z8d-alexa-original-imah4wy9zzezh5pv.jpeg?q=90&crop=false",
+      "price": 2000,
+      "category": "Audio",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "15",
+      "title": "Noise Twitch Go",
+      "image": "https://www.gonoise.com/cdn/shop/files/1.2_988cfac2-9dad-4bf9-ab32-b406363a0962.png?v=1700211662",
+      "price": 5000,
+      "category": "Watches",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "16",
+      "title": "Pixel Watch 3",
+      "image": "https://m.media-amazon.com/images/I/41X2rqy8WEL.jpg",
+      "price": 35000,
+      "category": "Watches",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "17",
+      "title": "Pixel 9",
+      "image": "https://www.dxomark.com/wp-content/uploads/medias/post-176677/Google-Pixel-9-Pro-XL_featured-image-packshot-review.png",
+      "price": 59000,
+      "category": "Watches",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "18",
+      "title": "Beat Solo 2",
+      "image": "http://localhost:5173/beat%20solo.png",
+      "price": 19000,
+      "category": "Audio",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "19",
+      "title": "Airpdes Pro",
+      "image": "https://www.pngmart.com/files/23/Airpods-Pro-PNG.png",
+      "price": 89000,
+      "category": "Audio",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "20",
+      "title": "Apple Mac Studio",
+      "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-studio-select-202503?wid=892&hei=820&fmt=jpeg&qlt=90&.v=TFF4TlZ2eUF4VmJBcXdGL1JqakhPRVEwUzFPbFJqRzRRVjVKc0grVGRsSElMQ1AwaTZodXpycCtPYXhhMHkvenIrSFUvMWdNSysyUDNqT0tTaFQrRWZ3Zm9pd0s0WHcyVkEyOHdaWlN6ZWs",
+      "price": 334000,
+      "category": "Laptops",
       "originalPrice": 131990,
       "onSale": true
     }
