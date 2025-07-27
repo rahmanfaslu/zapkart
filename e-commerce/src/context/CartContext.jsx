@@ -1,84 +1,69 @@
-import { createContext, useContext, useState, useEffect } from "react";
+// src/context/CartContext.jsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { v4 as uuidv4 } from "uuid";
 
 const CartContext = createContext();
+
 export const useCart = () => useContext(CartContext);
 
-export function CartProvider({ children }) {
+export const CartProvider = ({ children }) => {
   const { user } = useAuth();
-  const userKey = user?.email || "guest";
+  const [cartItems, setCartItems] = useState([]);
 
-  const [cartItems, setCartItems] = useState(() => {
-    const stored = localStorage.getItem(`cartItems_${userKey}`);
-    return stored ? JSON.parse(stored) : [];
-  });
+  const userId = user?.email;
 
   useEffect(() => {
-    if (userKey) {
-      localStorage.setItem(`cartItems_${userKey}`, JSON.stringify(cartItems));
+    if (userId) {
+      axios
+        .get(`http://localhost:3001/cart?userId=${userId}`)
+        .then((res) => setCartItems(res.data))
+        .catch((err) => console.error("Error loading cart:", err));
+    } else {
+      setCartItems([]);
     }
-  }, [cartItems, userKey]);
+  }, [userId]);
 
-  // Update cart when user changes (login/logout)
-  useEffect(() => {
-    const stored = localStorage.getItem(`cartItems_${userKey}`);
-    setCartItems(stored ? JSON.parse(stored) : []);
-  }, [userKey]);
+  const addToCart = async (product, quantity = 1) => {
+    const existing = cartItems.find((item) => item.productId === product.id);
 
-  const addToCart = (product, quantity = 1) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      } else {
-        return [...prev, { ...product, quantity }];
-      }
-    });
+    if (existing) {
+      const updated = { ...existing, quantity: existing.quantity + quantity };
+      await axios.put(`http://localhost:3001/cart/${existing.id}`, updated);
+      setCartItems((prev) =>
+        prev.map((item) => (item.id === existing.id ? updated : item))
+      );
+    } else {
+      const newItem = {
+        id: uuidv4(),
+        userId,
+        productId: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        quantity,
+      };
+      await axios.post("http://localhost:3001/cart", newItem);
+      setCartItems((prev) => [...prev, newItem]);
+    }
   };
 
-  const removeFromCart = (id) => {
+  const removeFromCart = async (id) => {
+    await axios.delete(`http://localhost:3001/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const incrementQty = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const decrementQty = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
   const clearCart = () => {
-    setCartItems([]);
-    localStorage.removeItem(`cartItems_${userKey}`);
+    setCartItems([]); // ✅ Clear only frontend state
+    // ❌ Do NOT delete from backend here
   };
 
   return (
     <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        incrementQty,
-        decrementQty,
-        clearCart,
-      }}
+      value={{ cartItems, addToCart, removeFromCart, clearCart }}
     >
       {children}
     </CartContext.Provider>
   );
-}
+};

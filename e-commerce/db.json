@@ -1,7 +1,7 @@
 {
   "wishlist": [
     {
-      "id": 101,
+      "id": "101",
       "title": "Sony PlayStation 4",
       "price": 19999,
       "image": "/gaming.png",
@@ -10,36 +10,71 @@
       "productId": 101
     },
     {
-      "id": 101,
+      "id": "101",
       "title": "Sony PlayStation 4",
       "price": 19999,
       "image": "/gaming.png",
       "category": "Gaming",
       "userId": "1",
       "productId": 101
+    },
+    {
+      "id": 102,
+      "title": "I Phone 16 pro",
+      "price": 111099,
+      "image": "/p-6.png",
+      "category": "Phones",
+      "userId": "1",
+      "productId": 102
+    },
+    {
+      "id": "2",
+      "title": "Rocky Mountain",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+      "price": 5250,
+      "category": "Headphones",
+      "onSale": false,
+      "userId": "f59b",
+      "productId": "2"
+    },
+    {
+      "id": "2",
+      "title": "Rocky Mountain",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+      "price": 5250,
+      "category": "Headphones",
+      "onSale": false,
+      "userId": "3487",
+      "productId": "2"
     }
   ],
   "cart": [
     {
-      "id": "13",
-      "title": "Samsung galexy A15 5g",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
-      "price": 20999,
-      "category": "Phones",
-      "originalPrice": 131990,
-      "onSale": true,
-      "quantity": 1,
-      "userId": "3487"
+      "id": "ec48f12f-45ad-4c70-b8c4-a064e325eb96",
+      "userId": "risal@gmail.com",
+      "productId": "3",
+      "title": "Boat Roakerz 1922",
+      "price": 9250,
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+      "quantity": 1
     },
     {
-      "id": "1",
-      "title": "Soney WH4500",
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "price": 999,
-      "category": "Audio",
-      "onSale": false,
-      "quantity": 1,
-      "userId": "3487"
+      "id": "8a455858-4fd3-4b34-bdb9-c3adaaa3ef99",
+      "userId": "risal@gmail.com",
+      "productId": "4",
+      "title": "MacBook Pro M2",
+      "price": 102990,
+      "image": "/p-4.png",
+      "quantity": 1
+    },
+    {
+      "id": "21920f77-68aa-4671-b35d-bd2f7d26c45a",
+      "userId": "adnan@gmail.com",
+      "productId": "2",
+      "title": "Rocky Mountain",
+      "price": 5250,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+      "quantity": 1
     }
   ],
   "orders": [

@@ -10,29 +10,41 @@ function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-
   const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.get(`http://localhost:3001/users?email=${email}&password=${password}`);
-    if (res.data.length > 0) {
-      login(res.data[0]);
-      toast.success("Login successful");
-      navigate("/");
-    } else {
-      toast.error("Invalid credentials!");
-    }
-  } catch (err) {
-    console.error("Login error:", err);
-    toast.error("Something went wrong. Please try again.");
-  }
-};
+    e.preventDefault();
+    try {
+      const res = await axios.get(
+        `http://localhost:3001/users?email=${email}&password=${password}`
+      );
 
+      if (res.data.length > 0) {
+        const user = res.data[0];
+
+        login(user); // Store in AuthContext
+        toast.success("Login successful");
+
+        // Role-based redirection
+        if (user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/");
+        }
+
+      } else {
+        toast.error("Invalid credentials!");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Login to Shingify.in</h2>
+        <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">
+          Login to Shingify.in
+        </h2>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
@@ -72,3 +84,4 @@ function Login() {
 }
 
 export default Login;
+  

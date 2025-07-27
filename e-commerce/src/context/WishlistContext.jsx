@@ -17,11 +17,9 @@ export const WishlistProvider = ({ children }) => {
 
       try {
         const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
-        console.log("Raw wishlist data from API:", res.data);
         
         // Make sure we're mapping the ID correctly
         const mappedWishlist = res.data.map((item) => {
-          console.log("Mapping item:", item);
           return {
             ...item,
             dbId: item.id, // This should be the database ID
@@ -46,24 +44,18 @@ export const WishlistProvider = ({ children }) => {
       throw new Error("User not authenticated");
     }
 
-    console.log("Product to toggle:", product);
-    console.log("Current wishlist:", wishlist);
 
     // Find existing item by product ID (not database ID)
     const existing = wishlist.find((item) => item.id === product.id);
-    console.log("Existing item found:", existing);
 
     try {
       if (existing) {
         // Remove from wishlist
-        console.log("Attempting to delete with dbId:", existing.dbId);
         
         // First check if the item exists in database
         try {
           const checkResponse = await axios.get(`http://localhost:3001/wishlist/${existing.dbId}`);
-          console.log("Item exists in database:", checkResponse.data);
         } catch (checkError) {
-          console.log("Item doesn't exist in database, removing from local state only");
           setWishlist((prev) => prev.filter((item) => item.id !== product.id));
           return;
         }
