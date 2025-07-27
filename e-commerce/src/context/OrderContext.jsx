@@ -9,7 +9,6 @@ export function OrderProvider({ children }) {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
 
-  // Fetch user 
   useEffect(() => {
     const fetchOrders = async () => {
       if (!user?.id) return;

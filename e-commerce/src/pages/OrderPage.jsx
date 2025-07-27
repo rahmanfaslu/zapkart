@@ -2,11 +2,12 @@
 import React from "react";
 import { useOrder } from "../context/OrderContext";
 import { FaBoxOpen, FaCalendarAlt, FaMapMarkerAlt, FaMoneyCheckAlt } from "react-icons/fa";
+import { Toaster } from "react-hot-toast";
 
 export default function OrderPage() {
   const { orders } = useOrder();
 
-  return (
+   return (
     <section className="bg-gradient-to-tr from-gray-100 to-gray-200 min-h-screen p-6">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl font-extrabold text-center text-blue-800 mb-10">🛍️ Your Orders</h1>

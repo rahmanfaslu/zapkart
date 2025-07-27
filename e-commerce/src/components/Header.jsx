@@ -1,4 +1,3 @@
-// src/components/Header.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoMdSearch } from "react-icons/io";
@@ -9,9 +8,9 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
   const navLinkClass = "text-gray-700 hover:text-blue-600 cursor-pointer transition";
-  const { wishlist, clearWishlist } = useWishlist(); 
-  const { cartItems, clearCart } = useCart();        
-  const { user, logout } = useAuth();
+  const { wishlist = [], clearWishlist } = useWishlist() || {};
+  const { cartItems = [], clearCart } = useCart() || {};
+  const { user, logout } = useAuth() || {};
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
 
@@ -27,9 +26,9 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    clearCart();
-    clearWishlist();
-    logout();
+    clearCart?.();
+    clearWishlist?.();
+    logout?.();
     navigate('/login');
   };
 
@@ -41,7 +40,8 @@ export default function Header() {
           Shingify.in
         </Link>
 
-        {/* Search Bar (Uncomment when needed)
+        {/* Search Bar (optional) */}
+        {/* 
         <div className="relative w-full max-w-xs">
           <input
             type="text"
@@ -66,7 +66,7 @@ export default function Header() {
 
           <Link to="/whishlist" className="relative text-2xl text-gray-700 hover:text-blue-500">
             <FaHeart />
-            {wishlist.length > 0 && (
+            {wishlist?.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
                 {wishlist.length}
               </span>
@@ -75,7 +75,7 @@ export default function Header() {
 
           <Link to="/cart" className="relative text-2xl text-gray-700 hover:text-blue-500">
             <FaShoppingCart />
-            {cartItems.length > 0 && (
+            {cartItems?.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
                 {cartItems.length}
               </span>
@@ -93,7 +93,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <span className="text-gray-600">Hi, {user.email.split("@")[0]}</span>
+              <span className="text-gray-600">Hi, {user?.email?.split("@")[0]}</span>
               <button
                 onClick={handleLogout}
                 className="ml-2 bg-blue-500 text-white px-4 py-1 rounded-2xl hover:bg-blue-600"

@@ -1,59 +1,22 @@
 {
   "wishlist": [
     {
-      "id": "1",
-      "title": "Soney WH4500",
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "price": 999,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "1"
+      "id": 101,
+      "title": "Sony PlayStation 4",
+      "price": 19999,
+      "image": "/gaming.png",
+      "category": "Gaming",
+      "userId": "1",
+      "productId": 101
     },
     {
-      "id": "5",
-      "title": "Boat Airpods 322",
-      "image": "/p-7.png",
-      "price": 1499,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "1"
-    },
-    {
-      "id": "1",
-      "title": "Soney WH4500",
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "price": 999,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "3487"
-    },
-    {
-      "id": "4",
-      "title": "MacBook Pro M2",
-      "image": "/p-4.png",
-      "price": 102990,
-      "category": "Laptops",
-      "originalPrice": 111990,
-      "onSale": true,
-      "userId": "3487"
-    },
-    {
-      "id": "1",
-      "title": "Soney WH4500",
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "price": 999,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "f59b"
-    },
-    {
-      "id": "3",
-      "title": "Boat Roakerz 1922",
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "price": 9250,
-      "category": "Audio",
-      "onSale": false,
-      "userId": "f59b"
+      "id": 101,
+      "title": "Sony PlayStation 4",
+      "price": 19999,
+      "image": "/gaming.png",
+      "category": "Gaming",
+      "userId": "1",
+      "productId": 101
     }
   ],
   "cart": [
@@ -193,6 +156,118 @@
       "total": 102990,
       "date": "26/07/2025, 12:12:38",
       "userId": "1"
+    },
+    {
+      "id": "675b",
+      "items": [
+        {
+          "id": 102,
+          "title": "I Phone 16 pro",
+          "price": 111099,
+          "image": "/p-6.png",
+          "category": "Phones",
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "title": "Boat Roakerz 1922",
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+          "price": 9250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 3
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 120349,
+      "date": "26/07/2025, 12:55:42",
+      "userId": "1"
+    },
+    {
+      "id": "2469",
+      "items": [
+        {
+          "id": "1",
+          "title": "Soney WH4500",
+          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+          "price": 999,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 3
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "upi",
+      "total": 999,
+      "date": "26/07/2025, 14:24:14",
+      "userId": "1"
+    },
+    {
+      "id": "7014",
+      "items": [
+        {
+          "id": "4",
+          "title": "MacBook Pro M2",
+          "image": "/p-4.png",
+          "price": 102990,
+          "category": "Laptops",
+          "originalPrice": 111990,
+          "onSale": true,
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "title": "Boat Roakerz 1922",
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+          "price": 9250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 1
+        },
+        {
+          "id": "2",
+          "title": "Rocky Mountain",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+          "price": 5250,
+          "category": "Audio",
+          "onSale": false,
+          "quantity": 3
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 117490,
+      "date": "26/07/2025, 15:39:00",
+      "userId": "1"
+    },
+    {
+      "id": "a9f7",
+      "items": [
+        {
+          "id": "2",
+          "title": "Rocky Mountain",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+          "price": 5250,
+          "category": "Headphones",
+          "onSale": false,
+          "quantity": 1
+        },
+        {
+          "id": "1",
+          "title": "Soney WH4500",
+          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
+          "price": 999,
+          "category": "Headphones",
+          "onSale": false,
+          "quantity": 1
+        }
+      ],
+      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
+      "paymentMethod": "cod",
+      "total": 6249,
+      "date": "26/07/2025, 23:49:55",
+      "userId": "1"
     }
   ],
   "Products": [
@@ -201,7 +276,7 @@
       "title": "Soney WH4500",
       "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
       "price": 999,
-      "category": "Audio",
+      "category": "Headphones",
       "onSale": false
     },
     {
@@ -209,7 +284,7 @@
       "title": "Rocky Mountain",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
       "price": 5250,
-      "category": "Audio",
+      "category": "Headphones",
       "onSale": false
     },
     {
@@ -217,7 +292,7 @@
       "title": "Boat Roakerz 1922",
       "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
       "price": 9250,
-      "category": "Audio",
+      "category": "Headphones",
       "onSale": false
     },
     {
@@ -294,7 +369,7 @@
       "title": "Portable Speaker",
       "image": "https://images.philips.com/is/image/philipsconsumer/53f913edc2674885ae71b0c400e6ec9e?wid=700&hei=700&$pnglarge$",
       "price": 13500,
-      "category": "Audio",
+      "category": "Speaker",
       "originalPrice": 131990,
       "onSale": true
     },
@@ -312,7 +387,7 @@
       "title": "Amazon Echo Dot",
       "image": "https://rukminim2.flixcart.com/image/704/844/xif0q/speaker/smart-speaker/a/6/l/b09b917z8d-alexa-original-imah4wy9zzezh5pv.jpeg?q=90&crop=false",
       "price": 2000,
-      "category": "Audio",
+      "category": "Speaker",
       "originalPrice": 131990,
       "onSale": true
     },
@@ -339,7 +414,7 @@
       "title": "Pixel 9",
       "image": "https://www.dxomark.com/wp-content/uploads/medias/post-176677/Google-Pixel-9-Pro-XL_featured-image-packshot-review.png",
       "price": 59000,
-      "category": "Watches",
+      "category": "Phones",
       "originalPrice": 131990,
       "onSale": true
     },
@@ -348,7 +423,7 @@
       "title": "Beat Solo 2",
       "image": "http://localhost:5173/beat%20solo.png",
       "price": 19000,
-      "category": "Audio",
+      "category": "Headphones",
       "originalPrice": 131990,
       "onSale": true
     },
@@ -357,7 +432,7 @@
       "title": "Airpdes Pro",
       "image": "https://www.pngmart.com/files/23/Airpods-Pro-PNG.png",
       "price": 89000,
-      "category": "Audio",
+      "category": "Headphones",
       "originalPrice": 131990,
       "onSale": true
     },
@@ -369,11 +444,39 @@
       "category": "Laptops",
       "originalPrice": 131990,
       "onSale": true
+    },
+    {
+      "id": "21",
+      "title": "Apple Vision Pro",
+      "image": "https://wish.lk/wp-content/uploads/2024/02/Apple-Vision-1.png",
+      "price": 234000,
+      "category": "AR",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "22",
+      "title": "Meta Quest 3",
+      "image": "https://img.pikbest.com/origin/09/09/02/02gpIkbEsT96M.png!sw800",
+      "price": 154000,
+      "category": "AR",
+      "originalPrice": 131990,
+      "onSale": true
+    },
+    {
+      "id": "23",
+      "title": "Sony PlayStation 4",
+      "image": "/gaming.png",
+      "price": 154000,
+      "category": "Gaming",
+      "originalPrice": 131990,
+      "onSale": true
     }
   ],
   "users": [
     {
       "id": "1",
+      "role": "admin",
       "email": "test@example.com",
       "password": "test@example.com",
       "name": "Test User"

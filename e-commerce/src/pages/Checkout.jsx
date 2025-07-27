@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrder } from "../context/OrderContext";
 import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
   const { placeOrder } = useOrder();
@@ -28,7 +29,7 @@ export default function CheckoutPage() {
 
     const isValid = Object.values(address).every((value) => value.trim() !== "");
     if (!isValid) {
-      alert("Please fill in all address fields.");
+      toast.success("Please fill in all address fields");
       return;
     }
 
@@ -42,7 +43,7 @@ export default function CheckoutPage() {
 
     placeOrder(newOrder);
     clearCart();
-    alert(`Order placed with ${paymentMethod.toUpperCase()} successfully!`);
+    toast.success(`Order placed with ${paymentMethod.toUpperCase()} successfully!`);
     navigate("/order");
   };
 

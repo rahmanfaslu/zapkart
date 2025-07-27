@@ -11,12 +11,13 @@ import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [allProducts, setAllProducts] = useState([]);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
-  const { addToCart } = useCart();
+  const { cartItems, addToCart } = useCart();
   const { wishlist, addToWishlist } = useWishlist();
   
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -108,7 +109,7 @@ export default function Home() {
   const handleMouseLeave = () => setIsAutoSliding(true);
 
   const handleNavigateToCategory = (category) => {
-    navigate(`/products?category=${category}`);
+    navigate("/products", { state: { category } });
   };
 
   const handleShopNow = (productTitle) => {
@@ -130,7 +131,7 @@ export default function Home() {
       setRandomText(getRandomText());
       setIsModalOpen(true);
     } else {
-      alert("Product not found in database");
+      toast.success("Product not found in database");
     }
   };
 
@@ -154,7 +155,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
-      {/* Home Section  */}
+      
       <section id="home" className="bg-white py-12 shadow-sm">
         <div className="container mx-auto px-4">
           <div 
@@ -162,7 +163,7 @@ export default function Home() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Slides */}
+           
             <div 
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -212,7 +213,7 @@ export default function Home() {
               ))}
             </div>
 
-            {/* manual sliding buttons */}
+         
             <button
               onClick={prevSlide}
               className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-20"
@@ -227,7 +228,7 @@ export default function Home() {
               <ChevronRight size={24} className="text-gray-700" />
             </button>
 
-            {/* Auto slide indicator */}
+          
             <div className="absolute top-4 right-4 z-20">
               <div 
                 className={`w-3 h-3 rounded-full ${isAutoSliding ? 'bg-green-500' : 'bg-red-500'} opacity-70`} 
@@ -236,7 +237,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Dot Indicators */}
           <div className="flex justify-center mt-6 space-x-2">
             {products.map((_, index) => (
               <button
@@ -261,7 +261,7 @@ export default function Home() {
           <div className="flex space-x-4 p-4">
             <div 
               className="w-1/3 h-50 bg-gradient-to-br from-gray-800 to-black rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Audio')}
+              onClick={() => handleNavigateToCategory('Headphones')}
             >
               <p className='text-white pl-10 pt-8 z-10 relative'>Enjoy</p>
               <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>With</h2>
@@ -319,7 +319,7 @@ export default function Home() {
 
             <div 
               className="w-1/3 h-50 bg-blue-500 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('VR')}
+              onClick={() => handleNavigateToCategory('AR')}
             >
               <p className='text-white pl-10 pt-8 z-10 relative'>Play</p>
               <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>Game</h2>
@@ -332,7 +332,7 @@ export default function Home() {
 
             <div 
               className="w-1/3 h-50 bg-gradient-to-br from-green-600 to-green-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Speakers')}
+              onClick={() => handleNavigateToCategory('Speaker')}
             >
               <p className='text-white pl-10 pt-8 z-10 relative'>New</p>
               <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>Smart</h2>
@@ -394,7 +394,7 @@ export default function Home() {
                     ? "text-red-600"
                     : "text-gray-400 hover:text-red-600"
                 }`}
-                onClick={() => {
+                onClick={async () => {
                   const item = {
                     id: 101,
                     title: "Sony PlayStation 4",
@@ -402,9 +402,16 @@ export default function Home() {
                     image: "/gaming.png",
                     category: "Gaming",
                   };
+                  
                   const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  addToWishlist(item);
-                  alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  
+                  try {
+                    await addToWishlist(item);
+                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  } catch (error) {
+                    console.error("Error updating wishlist:", error);
+                    toast.error("Failed to update wishlist. Please try again.");
+                  }
                 }}
               >
                 <FaHeart />
@@ -419,7 +426,7 @@ export default function Home() {
                     image: "/gaming.png",
                     category: "Gaming",
                   });
-                  alert("Item added to cart!");
+                  toast.success("Item added to cart!");
                 }}
               >
                 Add to Cart
@@ -440,7 +447,7 @@ export default function Home() {
                     ? "text-red-600"
                     : "text-gray-400 hover:text-red-600"
                 }`}
-                onClick={() => {
+                onClick={async () => {
                   const item = {
                     id: 102,
                     title: "I Phone 16 pro",
@@ -448,9 +455,16 @@ export default function Home() {
                     image: "/p-6.png",
                     category: "Phones",
                   };
+                  
                   const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  addToWishlist(item);
-                  alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  
+                  try {
+                    await addToWishlist(item);
+                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  } catch (error) {
+                    console.error("Error updating wishlist:", error);
+                    toast.error("Failed to update wishlist");
+                  }
                 }}
               >
                 <FaHeart />
@@ -465,7 +479,7 @@ export default function Home() {
                     image: "/p-6.png",
                     category: "Phones",
                   });
-                  alert("Item added to cart!");
+                   toast.success("Item added to cart!");
                 }}
               >
                 Add to Cart
@@ -486,7 +500,7 @@ export default function Home() {
                     ? "text-red-600"
                     : "text-gray-400 hover:text-red-600"
                 }`}
-                onClick={() => {
+                onClick={async () => {
                   const item = {
                     id: 103,
                     title: "MacBook Pro M2",
@@ -494,9 +508,16 @@ export default function Home() {
                     image: "/p-4.png",
                     category: "Laptops",
                   };
+                  
                   const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  addToWishlist(item);
-                  alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  
+                  try {
+                    await addToWishlist(item);
+                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  } catch (error) {
+                    console.error("Error updating wishlist:", error);
+                    toast.error("Failed to update wishlist. Please try again.");
+                  }
                 }}
               >
                 <FaHeart />
@@ -511,7 +532,7 @@ export default function Home() {
                     image: "/p-4.png",
                     category: "Laptops",
                   });
-                  alert("Item added to cart!");
+                   toast.success("Item added to cart!");
                 }}
               >
                 Add to Cart
@@ -532,7 +553,7 @@ export default function Home() {
                     ? "text-red-600"
                     : "text-gray-400 hover:text-red-600"
                 }`}
-                onClick={() => {
+                onClick={async () => {
                   const item = {
                     id: 104,
                     title: "Apple Watch 2",
@@ -540,9 +561,16 @@ export default function Home() {
                     image: "/p-8.png",
                     category: "Watch",
                   };
+                  
                   const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  addToWishlist(item);
-                  alert(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  
+                  try {
+                    await addToWishlist(item);
+                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                  } catch (error) {
+                    console.error("Error updating wishlist:", error);
+                    toast.error("Failed to update wishlist. Please try again.");
+                  }
                 }}
               >
                 <FaHeart />
@@ -557,7 +585,7 @@ export default function Home() {
                     image: "/p-8.png",
                     category: "Watch",
                   });
-                  alert("Item added to cart!");
+                  toast.success("Item added to cart!");
                 }}
               >
                 Add to Cart
@@ -628,7 +656,7 @@ export default function Home() {
                           onClick={() => {
                             const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
                             addToWishlist(selectedProduct);
-                            alert(
+                            toast.success(
                               isInWishlist
                                 ? "Removed from Wishlist"
                                 : "Added to Wishlist"
@@ -656,7 +684,7 @@ export default function Home() {
                             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                             onClick={() => {
                               addToCart(selectedProduct, modalQuantity); 
-                              alert("Added to cart!");
+                              toast.success("Added to cart!");
                               setIsModalOpen(false);
                               setModalQuantity(1); 
                             }}
@@ -680,52 +708,6 @@ export default function Home() {
           </div>
         </Dialog>
       </Transition.Root>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 pt-10 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-gray-700">
-          <div>
-            <img src="/z.png" alt="Shingify.in Logo" className="w-12 h-12 mb-2" />
-            <h2 className="text-2xl font-bold text-white mb-3">Shingify.in</h2>
-            <p className="text-sm text-gray-400">Your one-stop shop for the latest electronic gadgets.</p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/" className="hover:text-white">Home</a></li>
-              <li><a href="/products" className="hover:text-white">Products</a></li>
-              <li><a href="/cart" className="hover:text-white">Cart</a></li>
-              <li><a href="/login" className="hover:text-white">Login</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Support</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Contact Us</a></li>
-              <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white">Return Policy</a></li>
-              <li><a href="#" className="hover:text-white">FAQs</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Connect</h3>
-            <p className="text-sm mb-3">support@Shingify.in.com</p>
-            <div className="flex space-x-4 text-xl">
-              <a href="#" className="hover:text-white"><FaFacebook /></a>
-              <a href="#" className="hover:text-white"><FaTwitter /></a>
-              <a href="#" className="hover:text-white"><FaInstagram /></a>
-              <a href="#" className="hover:text-white"><FaLinkedin /></a>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center text-sm py-4 text-gray-500">
-          © {new Date().getFullYear()} Shingify.in. All rights reserved.
-        </div>
-      </footer>
     </div>
   );
 }

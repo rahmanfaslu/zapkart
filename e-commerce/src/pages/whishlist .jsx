@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
+import toast, { Toaster } from "react-hot-toast";
 
 function Wishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -12,7 +13,7 @@ function Wishlist() {
   const handleAddToCart = (item) => {
     addToCart(item);
     removeFromWishlist(item); 
-    alert("Item added to cart!");
+    toast.success("Item added to cart!");
   };
 
   return (

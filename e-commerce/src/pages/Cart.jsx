@@ -1,6 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function CartPage() {
   const {

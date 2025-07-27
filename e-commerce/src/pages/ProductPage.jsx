@@ -5,7 +5,10 @@ import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
 import { Dialog, Transition } from "@headlessui/react";
 import { useLocation } from "react-router-dom";
-
+import { BiSortAlt2 } from "react-icons/bi";
+import { IoSearchOutline } from "react-icons/io5";
+import { BiCategory } from "react-icons/bi";
+import toast from "react-hot-toast";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -36,7 +39,7 @@ function Products() {
 
   const [randomText, setRandomText] = useState("");
 
-  useEffect(() => {
+ useEffect(() => {
   if (location.state && location.state.category) {
     setCategory(location.state.category);
   }
@@ -86,35 +89,46 @@ function Products() {
 
       {/* Filters */}
       <div className="max-w-6xl mx-auto mb-6 flex flex-col md:flex-row items-center justify-between gap-4 px-2">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search products..."
-          className="border p-2 rounded w-full md:w-1/3"
-        />
+        <div className="relative w-full md:w-1/3">
+  <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
+  
+  <input
+    type="text"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    placeholder="Search products..."
+    className="pl-10 border p-2 rounded w-full"
+  />
+</div>
 
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border p-2 rounded w-full md:w-1/4"
-        >
-          {categories.map((cat, index) => (
-            <option key={index} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+        <div className="relative w-full md:w-1/4">
+  <BiCategory className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
+  
+  <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+    className="pl-10 border p-2 rounded w-full appearance-none"
+  >
+    {categories.map((cat, index) => (
+      <option key={index} value={cat}>
+        {cat}
+      </option>
+    ))}
+  </select>
+</div>
 
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="border p-2 rounded w-full md:w-1/4"
-        >
-          <option value="">Sort by</option>
-          <option value="lowToHigh">Price: Low to High</option>
-          <option value="highToLow">Price: High to Low</option>
-        </select>
+        <div className="relative w-full md:w-1/4">
+  <BiSortAlt2 className=" absolute left-3 top-1/2 transform -translate-y-1/2 text-black-800 text-xl" />
+  <select
+    value={sortOrder}
+    onChange={(e) => setSortOrder(e.target.value)}
+    className="border pl-10 pr-2 py-2 rounded w-full appearance-none"
+  >
+    <option value="">Sort by</option>
+    <option value="lowToHigh">Price: Low to High</option>
+    <option value="highToLow">Price: High to Low</option>
+  </select>
+</div>
       </div>
 
       {/* Products Grid */}
@@ -159,7 +173,7 @@ function Products() {
                   onClick={() => {
                     const isInWishlist = wishlist.find((w) => w.id === item.id);
                     addToWishlist(item);
-                    alert(
+                    toast.success(
                       isInWishlist
                         ? "Removed from Wishlist"
                         : "Added to Wishlist"
@@ -173,7 +187,7 @@ function Products() {
                   className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-full text-sm"
                   onClick={() => {
                     addToCart(item);
-                    alert("Item added to cart!");
+                    toast.success("Item added to cart!");
                   }}
                 >
                   Add to Cart
@@ -247,7 +261,7 @@ function Products() {
                           onClick={() => {
                             const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
                             addToWishlist(selectedProduct);
-                            alert(
+                            toast.success(
                               isInWishlist
                                 ? "Removed from Wishlist"
                                 : "Added to Wishlist"
@@ -276,7 +290,7 @@ function Products() {
                          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                          onClick={() => {
                          addToCart(selectedProduct, modalQuantity); 
-                         alert("Added to cart!");
+                         toast.success("Added to cart!");
                          setIsModalOpen(false);
                          setModalQuantity(1); 
                          }}
@@ -302,6 +316,8 @@ function Products() {
         </Dialog>
       </Transition.Root>
     </section>
+
+    
   );
 }
 

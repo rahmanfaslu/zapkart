@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -25,14 +26,13 @@ export default function Register() {
       return;
     }
 
-    // Register
     await fetch('http://localhost:3001/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
 
-    alert('Registered successfully!');
+    toast.success('Registered successfully!');
     navigate('/login');
   };
 

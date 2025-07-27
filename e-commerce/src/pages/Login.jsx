@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -9,22 +10,24 @@ function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.get(`http://localhost:3001/users?email=${email}&password=${password}`);
-      if (res.data.length > 0) {
-        login(res.data[0]);
-        alert("Login successful!");
-        navigate("/"); 
-      } else {
-        alert("Invalid credentials!");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong.");
+  e.preventDefault();
+  try {
+    const res = await axios.get(`http://localhost:3001/users?email=${email}&password=${password}`);
+    if (res.data.length > 0) {
+      login(res.data[0]);
+      toast.success("Login successful");
+      navigate("/");
+    } else {
+      toast.error("Invalid credentials!");
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    toast.error("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-blue-50">

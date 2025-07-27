@@ -1,19 +1,29 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
-
 export const useCart = () => useContext(CartContext);
 
 export function CartProvider({ children }) {
- 
+  const { user } = useAuth();
+  const userKey = user?.email || "guest";
+
   const [cartItems, setCartItems] = useState(() => {
-    const storedCart = localStorage.getItem("cartItems");
-    return storedCart ? JSON.parse(storedCart) : [];
+    const stored = localStorage.getItem(`cartItems_${userKey}`);
+    return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (userKey) {
+      localStorage.setItem(`cartItems_${userKey}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, userKey]);
+
+  // Update cart when user changes (login/logout)
+  useEffect(() => {
+    const stored = localStorage.getItem(`cartItems_${userKey}`);
+    setCartItems(stored ? JSON.parse(stored) : []);
+  }, [userKey]);
 
   const addToCart = (product, quantity = 1) => {
     setCartItems((prev) => {
@@ -52,10 +62,9 @@ export function CartProvider({ children }) {
     );
   };
 
-  // to Clear cart  
   const clearCart = () => {
     setCartItems([]);
-    localStorage.removeItem("cartItems");
+    localStorage.removeItem(`cartItems_${userKey}`);
   };
 
   return (
