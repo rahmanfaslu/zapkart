@@ -11,23 +11,19 @@ export const WishlistProvider = ({ children }) => {
   useEffect(() => {
     const fetchWishlist = async () => {
       if (!user?.id) {
-        setWishlist([]); 
+        setWishlist([]);
         return;
       }
 
       try {
         const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
-        
-        // Make sure we're mapping the ID correctly
-        const mappedWishlist = res.data.map((item) => {
-          return {
-            ...item,
-            dbId: item.id, // This should be the database ID
-            id: item.productId || item.id // This should be the product ID
-          };
-        });
-        
-        console.log("Mapped wishlist:", mappedWishlist);
+
+        const mappedWishlist = res.data.map((item) => ({
+          ...item,
+          dbId: item.id,
+          id: item.productId || item.id,
+        }));
+
         setWishlist(mappedWishlist);
       } catch (error) {
         console.error("Error fetching wishlist:", error);
@@ -38,82 +34,47 @@ export const WishlistProvider = ({ children }) => {
     fetchWishlist();
   }, [user]);
 
-  // Toggle add/remove item
   const addToWishlist = async (product) => {
-    if (!user?.id) {
-      throw new Error("User not authenticated");
-    }
+    if (!user?.id) throw new Error("User not authenticated");
 
-
-    // Find existing item by product ID (not database ID)
     const existing = wishlist.find((item) => item.id === product.id);
 
     try {
       if (existing) {
-        // Remove from wishlist
-        
-        // First check if the item exists in database
-        try {
-          const checkResponse = await axios.get(`http://localhost:3001/wishlist/${existing.dbId}`);
-        } catch (checkError) {
-          setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-          return;
-        }
-        
-        // If item exists, delete it
         await axios.delete(`http://localhost:3001/wishlist/${existing.dbId}`);
         setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-        
       } else {
-        // Add to wishlist
-        const newItem = { 
-          ...product, 
+        const newItem = {
+          ...product,
           userId: user.id,
-          productId: product.id // Store the product ID separately
+          productId: product.id,
         };
-        
-        console.log("Adding new item:", newItem);
+
         const res = await axios.post("http://localhost:3001/wishlist", newItem);
-        console.log("Add response:", res.data);
-        
-        setWishlist((prev) => [...prev, { 
-          ...product, 
-          dbId: res.data.id,
-          id: product.id 
-        }]);
+
+        setWishlist((prev) => [
+          ...prev,
+          {
+            ...product,
+            dbId: res.data.id,
+            id: product.id,
+          },
+        ]);
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      
-      // If it's a 404 error when trying to delete, the item might not exist in DB
+
       if (error.response?.status === 404 && existing) {
-        console.log("404 error - removing from local state only");
         setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-        return; // Don't throw the error, just remove locally
+        return;
       }
-      
+
       throw error;
     }
   };
 
-  // Alternative: Remove by userId and productId instead of dbId
-  const removeFromWishlistAlt = async (product) => {
-    if (!user?.id) return;
-
-    try {
-      // Try deleting by userId and productId query params instead of dbId
-      await axios.delete(`http://localhost:3001/wishlist?userId=${user.id}&productId=${product.id}`);
-      setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-    } catch (error) {
-      console.error("Error removing from wishlist:", error);
-      throw error;
-    }
-  };
-
-  // Remove from wishlist (explicit removal)
   const removeFromWishlist = async (product) => {
     if (!product?.dbId) {
-      // Fallback to alternative method
       return removeFromWishlistAlt(product);
     }
 
@@ -122,7 +83,6 @@ export const WishlistProvider = ({ children }) => {
       setWishlist((prev) => prev.filter((item) => item.id !== product.id));
     } catch (error) {
       if (error.response?.status === 404) {
-        // Item doesn't exist in DB, just remove from local state
         setWishlist((prev) => prev.filter((item) => item.id !== product.id));
         return;
       }
@@ -131,15 +91,24 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
-  // Clear entire wishlist
+  const removeFromWishlistAlt = async (product) => {
+    if (!user?.id) return;
+
+    try {
+      await axios.delete(`http://localhost:3001/wishlist?userId=${user.id}&productId=${product.id}`);
+      setWishlist((prev) => prev.filter((item) => item.id !== product.id));
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+      throw error;
+    }
+  };
+
   const clearWishlist = () => {
     setWishlist([]);
   };
 
   return (
-    <WishlistContext.Provider
-      value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}
-    >
+    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}>
       {children}
     </WishlistContext.Provider>
   );

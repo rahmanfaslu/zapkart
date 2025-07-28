@@ -1,5 +1,5 @@
+// src/pages/Login.jsx
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
@@ -13,25 +13,20 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get(
-        `http://localhost:3001/users?email=${email}&password=${password}`
-      );
-
-      if (res.data.length > 0) {
-        const user = res.data[0];
-
-        login(user); // Store in AuthContext
+      const success = await login(email, password);
+      
+      if (success) {
         toast.success("Login successful");
-
+        
         // Role-based redirection
-        if (user.role === "admin") {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user?.role === "admin") {
           navigate("/admin/dashboard");
         } else {
           navigate("/");
         }
-
       } else {
-        toast.error("Invalid credentials!");
+        toast.error("Invalid credentials or account blocked!");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -84,4 +79,3 @@ function Login() {
 }
 
 export default Login;
-  

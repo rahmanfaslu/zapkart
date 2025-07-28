@@ -1,5 +1,5 @@
 {
-  "wishlist": [
+  "whishlist": [
     {
       "id": "101",
       "title": "Sony PlayStation 4",
@@ -19,7 +19,7 @@
       "productId": 101
     },
     {
-      "id": 102,
+      "id": "102",
       "title": "I Phone 16 pro",
       "price": 111099,
       "image": "/p-6.png",
@@ -75,6 +75,15 @@
       "price": 5250,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
       "quantity": 1
+    },
+    {
+      "id": "c1afb435-3cc1-476e-8f2e-c0ac26dc02d8",
+      "userId": "test@example.com",
+      "productId": "3",
+      "title": "Boat Roakerz 1922",
+      "price": 9250,
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+      "quantity": 1
     }
   ],
   "orders": [
@@ -96,7 +105,8 @@
       "paymentMethod": "upi",
       "total": 5250,
       "date": "25/07/2025, 15:19:09",
-      "userId": "f59b"
+      "userId": "f59b",
+      "status": "Cancelled"
     },
     {
       "id": "8f3c",
@@ -116,7 +126,8 @@
       "paymentMethod": "card",
       "total": 9250,
       "date": "25/07/2025, 15:19:24",
-      "userId": "f59b"
+      "userId": "f59b",
+      "status": "Delivered"
     },
     {
       "id": "051b",
@@ -147,7 +158,8 @@
       "paymentMethod": "cod",
       "total": 6249,
       "date": "25/07/2025, 15:49:36",
-      "userId": "3487"
+      "userId": "3487",
+      "status": "Delivered"
     },
     {
       "id": "a200",
@@ -168,7 +180,8 @@
       "paymentMethod": "cod",
       "total": 5250,
       "date": "25/07/2025, 22:39:50",
-      "userId": "f59b"
+      "userId": "f59b",
+      "status": "Delivered"
     },
     {
       "id": "2a0a",
@@ -506,6 +519,15 @@
       "category": "Gaming",
       "originalPrice": 131990,
       "onSale": true
+    },
+    {
+      "title": "Boat Party  ",
+      "price": "5000",
+      "category": "Speaker",
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard17_1800x.png?v=1724672758",
+      "originalPrice": "5299",
+      "onSale": true,
+      "id": "24"
     }
   ],
   "users": [
@@ -514,25 +536,32 @@
       "role": "admin",
       "email": "test@example.com",
       "password": "test@example.com",
-      "name": "Test User"
+      "name": "Test User",
+      "isBlocked": false
     },
     {
       "id": "7804",
       "name": "MUHAMMAD RIFAEE",
+      "role": "user",
       "email": "rahmanfaslu33@gmail.com",
-      "password": "asdfghjklj7666@"
+      "password": "asdfghjklj7666@",
+      "isBlocked": false
     },
     {
       "id": "f59b",
       "name": "adnan",
+      "role": "user",
       "email": "adnan@gmail.com",
-      "password": "adnan@gmail.com"
+      "password": "adnan@gmail.com",
+      "isBlocked": false
     },
     {
       "id": "3487",
       "name": "risal",
+      "role": "user",
       "email": "risal@gmail.com",
-      "password": "risal@gmail.com"
+      "password": "risal@gmail.com",
+      "isBlocked": false
     }
   ]
 }

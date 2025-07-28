@@ -1,6 +1,7 @@
 // src/context/AuthContext.jsx
-
 import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -12,9 +13,30 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!user;
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+  const login = async (email, password) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3001/users?email=${email}&password=${password}`
+      );
+
+      if (res.data.length > 0) {
+        const userData = res.data[0];
+        
+        if (userData.isBlocked) {
+          toast.error("Your account has been blocked. Please contact support.");
+          return false;
+        }
+
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Login failed. Please try again.");
+      return false;
+    }
   };
 
   const logout = () => {
@@ -22,8 +44,37 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
   };
 
+  const checkBlockStatus = async (userId) => {
+    try {
+      const res = await axios.get(`http://localhost:3001/users/${userId}`);
+      if (res.data.isBlocked) {
+        logout();
+        toast.error("Your account has been blocked. Please contact support.");
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error checking block status:", error);
+      return false;
+    }
+  };
+
+  // Check block status on initial load and periodically
+  useEffect(() => {
+    if (user?.id) {
+      checkBlockStatus(user.id);
+      
+      // Check every 5 minutes if user is still blocked
+      const interval = setInterval(() => {
+        if (user?.id) checkBlockStatus(user.id);
+      }, 300000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [user?.id]);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, checkBlockStatus }}>
       {children}
     </AuthContext.Provider>
   );

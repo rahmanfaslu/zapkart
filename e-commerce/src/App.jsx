@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -15,35 +15,53 @@ import { Toaster } from "react-hot-toast";
 import NotFound from './pages/NotFound';
 import AdminRoutes from './admin/routes/AdminRoutes';
 
+// Private route protection
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
+// Wrapper to get location and conditionally show Header/Footer
+const LayoutWrapper = ({ children }) => {
+  const location = useLocation();
+  const isAdminPath = location.pathname.startsWith('/admin');
+
+  return (
+    <>
+      {!isAdminPath && <Header />}
+      {children}
+      {!isAdminPath && <Footer />}
+    </>
+  );
+};
+
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-        <Route path="/whishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
-        <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+      <LayoutWrapper>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/products" element={<ProductPage />} />
 
-        {/* ✅ Mount admin dashboard and subroutes here */}
-        <Route path="/admin/*" element={<AdminRoutes />} />
+          {/* Protected Routes */}
+          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/whishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} />
+          <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
+          <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Admin Routes (no Header/Footer) */}
+          <Route path="/admin/*" element={<AdminRoutes />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </LayoutWrapper>
       <Toaster position="top-center" reverseOrder={false} />
-      <Footer />
     </BrowserRouter>
   );
 }
 
 export default App;
-
