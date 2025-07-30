@@ -68,66 +68,12 @@
       "quantity": 1
     },
     {
-      "id": "21920f77-68aa-4671-b35d-bd2f7d26c45a",
-      "userId": "adnan@gmail.com",
-      "productId": "2",
-      "title": "Rocky Mountain",
-      "price": 5250,
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-      "quantity": 2
-    },
-    {
-      "id": "c1afb435-3cc1-476e-8f2e-c0ac26dc02d8",
-      "userId": "test@example.com",
-      "productId": "3",
-      "title": "Boat Roakerz 1922",
-      "price": 9250,
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "quantity": 1
-    },
-    {
-      "id": "9c31ec78-ef72-45f8-af68-20de53083575",
-      "userId": "adnan@gmail.com",
-      "productId": 101,
-      "title": "Sony PlayStation 4",
-      "price": 19999,
-      "image": "/gaming.png",
-      "quantity": 6
-    },
-    {
-      "id": "fecc2098-d954-43d3-9a66-9bfe53d39b7c",
+      "id": "1a3fd2e6-6c6a-427f-a4c1-1e9a1a186af7",
       "userId": "adnan@gmail.com",
       "productId": "3",
       "title": "Boat Roakerz 1922",
       "price": 9250,
       "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "quantity": 2
-    },
-    {
-      "id": "3597c84f-8657-48f4-ad06-a7d5e885aba1",
-      "userId": "adnan@gmail.com",
-      "productId": "1",
-      "title": "Soney WH4500",
-      "price": 999,
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "quantity": 2
-    },
-    {
-      "id": "45ae7c22-6749-46f3-956e-b48b6d1a5cef",
-      "userId": "adnan@gmail.com",
-      "productId": 103,
-      "title": "MacBook Pro M2",
-      "price": 1999,
-      "image": "/p-4.png",
-      "quantity": 1
-    },
-    {
-      "id": "e0578cae-1743-49eb-9cfa-305d622bcdce",
-      "userId": "adnan@gmail.com",
-      "productId": "13",
-      "title": "Samsung galexy A15 5g",
-      "price": 20999,
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
       "quantity": 1
     }
   ],
@@ -294,7 +240,8 @@
       "paymentMethod": "upi",
       "total": 999,
       "date": "26/07/2025, 14:24:14",
-      "userId": "1"
+      "userId": "1",
+      "status": "Delivered"
     },
     {
       "id": "7014",
@@ -661,7 +608,7 @@
       "name": "adnan",
       "role": "user",
       "email": "adnan@gmail.com",
-      "password": "adnan@gmail.com",
+      "password": "adnan@1234",
       "isBlocked": false
     },
     {
@@ -671,6 +618,12 @@
       "email": "risal@gmail.com",
       "password": "risal@gmail.com",
       "isBlocked": false
+    },
+    {
+      "id": "f172",
+      "name": "fiya noushin",
+      "email": "fiya@gmail.com",
+      "password": "fiya@gmail.com"
     }
   ]
 }

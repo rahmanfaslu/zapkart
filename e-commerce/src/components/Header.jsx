@@ -61,7 +61,7 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-blue-700 cursor-pointer">Shingify.in</Link>
 
-          {/* Desktop Nav */}
+          {/* Navbar */}
           <nav className="hidden lg:flex items-center space-x-6">
             <Link to="/" className={navLinkClass}>Home</Link>
             <Link to="/products" className={navLinkClass}>Products</Link>
@@ -85,7 +85,7 @@ export default function Header() {
               )}
             </Link>
 
-            {/* Desktop Auth Section */}
+            {/* Auth Section */}
             {!user ? (
               <>
                 <Link to="/login" className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">Login</Link>
@@ -122,7 +122,7 @@ export default function Header() {
             )}
           </nav>
 
-          {/* Mobile Icons */}
+          {/* Icons */}
           <div className="flex items-center space-x-4 lg:hidden">
             <Link to="/whishlist" className="relative text-xl text-gray-700 hover:text-blue-500">
               <FaHeart />
@@ -148,8 +148,8 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4">
+          <div className="lg:hidden mt-5 py-0 border-t border-gray-200">
+            <nav className="flex flex-col space-y-0">
               <Link to="/" onClick={closeMobileMenu} className={`${navLinkClass} py-2`}>Home</Link>
               <Link to="/products" onClick={closeMobileMenu} className={`${navLinkClass} py-2`}>Products</Link>
               <Link to="/order" onClick={closeMobileMenu} className={`${navLinkClass} py-2`}>Orders</Link>
@@ -171,16 +171,17 @@ export default function Header() {
 
                   {dropdownOpen && (
                     <div className="mt-2 w-full bg-white border border-gray-200 rounded shadow-md">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-sm hover:bg-gray-100"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          closeMobileMenu();
-                        }}
-                      >
-                        Profile
-                      </Link>
+                     <Link
+                     to="/profile"
+                     className="block px-4 py-2 text-sm hover:bg-gray-100"
+                     onClick={() => {
+                    setDropdownOpen(false);
+                     closeMobileMenu();
+                         }}
+                    >
+                      Profile
+                  </Link>
+
                       <button
                         onClick={handleLogout}
                         className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"

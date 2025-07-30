@@ -18,7 +18,7 @@ export default function ManageProducts() {
   const [editingId, setEditingId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8); // Products per page
+  const [productsPerPage] = useState(8); 
   const nameInputRef = useRef(null);
 
   useEffect(() => {
@@ -118,18 +118,16 @@ export default function ManageProducts() {
     }
   };
 
-  // Pagination logic
+  // Pagination
   const categories = [...new Set(products.map((p) => p.category))];
   const filteredProducts = products.filter(
     (p) => filterCategory === "All" || p.category === filterCategory
   );
   
-  // Get current products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredProducts.length / productsPerPage)));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -158,7 +156,7 @@ export default function ManageProducts() {
               value={filterCategory}
               onChange={(e) => {
                 setFilterCategory(e.target.value);
-                setCurrentPage(1); // Reset to first page when filter changes
+                setCurrentPage(1); 
               }}
             >
               <option value="All">All Categories</option>

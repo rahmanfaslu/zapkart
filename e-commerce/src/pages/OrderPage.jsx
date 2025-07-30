@@ -34,7 +34,7 @@ export default function OrderPage() {
   return (
     <section className="bg-gradient-to-tr from-gray-100 to-gray-200 min-h-screen p-3 md:p-6">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-center text-blue-800 mb-6 md:mb-10">Your Orders</h1>
+        <h1 className="text-2xl md:text-4xl font-bold text-center text-blue-800 mb-6 md:mb-10">Your Orders</h1>
 
         {orders.length === 0 ? (
           <div className="text-center text-gray-600 text-xl md:text-2xl font-medium">

@@ -88,7 +88,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 mt-6"

@@ -83,14 +83,12 @@ export default function Home() {
     }
   ];
 
-  // Fetch  
   useEffect(() => {
     axios.get("http://localhost:3001/Products")
       .then((res) => setAllProducts(res.data))
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
-  // Auto-slide  
   useEffect(() => {
     if (!isAutoSliding) return;
 

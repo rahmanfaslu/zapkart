@@ -14,14 +14,14 @@ import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import NotFound from './pages/NotFound';
 import AdminRoutes from './admin/routes/AdminRoutes';
+import PolicyPage from './pages/PolicyPage';
+import Profile from "./pages/Profile";
 
-// Private route protection
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
-// Wrapper to get location and conditionally show Header/Footer
 const LayoutWrapper = ({ children }) => {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
@@ -40,22 +40,19 @@ function App() {
     <BrowserRouter>
       <LayoutWrapper>
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<ProductPage />} />
 
-          {/* Protected Routes */}
           <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
           <Route path="/whishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} />
           <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
           <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
 
-          {/* Admin Routes (no Header/Footer) */}
           <Route path="/admin/*" element={<AdminRoutes />} />
-
-          {/* Fallback */}
+          <Route path="/policies" element={<PolicyPage />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </LayoutWrapper>

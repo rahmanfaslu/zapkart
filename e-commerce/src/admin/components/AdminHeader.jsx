@@ -1,4 +1,3 @@
-// src/admin/components/AdminHeader.jsx
 const AdminHeader = () => {
   return (
     <header className="bg-white shadow px-4 py-3">

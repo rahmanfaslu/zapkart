@@ -25,6 +25,9 @@ function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalQuantity, setModalQuantity] = useState(1);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+
   const marketingTexts = [
     "Best choice for everyday use!",
     "Loved by thousands of customers.",
@@ -39,11 +42,11 @@ function Products() {
 
   const [randomText, setRandomText] = useState("");
 
- useEffect(() => {
-  if (location.state && location.state.category) {
-    setCategory(location.state.category);
-  }
-}, [location.state]);
+  useEffect(() => {
+    if (location.state && location.state.category) {
+      setCategory(location.state.category);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     axios
@@ -77,7 +80,15 @@ function Products() {
     }
 
     setFilteredProducts(updatedProducts);
+    setCurrentPage(1); 
   }, [searchQuery, category, sortOrder, products]);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 
@@ -87,58 +98,54 @@ function Products() {
         Our Products
       </h1>
 
-      {/* Filters */}
       <div className="max-w-6xl mx-auto mb-6 flex flex-col md:flex-row items-center justify-between gap-4 px-2">
         <div className="relative w-full md:w-1/3">
-  <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
-  
-  <input
-    type="text"
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    placeholder="Search products..."
-    className="pl-10 border p-2 rounded w-full"
-  />
-</div>
+          <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products..."
+            className="pl-10 border p-2 rounded w-full"
+          />
+        </div>
 
         <div className="relative w-full md:w-1/4">
-  <BiCategory className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
-  
-  <select
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-    className="pl-10 border p-2 rounded w-full appearance-none"
-  >
-    {categories.map((cat, index) => (
-      <option key={index} value={cat}>
-        {cat}
-      </option>
-    ))}
-  </select>
-</div>
+          <BiCategory className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-500 text-xl" />
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="pl-10 border p-2 rounded w-full appearance-none"
+          >
+            {categories.map((cat, index) => (
+              <option key={index} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="relative w-full md:w-1/4">
-  <BiSortAlt2 className=" absolute left-3 top-1/2 transform -translate-y-1/2 text-black-800 text-xl" />
-  <select
-    value={sortOrder}
-    onChange={(e) => setSortOrder(e.target.value)}
-    className="border pl-10 pr-2 py-2 rounded w-full appearance-none"
-  >
-    <option value="">Sort by</option>
-    <option value="lowToHigh">Price: Low to High</option>
-    <option value="highToLow">Price: High to Low</option>
-  </select>
-</div>
+          <BiSortAlt2 className=" absolute left-3 top-1/2 transform -translate-y-1/2 text-black-800 text-xl" />
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="border pl-10 pr-2 py-2 rounded w-full appearance-none"
+          >
+            <option value="">Sort by</option>
+            <option value="lowToHigh">Price: Low to High</option>
+            <option value="highToLow">Price: High to Low</option>
+          </select>
+        </div>
       </div>
 
-      {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        {filteredProducts.length === 0 ? (
+        {currentProducts.length === 0 ? (
           <p className="text-center text-gray-500 col-span-full">
             No products found.
           </p>
         ) : (
-          filteredProducts.map((item) => (
+          currentProducts.map((item) => (
             <div
               key={item.id}
               className="w-[97%] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300"
@@ -162,7 +169,6 @@ function Products() {
                 <p className="text-purple-700 font-bold text-lg mb-4">₹{item.price}</p>
               </div>
 
-              {/* Wishlist ,Add to Cart */}
               <div className="flex justify-center items-center gap-3 mt-auto">
                 <button
                   className={`text-xl ${
@@ -198,126 +204,42 @@ function Products() {
         )}
       </div>
 
-      {/* MODAL */}
-      <Transition.Root show={isModalOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={() => setIsModalOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
-          </Transition.Child>
+      {/* Pagination */}
+      {filteredProducts.length > productsPerPage && (
+        <div className="flex justify-center mt-8">
+          <nav className="flex items-center gap-1">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`px-3 py-1 rounded ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'}`}
+            >
+              &laquo; Prev
+            </button>
 
-          <div className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+              <button
+                key={number}
+                onClick={() => paginate(number)}
+                className={`px-3 py-1 rounded ${currentPage === number ? 'bg-blue-600 text-white' : 'text-blue-600 hover:bg-blue-50'}`}
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  {selectedProduct && (
-                    <div className="flex flex-col md:flex-row gap-4 ">
-                      <img
-                        src={selectedProduct.image}
-                        alt={selectedProduct.title}
-                        className="w-full md:w-1/2 object-contain"
-                      />
+                {number}
+              </button>
+            ))}
 
-                      <div className="flex-1 space-y-3 mt-2">
-                        <Dialog.Title as="h2" className="text-3xl font-bold text-gray-800">
-                          {selectedProduct.title}
-                        </Dialog.Title>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={`px-3 py-1 rounded ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'}`}
+            >
+              Next &raquo;
+            </button>
+          </nav>
+        </div>
+      )}
 
-                        {/* Random Marketing text */}
-                        <p className="text-sm text-gray-500 italic">
-                          {randomText}
-                        </p>
-
-                        <p className="text-gray-600 text-sm">{selectedProduct.description}</p>
-                        <p className="text-black-700 font-bold text-lg">
-                          ₹{selectedProduct.price}
-                        </p>
-                        <p className="text-sm text-gray-700">
-                          Category: {selectedProduct.category}
-                        </p>
-
-                        {/* Wishlist inside modal */}
-                        <button
-                          className={`text-xl ${
-                            wishlist.find((w) => w.id === selectedProduct.id)
-                              ? "text-red-600"
-                              : "text-gray-400 hover:text-red-600"
-                          }`}
-                          onClick={() => {
-                            const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
-                            addToWishlist(selectedProduct);
-                            toast.success(
-                              isInWishlist
-                                ? "Removed from Wishlist"
-                                : "Added to Wishlist"
-                            );
-                          }}
-                        >
-                          <FaHeart />
-                        </button>
-
-                        {/* Quantity, Add to Cart */}
-                        <div className="flex items-center gap-2">
-                        <label>Quantity:</label>
-                        <input 
-                         type="number"
-                        min="1"
-                         value={modalQuantity}
-                         onChange={(e) =>
-                         setModalQuantity(Math.max(1, parseInt(e.target.value) || 1))
-                         }
-                             className="w-16 p-1 border rounded"
-                          />
-                        </div>
-
-                        <div className="mt-4 flex gap-3">
-                        <button
-                         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                         onClick={() => {
-                         addToCart(selectedProduct, modalQuantity); 
-                         toast.success("Added to cart!");
-                         setIsModalOpen(false);
-                         setModalQuantity(1); 
-                         }}
-                         >
-                         Add to Cart
-                         </button>
-
-                         <button
-                         className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-                         onClick={() => setIsModalOpen(false)}
-                         >
-                          Cancel
-                          </button>
-                        </div>
-
-                      </div>
-                    </div>
-                  )}
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
+      <Transition.Root show={isModalOpen} as={Fragment}>
       </Transition.Root>
     </section>
-
-    
   );
 }
 

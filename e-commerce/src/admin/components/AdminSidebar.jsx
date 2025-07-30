@@ -1,4 +1,3 @@
-// src/admin/components/AdminSidebar.jsx
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
@@ -21,7 +20,6 @@ const AdminSidebar = () => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      // Auto-collapse when switching to mobile view
       if (mobile !== isMobile) {
         setIsCollapsed(mobile);
       }
@@ -49,7 +47,6 @@ const AdminSidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       {isMobile && (
         <button
           onClick={toggleSidebar}
@@ -68,7 +65,7 @@ const AdminSidebar = () => {
             : "w-64"
         }`}
       >
-        {/* Header */}
+        
         <div className="mb-8 flex justify-between items-center">
           {!isCollapsed && (
             <div>
@@ -86,7 +83,6 @@ const AdminSidebar = () => {
           )}
         </div>
 
-        {/* Navigation Menu */}
         <nav className="space-y-3 mb-8">
           {menuItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -108,7 +104,6 @@ const AdminSidebar = () => {
           })}
         </nav>
 
-        {/* Admin Info - Hidden when collapsed */}
         {!isCollapsed && (
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <div className="text-sm text-gray-600 mb-1">Logged in as:</div>
@@ -116,7 +111,6 @@ const AdminSidebar = () => {
           </div>
         )}
 
-        {/* Logout Button */}
         <button
           onClick={handleLogout}
           className={`flex items-center w-full p-4 ${

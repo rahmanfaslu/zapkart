@@ -1,11 +1,9 @@
-// src/context/CartContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { v4 as uuidv4 } from "uuid";
 
 const CartContext = createContext();
-
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
@@ -54,14 +52,45 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const clearCart = () => {
-    setCartItems([]); // ✅ Clear only frontend state
-    // ❌ Do NOT delete from backend here
+  const incrementQuantity = async (id) => {
+    const item = cartItems.find((item) => item.id === id);
+    if (!item) return;
+
+    const updated = { ...item, quantity: item.quantity + 1 };
+    await axios.put(`http://localhost:3001/cart/${id}`, updated);
+    setCartItems((prev) =>
+      prev.map((itm) => (itm.id === id ? updated : itm))
+    );
+  };
+
+  const decrementQuantity = async (id) => {
+    const item = cartItems.find((item) => item.id === id);
+    if (!item || item.quantity <= 1) return;
+
+    const updated = { ...item, quantity: item.quantity - 1 };
+    await axios.put(`http://localhost:3001/cart/${id}`, updated);
+    setCartItems((prev) =>
+      prev.map((itm) => (itm.id === id ? updated : itm))
+    );
+  };
+
+  const clearCart = async () => {
+    for (const item of cartItems) {
+      await axios.delete(`http://localhost:3001/cart/${item.id}`);
+    }
+    setCartItems([]);
   };
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, clearCart }}
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        // clearCart,
+        incrementQuantity,
+        decrementQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -59,12 +58,10 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Check block status on initial load and periodically
   useEffect(() => {
     if (user?.id) {
       checkBlockStatus(user.id);
       
-      // Check every 5 minutes if user is still blocked
       const interval = setInterval(() => {
         if (user?.id) checkBlockStatus(user.id);
       }, 300000);

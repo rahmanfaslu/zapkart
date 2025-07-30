@@ -7,8 +7,8 @@ function CartPage() {
   const {
     cartItems = [],
     removeFromCart,
-    incrementQty,
-    decrementQty,
+    incrementQuantity,
+    decrementQuantity,
   } = useCart();
 
   const navigate = useNavigate();
@@ -20,13 +20,13 @@ function CartPage() {
   return (
     <section className="py-10 px-6 bg-gray-100 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-blue-700 mb-5 text-center">
+        <h1 className="text-3xl font-bold text-blue-700 mb-5 text-center">
           Your Cart
         </h1>
 
         {cartItems.length === 0 ? (
           <div className="text-center py-10">
-            <p className="text-gray-600 text-lg mb-4">Your cart is empty 🛒</p>
+            <p className="text-gray-600 text-lg mb-4">Your cart is empty</p>
             <button
               onClick={() => navigate("/products")}
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-300"
@@ -56,24 +56,22 @@ function CartPage() {
                     ₹{item.price} each
                   </p>
 
-                  {/* Quantity */}
                   <div className="flex items-center mt-2 space-x-3">
                     <button
                       className="bg-gray-200 text-lg px-3 rounded hover:bg-gray-300"
-                      onClick={() => decrementQty(item.id)}
+                      onClick={() => decrementQuantity(item.id)}
                     >
                       −
                     </button>
                     <span className="font-semibold">{item.quantity}</span>
                     <button
                       className="bg-gray-200 text-lg px-3 rounded hover:bg-gray-300"
-                      onClick={() => incrementQty(item.id)}
+                      onClick={() => incrementQuantity(item.id)}
                     >
                       +
                     </button>
                   </div>
 
-                  {/* Total */}
                   <p className="text-sm text-gray-600 mt-2">
                     Total: ₹{item.price * item.quantity}
                   </p>
@@ -88,7 +86,6 @@ function CartPage() {
               </div>
             ))}
 
-            {/* Subtotal */}
             <div className="text-right mt-6">
               <h3 className="text-xl font-semibold">
                 Subtotal:{" "}

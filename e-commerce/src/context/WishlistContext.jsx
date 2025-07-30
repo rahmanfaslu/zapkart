@@ -21,21 +21,18 @@ export const WishlistProvider = ({ children }) => {
       setError(null);
 
       try {
-        // Modified endpoint to match json-server behavior
         const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
         
-        // Ensure consistent data structure
         const mappedWishlist = res.data.map((item) => ({
           ...item,
-          dbId: item.id,  // Store the database ID separately
-          id: item.productId || item.id,  // Use productId as the main ID
+          dbId: item.id, 
+          id: item.productId || item.id, 
         }));
 
         setWishlist(mappedWishlist);
       } catch (error) {
         console.error("Error fetching wishlist:", error);
         setError("Failed to load wishlist");
-        // Fallback to localStorage
         const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
         setWishlist(localWishlist);
       } finally {
@@ -87,7 +84,6 @@ export const WishlistProvider = ({ children }) => {
       console.error("Error updating wishlist:", error);
       setError("Failed to update wishlist");
       
-      // Fallback to localStorage
       const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
       if (existing) {
         const updated = localWishlist.filter(item => item.id !== product.id);
@@ -106,11 +102,9 @@ export const WishlistProvider = ({ children }) => {
     setError(null);
 
     try {
-      // First try to delete by dbId if it exists
       if (product.dbId) {
         await axios.delete(`http://localhost:3001/wishlist/${product.dbId}`);
       } 
-      // Fallback to deleting by userId and productId
       else {
         await axios.delete(`http://localhost:3001/wishlist/${product.id}`);
       }
@@ -122,7 +116,6 @@ export const WishlistProvider = ({ children }) => {
       console.error("Error removing from wishlist:", error);
       setError("Failed to remove item");
       
-      // Fallback to localStorage
       const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
       const updated = localWishlist.filter(item => item.id !== product.id);
       localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
@@ -143,7 +136,7 @@ export const WishlistProvider = ({ children }) => {
         wishlist, 
         addToWishlist, 
         removeFromWishlist, 
-        clearWishlist,
+        // clearWishlist,
         loading,
         error
       }}
