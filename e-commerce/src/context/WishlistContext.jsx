@@ -7,6 +7,8 @@ const WishlistContext = createContext();
 export const WishlistProvider = ({ children }) => {
   const { user } = useAuth();
   const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -15,34 +17,53 @@ export const WishlistProvider = ({ children }) => {
         return;
       }
 
-      try {
-        const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
+      setLoading(true);
+      setError(null);
 
+      try {
+        // Modified endpoint to match json-server behavior
+        const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
+        
+        // Ensure consistent data structure
         const mappedWishlist = res.data.map((item) => ({
           ...item,
-          dbId: item.id,
-          id: item.productId || item.id,
+          dbId: item.id,  // Store the database ID separately
+          id: item.productId || item.id,  // Use productId as the main ID
         }));
 
         setWishlist(mappedWishlist);
       } catch (error) {
         console.error("Error fetching wishlist:", error);
-        setWishlist([]);
+        setError("Failed to load wishlist");
+        // Fallback to localStorage
+        const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
+        setWishlist(localWishlist);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWishlist();
   }, [user]);
 
+  const syncWithLocalStorage = (updatedWishlist) => {
+    if (user?.id) {
+      localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updatedWishlist));
+    }
+  };
+
   const addToWishlist = async (product) => {
     if (!user?.id) throw new Error("User not authenticated");
 
     const existing = wishlist.find((item) => item.id === product.id);
+    setError(null);
 
     try {
       if (existing) {
         await axios.delete(`http://localhost:3001/wishlist/${existing.dbId}`);
-        setWishlist((prev) => prev.filter((item) => item.id !== product.id));
+        const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+        setWishlist(updatedWishlist);
+        syncWithLocalStorage(updatedWishlist);
       } else {
         const newItem = {
           ...product,
@@ -51,64 +72,82 @@ export const WishlistProvider = ({ children }) => {
         };
 
         const res = await axios.post("http://localhost:3001/wishlist", newItem);
-
-        setWishlist((prev) => [
-          ...prev,
+        const updatedWishlist = [
+          ...wishlist,
           {
             ...product,
             dbId: res.data.id,
             id: product.id,
-          },
-        ]);
+          }
+        ];
+        setWishlist(updatedWishlist);
+        syncWithLocalStorage(updatedWishlist);
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-
-      if (error.response?.status === 404 && existing) {
-        setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-        return;
+      setError("Failed to update wishlist");
+      
+      // Fallback to localStorage
+      const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
+      if (existing) {
+        const updated = localWishlist.filter(item => item.id !== product.id);
+        localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
+        setWishlist(updated);
+      } else {
+        const newItem = { ...product, userId: user.id, id: product.id };
+        const updated = [...localWishlist, newItem];
+        localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
+        setWishlist(updated);
       }
-
-      throw error;
     }
   };
 
   const removeFromWishlist = async (product) => {
-    if (!product?.dbId) {
-      return removeFromWishlistAlt(product);
-    }
+    setError(null);
 
     try {
-      await axios.delete(`http://localhost:3001/wishlist/${product.dbId}`);
-      setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-    } catch (error) {
-      if (error.response?.status === 404) {
-        setWishlist((prev) => prev.filter((item) => item.id !== product.id));
-        return;
+      // First try to delete by dbId if it exists
+      if (product.dbId) {
+        await axios.delete(`http://localhost:3001/wishlist/${product.dbId}`);
+      } 
+      // Fallback to deleting by userId and productId
+      else {
+        await axios.delete(`http://localhost:3001/wishlist/${product.id}`);
       }
-      console.error("Error removing from wishlist:", error);
-      throw error;
-    }
-  };
 
-  const removeFromWishlistAlt = async (product) => {
-    if (!user?.id) return;
-
-    try {
-      await axios.delete(`http://localhost:3001/wishlist?userId=${user.id}&productId=${product.id}`);
-      setWishlist((prev) => prev.filter((item) => item.id !== product.id));
+      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+      setWishlist(updatedWishlist);
+      syncWithLocalStorage(updatedWishlist);
     } catch (error) {
       console.error("Error removing from wishlist:", error);
-      throw error;
+      setError("Failed to remove item");
+      
+      // Fallback to localStorage
+      const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
+      const updated = localWishlist.filter(item => item.id !== product.id);
+      localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
+      setWishlist(updated);
     }
   };
 
   const clearWishlist = () => {
     setWishlist([]);
+    if (user?.id) {
+      localStorage.removeItem(`wishlist_${user.id}`);
+    }
   };
 
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}>
+    <WishlistContext.Provider 
+      value={{ 
+        wishlist, 
+        addToWishlist, 
+        removeFromWishlist, 
+        clearWishlist,
+        loading,
+        error
+      }}
+    >
       {children}
     </WishlistContext.Provider>
   );
