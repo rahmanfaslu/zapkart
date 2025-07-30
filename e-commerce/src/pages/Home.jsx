@@ -255,345 +255,340 @@ export default function Home() {
 
       {/* Categories Section */}
       <section id="products" className="py-8 px-4 bg-amber-100">
-        <div className="container mx-auto">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Categories</h2>
+  <div className="container mx-auto">
+    <h2 className="text-2xl font-semibold mb-6 text-center">Categories</h2>
 
-          <div className="flex space-x-4 p-4">
-            <div 
-              className="w-1/3 h-50 bg-gradient-to-br from-gray-800 to-black rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Headphones')}
-            >
-              <p className='text-white pl-10 pt-8 z-10 relative'>Enjoy</p>
-              <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>With</h2>
-              <h1 className='text-white text-4xl pl-[38px] font-bold z-10 relative'>EARPHONE</h1>
-              <button 
-                type="button" 
-                className="w-20 h-10 ml-[35px] bg-red-600 text-white py-2 rounded-full hover:bg-gray-700 transition duration-300 font-semibold z-10 relative"
-              >
-                Click
-              </button>
-              <img src="/earphone.png" alt="Earphone" className="absolute bottom-0 right-10 w-50 opacity-90" />
-            </div>
+    <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 p-4">
+      <div 
+        className="w-full md:w-1/3 h-50 bg-gradient-to-br from-gray-800 to-black rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('Headphones')}
+      >
+        <p className='text-white pl-4 md:pl-10 pt-8 z-10 relative'>Enjoy</p>
+        <h2 className='text-white pl-4 md:pl-10 text-2xl font-bold z-10 relative'>With</h2>
+        <h1 className='text-white text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>EARPHONE</h1>
+        <button 
+          type="button" 
+          className="w-20 h-10 ml-4 md:ml-[35px] bg-red-600 text-white py-2 rounded-full hover:bg-gray-700 transition duration-300 font-semibold z-10 relative"
+        >
+          Click
+        </button>
+        <img src="/earphone.png" alt="Earphone" className="absolute bottom-0 right-4 md:right-10 w-40 md:w-50 opacity-90" />
+      </div>
 
-            <div 
-              className="w-1/3 h-50 bg-yellow-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Watches')}
-            >
-              <p className='text-white pl-10 pt-8 z-10 relative'>Smart</p>
-              <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>Wear</h2>
-              <h1 className='text-white text-4xl pl-[38px] font-bold z-10 relative'>WATCH</h1>
-              <button type="button" className="w-20 h-10 ml-[35px] bg-white text-yellow-500 py-2 rounded-full hover:bg-gray-800 transition duration-300 font-semibold z-10 relative">
-                Click
-              </button>
-              <img src="/watch.png" alt="Watch" className="absolute bottom-5 right-2 w-50 opacity-90" />
-            </div>
+      <div 
+        className="w-full md:w-1/3 h-50 bg-yellow-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('Watches')}
+      >
+        <p className='text-white pl-4 md:pl-10 pt-8 z-10 relative'>Smart</p>
+        <h2 className='text-white pl-4 md:pl-10 text-2xl font-bold z-10 relative'>Wear</h2>
+        <h1 className='text-white text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>WATCH</h1>
+        <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-yellow-500 py-2 rounded-full hover:bg-gray-800 transition duration-300 font-semibold z-10 relative">
+          Click
+        </button>
+        <img src="/watch.png" alt="Watch" className="absolute bottom-5 right-2 w-40 md:w-50 opacity-90" />
+      </div>
 
-            <div 
-              className="w-1/2 h-50 bg-gradient-to-br from-red-600 to-red-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Laptops')}
-            >
-              <p className='text-white pl-10 pt-8 z-10 relative'>Power</p>
-              <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>With</h2>
-              <h1 className='text-white text-4xl pl-[38px] font-bold z-10 relative'>LAPTOP</h1>
-              <button type="button" className="w-20 h-10 ml-[35px] bg-white text-red-600 py-2 rounded-full hover:bg-red-300 transition duration-300 font-semibold z-10 relative">
-                Click
-              </button>
-              <img src="/macbook.png" alt="Laptop" className="absolute bottom-0 right-3 w-50 opacity-90" />
-            </div>
-          </div>
+      <div 
+        className="w-full md:w-1/2 h-50 bg-gradient-to-br from-red-600 to-red-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('Laptops')}
+      >
+        <p className='text-white pl-4 md:pl-10 pt-8 z-10 relative'>Power</p>
+        <h2 className='text-white pl-4 md:pl-10 text-2xl font-bold z-10 relative'>With</h2>
+        <h1 className='text-white text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>LAPTOP</h1>
+        <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-red-600 py-2 rounded-full hover:bg-red-300 transition duration-300 font-semibold z-10 relative">
+          Click
+        </button>
+        <img src="/macbook.png" alt="Laptop" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+      </div>
+    </div>
 
-          <div className="flex space-x-4 p-4">
-             
-            <div 
-              className="w-1/2 h-50 bg-gray-300 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Gaming')}
-            >
-              <p className='text-black pl-10 pt-8 z-10 relative'>Best</p>
-              <h2 className='text-black pl-10 text-2xl font-bold z-10 relative'>Gaming</h2>
-              <h1 className='text-black text-4xl pl-[38px] font-bold z-10 relative'>CONSOLE</h1>
-              <button type="button" className="w-20 h-10 ml-[35px] bg-red-600 text-white py-2 rounded-full hover:bg-gray-400 transition duration-300 font-semibold z-10 relative">
-                Click
-              </button>
-              <img src="/gaming.png" alt="Console" className="absolute bottom-0 right-3 w-50 opacity-90" />
-            </div>
+    <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 p-4">
+      <div 
+        className="w-full md:w-1/2 h-50 bg-gray-300 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('Gaming')}
+      >
+        <p className='text-black pl-4 md:pl-10 pt-8 z-10 relative'>Best</p>
+        <h2 className='text-black pl-4 md:pl-10 text-2xl font-bold z-10 relative'>Gaming</h2>
+        <h1 className='text-black text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>CONSOLE</h1>
+        <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-red-600 text-white py-2 rounded-full hover:bg-gray-400 transition duration-300 font-semibold z-10 relative">
+          Click
+        </button>
+        <img src="/gaming.png" alt="Console" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+      </div>
 
-            <div 
-              className="w-1/3 h-50 bg-blue-500 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('AR')}
-            >
-              <p className='text-white pl-10 pt-8 z-10 relative'>Play</p>
-              <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>Game</h2>
-              <h1 className='text-white text-4xl pl-[38px] font-bold z-10 relative'>OCULUS</h1>
-              <button type="button" className="w-20 h-10 ml-[35px] bg-white text-blue-500 py-2 rounded-full hover:bg-blue-300 transition duration-300 font-semibold z-10 relative">
-                Click
-              </button>
-              <img src="/vr.png" alt="Oculus" className="absolute bottom-0 right-3 w-50 opacity-90" />
-            </div>
+      <div 
+        className="w-full md:w-1/3 h-50 bg-blue-500 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('AR')}
+      >
+        <p className='text-white pl-4 md:pl-10 pt-8 z-10 relative'>Play</p>
+        <h2 className='text-white pl-4 md:pl-10 text-2xl font-bold z-10 relative'>Game</h2>
+        <h1 className='text-white text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>OCULUS</h1>
+        <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-blue-500 py-2 rounded-full hover:bg-blue-300 transition duration-300 font-semibold z-10 relative">
+          Click
+        </button>
+        <img src="/vr.png" alt="Oculus" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+      </div>
 
-            <div 
-              className="w-1/3 h-50 bg-gradient-to-br from-green-600 to-green-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
-              onClick={() => handleNavigateToCategory('Speaker')}
-            >
-              <p className='text-white pl-10 pt-8 z-10 relative'>New</p>
-              <h2 className='text-white pl-10 text-2xl font-bold z-10 relative'>Smart</h2>
-              <h1 className='text-white text-4xl pl-[38px] font-bold z-10 relative'>SPEAKER</h1>
-              <button type="button" className="w-20 h-10 ml-[35px] bg-white text-green-600 py-2 rounded-full hover:bg-green-300 transition duration-300 font-semibold z-10 relative">
-                Click
-              </button>
-              <img src="/speaker.png" alt="Speaker" className="absolute bottom-0 right-3 w-50 opacity-90" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <div 
+        className="w-full md:w-1/3 h-50 bg-gradient-to-br from-green-600 to-green-400 rounded-[20px] relative overflow-hidden hover:scale-105 hover:shadow-xl transition duration-300 cursor-pointer"
+        onClick={() => handleNavigateToCategory('Speaker')}
+      >
+        <p className='text-white pl-4 md:pl-10 pt-8 z-10 relative'>New</p>
+        <h2 className='text-white pl-4 md:pl-10 text-2xl font-bold z-10 relative'>Smart</h2>
+        <h1 className='text-white text-3xl md:text-4xl pl-4 md:pl-[38px] font-bold z-10 relative'>SPEAKER</h1>
+        <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-green-600 py-2 rounded-full hover:bg-green-300 transition duration-300 font-semibold z-10 relative">
+          Click
+        </button>
+        <img src="/speaker.png" alt="Speaker" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Services Section */}
-      <section className="bg-white py-10 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <div className="flex flex-col items-center p-4">
-              <div className="text-6xl mb-2"><LiaShippingFastSolid className='text-6xl' /></div>
-              <h3 className="text-lg font-bold">Free Shipping</h3>
-              <p className="text-sm text-gray-500">On all orders above ₹499</p>
-            </div>
-            <div className="flex flex-col items-center p-4">
-              <div className="text-6xl mb-2"><HiOutlineBadgeCheck className='text-6xl' /></div>
-              <h3 className="text-lg font-bold">Money Guarantee</h3>
-              <p className="text-sm text-gray-500">07-day money-back guarantee</p>
-            </div>
-            <div className="flex flex-col items-center p-4">
-              <div className="text-6xl mb-2"><TfiHeadphoneAlt className='text-6xl' /></div>
-              <h3 className="text-lg font-bold">24/7 Support</h3>
-              <p className="text-sm text-gray-500">Technical support 24*7</p>
-            </div>
-            <div className="flex flex-col items-center p-4">
-              <div className="text-6xl mb-2"><IoWalletOutline className='text-6xl' /></div>
-              <h3 className="text-lg font-bold">Secure Payment</h3>
-              <p className="text-sm text-gray-500">100% secure & encrypted</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="py-8 md:py-15 bg-gray-100 px-4">
+  <h1 className="text-center text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-blue-700">
+    Featured Products
+  </h1>
 
-      {/* Featured Products */}
-      <section className="py-15 bg-gray-100 px-4">
-        <h1 className="text-center text-3xl font-bold mb-10 text-blue-700">
-          Featured Products
-        </h1>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto px-4 md:px-8">
+    {/* Product 1 */}
+    <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+      <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
+        <img 
+          src="/gaming.png" 
+          alt="Gaming Controller" 
+          className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
+        />
+      </div>
+      <p className="text-xs md:text-sm text-gray-500 mb-1">Gaming</p>
+      <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">Sony PlayStation 4</h2>
+      <p className="text-black font-bold text-base md:text-lg mb-4">₹19,999</p>
+      <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
+        <button
+          className={`text-lg md:text-xl p-2 rounded-full transition-colors ${
+            wishlist.find((w) => w.id === 101)
+              ? "text-red-600 bg-red-50"
+              : "text-gray-400 hover:text-red-600 hover:bg-red-50"
+          }`}
+          onClick={async () => {
+            const item = {
+              id: 101,
+              title: "Sony PlayStation 4",
+              price: 19999,
+              image: "/gaming.png",
+              category: "Gaming",
+            };
+            
+            const isInWishlist = wishlist.find((w) => w.id === item.id);
+            
+            try {
+              await addToWishlist(item);
+              toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+            } catch (error) {
+              console.error("Error updating wishlist:", error);
+              toast.error("Failed to update wishlist. Please try again.");
+            }
+          }}
+        >
+          <FaHeart />
+        </button>
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
+          onClick={() => {
+            addToCart({
+              id: 101,
+              title: "Sony PlayStation 4",
+              price: 19999,
+              image: "/gaming.png",
+              category: "Gaming",
+            });
+            toast.success("Item added to cart!");
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {/* Product 1 */}
-          <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-            <img src="/gaming.png" alt="Gaming Controller" className="mb-4 object-contain w-32 scale-100 transition-transform duration-300" />
-            <p className="text-sm text-gray-500 mb-1">Gaming</p>
-            <h2 className="text-base font-semibold text-gray-800 mb-1">Sony PlayStation 4</h2>
-            <p className="text-black font-bold text-lg mb-4">₹19,999</p>
-            <div className="flex justify-center items-center gap-3 mt-auto">
-              <button
-                className={`text-xl ${
-                  wishlist.find((w) => w.id === 101)
-                    ? "text-red-600"
-                    : "text-gray-400 hover:text-red-600"
-                }`}
-                onClick={async () => {
-                  const item = {
-                    id: 101,
-                    title: "Sony PlayStation 4",
-                    price: 19999,
-                    image: "/gaming.png",
-                    category: "Gaming",
-                  };
-                  
-                  const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  
-                  try {
-                    await addToWishlist(item);
-                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
-                  } catch (error) {
-                    console.error("Error updating wishlist:", error);
-                    toast.error("Failed to update wishlist. Please try again.");
-                  }
-                }}
-              >
-                <FaHeart />
-              </button>
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
-                onClick={() => {
-                  addToCart({
-                    id: 101,
-                    title: "Sony PlayStation 4",
-                    price: 19999,
-                    image: "/gaming.png",
-                    category: "Gaming",
-                  });
-                  toast.success("Item added to cart!");
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
+    {/* Product 2 */}
+    <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+      <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
+        <img 
+          src="/p-6.png" 
+          alt="iPhone 16 Pro" 
+          className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
+        />
+      </div>
+      <p className="text-xs md:text-sm text-gray-500 mb-1">Phones</p>
+      <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">iPhone 16 Pro</h2>
+      <p className="text-black font-bold text-base md:text-lg mb-4">₹1,11,099</p>
+      <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
+        <button
+          className={`text-lg md:text-xl p-2 rounded-full transition-colors ${
+            wishlist.find((w) => w.id === 102)
+              ? "text-red-600 bg-red-50"
+              : "text-gray-400 hover:text-red-600 hover:bg-red-50"
+          }`}
+          onClick={async () => {
+            const item = {
+              id: 102,
+              title: "iPhone 16 Pro",
+              price: 111099,
+              image: "/p-6.png",
+              category: "Phones",
+            };
+            
+            const isInWishlist = wishlist.find((w) => w.id === item.id);
+            
+            try {
+              await addToWishlist(item);
+              toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+            } catch (error) {
+              console.error("Error updating wishlist:", error);
+              toast.error("Failed to update wishlist");
+            }
+          }}
+        >
+          <FaHeart />
+        </button>
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
+          onClick={() => {
+            addToCart({
+              id: 102,
+              title: "iPhone 16 Pro",
+              price: 111099,
+              image: "/p-6.png",
+              category: "Phones",
+            });
+            toast.success("Item added to cart!");
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
 
-          {/* Product 2 */}
-          <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-            <img src="/p-6.png" alt="iPhone 16 Pro" className="mb-4 object-contain w-32 scale-130 transition-transform duration-300" />
-            <p className="text-sm text-gray-500 mb-1">Phones</p>
-            <h2 className="text-base font-semibold text-gray-800 mb-1">I Phone 16 pro</h2>
-            <p className="text-black font-bold text-lg mb-4">₹1,11,099</p>
-            <div className="flex justify-center items-center gap-3 mt-auto">
-              <button
-                className={`text-xl ${
-                  wishlist.find((w) => w.id === 102)
-                    ? "text-red-600"
-                    : "text-gray-400 hover:text-red-600"
-                }`}
-                onClick={async () => {
-                  const item = {
-                    id: 102,
-                    title: "I Phone 16 pro",
-                    price: 111099,
-                    image: "/p-6.png",
-                    category: "Phones",
-                  };
-                  
-                  const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  
-                  try {
-                    await addToWishlist(item);
-                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
-                  } catch (error) {
-                    console.error("Error updating wishlist:", error);
-                    toast.error("Failed to update wishlist");
-                  }
-                }}
-              >
-                <FaHeart />
-              </button>
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
-                onClick={() => {
-                  addToCart({
-                    id: 102,
-                    title: "I Phone 16 pro",
-                    price: 111099,
-                    image: "/p-6.png",
-                    category: "Phones",
-                  });
-                   toast.success("Item added to cart!");
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
+    {/* Product 3 */}
+    <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+      <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
+        <img 
+          src="/p-4.png" 
+          alt="MacBook Pro M2" 
+          className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
+        />
+      </div>
+      <p className="text-xs md:text-sm text-gray-500 mb-1">Laptops</p>
+      <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">MacBook Pro M2</h2>
+      <p className="text-black font-bold text-base md:text-lg mb-4">₹1,999</p>
+      <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
+        <button
+          className={`text-lg md:text-xl p-2 rounded-full transition-colors ${
+            wishlist.find((w) => w.id === 103)
+              ? "text-red-600 bg-red-50"
+              : "text-gray-400 hover:text-red-600 hover:bg-red-50"
+          }`}
+          onClick={async () => {
+            const item = {
+              id: 103,
+              title: "MacBook Pro M2",
+              price: 1999,
+              image: "/p-4.png",
+              category: "Laptops",
+            };
+            
+            const isInWishlist = wishlist.find((w) => w.id === item.id);
+            
+            try {
+              await addToWishlist(item);
+              toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+            } catch (error) {
+              console.error("Error updating wishlist:", error);
+              toast.error("Failed to update wishlist. Please try again.");
+            }
+          }}
+        >
+          <FaHeart />
+        </button>
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
+          onClick={() => {
+            addToCart({
+              id: 103,
+              title: "MacBook Pro M2",
+              price: 1999,
+              image: "/p-4.png",
+              category: "Laptops",
+            });
+            toast.success("Item added to cart!");
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
 
-          {/* Product 3 */}
-          <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-            <img src="/p-4.png" alt="Smart Watch" className="mb-4 object-contain w-32 scale-160 transition-transform duration-300 pt-4" />
-            <p className="text-sm text-gray-500 mb-1">Laptops</p>
-            <h2 className="text-base font-semibold text-gray-800 mb-1">MacBook Pro M2</h2>
-            <p className="text-black font-bold text-lg mb-4">₹1,999</p>
-            <div className="flex justify-center items-center gap-3 mt-auto">
-              <button
-                className={`text-xl ${
-                  wishlist.find((w) => w.id === 103)
-                    ? "text-red-600"
-                    : "text-gray-400 hover:text-red-600"
-                }`}
-                onClick={async () => {
-                  const item = {
-                    id: 103,
-                    title: "MacBook Pro M2",
-                    price: 1999,
-                    image: "/p-4.png",
-                    category: "Laptops",
-                  };
-                  
-                  const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  
-                  try {
-                    await addToWishlist(item);
-                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
-                  } catch (error) {
-                    console.error("Error updating wishlist:", error);
-                    toast.error("Failed to update wishlist. Please try again.");
-                  }
-                }}
-              >
-                <FaHeart />
-              </button>
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
-                onClick={() => {
-                  addToCart({
-                    id: 103,
-                    title: "MacBook Pro M2",
-                    price: 1999,
-                    image: "/p-4.png",
-                    category: "Laptops",
-                  });
-                   toast.success("Item added to cart!");
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-
-          {/* Product 4 */}
-          <div className="max-w-[248px] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300">
-            <img src="/p-8.png" alt="Apple Watch 2" className="mb-4 pt-4 object-contain w-32 scale-160 transition-transform duration-300" />
-            <p className="text-sm text-gray-500 mb-1">Watch</p>
-            <h2 className="text-base font-semibold text-gray-800 mb-1">Apple Watch 2</h2>
-            <p className="text-black font-bold text-lg mb-4">₹1,799</p>
-            <div className="flex justify-center items-center gap-3 mt-auto">
-              <button
-                className={`text-xl ${
-                  wishlist.find((w) => w.id === 104)
-                    ? "text-red-600"
-                    : "text-gray-400 hover:text-red-600"
-                }`}
-                onClick={async () => {
-                  const item = {
-                    id: 104,
-                    title: "Apple Watch 2",
-                    price: 1799,
-                    image: "/p-8.png",
-                    category: "Watch",
-                  };
-                  
-                  const isInWishlist = wishlist.find((w) => w.id === item.id);
-                  
-                  try {
-                    await addToWishlist(item);
-                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
-                  } catch (error) {
-                    console.error("Error updating wishlist:", error);
-                    toast.error("Failed to update wishlist. Please try again.");
-                  }
-                }}
-              >
-                <FaHeart />
-              </button>
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-sm"
-                onClick={() => {
-                  addToCart({
-                    id: 104,
-                    title: "Apple Watch 2",
-                    price: 1799,
-                    image: "/p-8.png",
-                    category: "Watch",
-                  });
-                  toast.success("Item added to cart!");
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+    {/* Product 4 */}
+    <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+      <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
+        <img 
+          src="/p-8.png" 
+          alt="Apple Watch 2" 
+          className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
+        />
+      </div>
+      <p className="text-xs md:text-sm text-gray-500 mb-1">Watch</p>
+      <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">Apple Watch 2</h2>
+      <p className="text-black font-bold text-base md:text-lg mb-4">₹1,799</p>
+      <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
+        <button
+          className={`text-lg md:text-xl p-2 rounded-full transition-colors ${
+            wishlist.find((w) => w.id === 104)
+              ? "text-red-600 bg-red-50"
+              : "text-gray-400 hover:text-red-600 hover:bg-red-50"
+          }`}
+          onClick={async () => {
+            const item = {
+              id: 104,
+              title: "Apple Watch 2",
+              price: 1799,
+              image: "/p-8.png",
+              category: "Watch",
+            };
+            
+            const isInWishlist = wishlist.find((w) => w.id === item.id);
+            
+            try {
+              await addToWishlist(item);
+              toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+            } catch (error) {
+              console.error("Error updating wishlist:", error);
+              toast.error("Failed to update wishlist. Please try again.");
+            }
+          }}
+        >
+          <FaHeart />
+        </button>
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
+          onClick={() => {
+            addToCart({
+              id: 104,
+              title: "Apple Watch 2",
+              price: 1799,
+              image: "/p-8.png",
+              category: "Watch",
+            });
+            toast.success("Item added to cart!");
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Modal */}
       <Transition.Root show={isModalOpen} as={Fragment}>
