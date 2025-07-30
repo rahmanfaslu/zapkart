@@ -12,7 +12,6 @@ import { useAuth } from './context/AuthContext';
 import Checkout from './pages/Checkout';
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
-import NotFound from './pages/NotFound';
 import AdminRoutes from './admin/routes/AdminRoutes';
 import PolicyPage from './pages/PolicyPage';
 import Profile from "./pages/Profile";
@@ -53,7 +52,6 @@ function App() {
           <Route path="/admin/*" element={<AdminRoutes />} />
           <Route path="/policies" element={<PolicyPage />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </LayoutWrapper>
       <Toaster position="top-center" reverseOrder={false} />
