@@ -1,6 +1,16 @@
 {
   "wishlist": [],
-  "cart": [],
+  "cart": [
+    {
+      "id": "5d5870a0-f85f-4605-a921-706c0a8ae5f4",
+      "userId": "adnan@gmail.com",
+      "productId": "2",
+      "title": "Rocky Mountain",
+      "price": 5250,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+      "quantity": 1
+    }
+  ],
   "Products": [
     {
       "id": "1",
