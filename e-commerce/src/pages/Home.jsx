@@ -270,7 +270,7 @@ export default function Home() {
         >
           Click
         </button>
-        <img src="/earphone.png" alt="Earphone" className="absolute bottom-0 right-4 md:right-10 w-40 md:w-50 opacity-90" />
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/047/829/266/small_2x/earphones-for-music-on-transparent-background-png.png" alt="Earphone" className="absolute bottom-0 right-4 md:right-10 w-40 md:w-50 opacity-90" />
       </div>
 
       <div 
@@ -283,7 +283,7 @@ export default function Home() {
         <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-yellow-500 py-2 rounded-full hover:bg-gray-800 transition duration-300 font-semibold z-10 relative">
           Click
         </button>
-        <img src="/watch.png" alt="Watch" className="absolute bottom-5 right-2 w-40 md:w-50 opacity-90" />
+        <img src="https://png.pngtree.com/png-clipart/20240305/original/pngtree-yellow-smart-watch-with-straps-and-blank-screen-png-image_14512452.png" alt="Watch" className="absolute bottom-5 right-2 w-40 md:w-50 opacity-90" />
       </div>
 
       <div 
@@ -296,7 +296,7 @@ export default function Home() {
         <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-red-600 py-2 rounded-full hover:bg-red-300 transition duration-300 font-semibold z-10 relative">
           Click
         </button>
-        <img src="/macbook.png" alt="Laptop" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+        <img src="https://www.pngmart.com/files/23/Macbook-Pro-PNG.png" alt="Laptop" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
       </div>
     </div>
 
@@ -311,7 +311,7 @@ export default function Home() {
         <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-red-600 text-white py-2 rounded-full hover:bg-gray-400 transition duration-300 font-semibold z-10 relative">
           Click
         </button>
-        <img src="/gaming.png" alt="Console" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+        <img src="https://www.esrb.org/wp-content/uploads/2024/09/ps4.webp" alt="Console" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
       </div>
 
       <div 
@@ -324,7 +324,7 @@ export default function Home() {
         <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-blue-500 py-2 rounded-full hover:bg-blue-300 transition duration-300 font-semibold z-10 relative">
           Click
         </button>
-        <img src="/vr.png" alt="Oculus" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+        <img src="https://png.pngtree.com/png-vector/20250709/ourlarge/pngtree-neon-ar-headset-png-image_16728467.webp" alt="Oculus" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
       </div>
 
       <div 
@@ -337,7 +337,7 @@ export default function Home() {
         <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-green-600 py-2 rounded-full hover:bg-green-300 transition duration-300 font-semibold z-10 relative">
           Click
         </button>
-        <img src="/speaker.png" alt="Speaker" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+        <img src="https://icon2.cleanpng.com/20180625/izc/aaz7wgcw0.webp" alt="Speaker" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
       </div>
     </div>
   </div>
@@ -354,7 +354,7 @@ export default function Home() {
     <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
       <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
         <img 
-          src="/gaming.png" 
+          src="https://www.esrb.org/wp-content/uploads/2024/09/ps4.webp" 
           alt="Gaming Controller" 
           className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
         />
@@ -374,7 +374,7 @@ export default function Home() {
               id: 101,
               title: "Sony PlayStation 4",
               price: 19999,
-              image: "/gaming.png",
+              image: "https://www.esrb.org/wp-content/uploads/2024/09/ps4.webp",
               category: "Gaming",
             };
             
@@ -398,7 +398,7 @@ export default function Home() {
               id: 101,
               title: "Sony PlayStation 4",
               price: 19999,
-              image: "/gaming.png",
+              image: "https://www.esrb.org/wp-content/uploads/2024/09/ps4.webp",
               category: "Gaming",
             });
             toast.success("Item added to cart!");
@@ -413,7 +413,7 @@ export default function Home() {
     <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
       <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
         <img 
-          src="/p-6.png" 
+          src="https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg" 
           alt="iPhone 16 Pro" 
           className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
         />
@@ -433,7 +433,7 @@ export default function Home() {
               id: 102,
               title: "iPhone 16 Pro",
               price: 111099,
-              image: "/p-6.png",
+              image: "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg",
               category: "Phones",
             };
             
@@ -457,7 +457,7 @@ export default function Home() {
               id: 102,
               title: "iPhone 16 Pro",
               price: 111099,
-              image: "/p-6.png",
+              image: "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg",
               category: "Phones",
             });
             toast.success("Item added to cart!");
@@ -472,7 +472,7 @@ export default function Home() {
     <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
       <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
         <img 
-          src="/p-4.png" 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s" 
           alt="MacBook Pro M2" 
           className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
         />
@@ -492,7 +492,7 @@ export default function Home() {
               id: 103,
               title: "MacBook Pro M2",
               price: 1999,
-              image: "/p-4.png",
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s",
               category: "Laptops",
             };
             
@@ -516,7 +516,7 @@ export default function Home() {
               id: 103,
               title: "MacBook Pro M2",
               price: 1999,
-              image: "/p-4.png",
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s",
               category: "Laptops",
             });
             toast.success("Item added to cart!");
@@ -531,7 +531,7 @@ export default function Home() {
     <div className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
       <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
         <img 
-          src="/p-8.png" 
+          src="https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg" 
           alt="Apple Watch 2" 
           className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105" 
         />
@@ -551,7 +551,7 @@ export default function Home() {
               id: 104,
               title: "Apple Watch 2",
               price: 1799,
-              image: "/p-8.png",
+              image: "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg",
               category: "Watch",
             };
             
@@ -575,7 +575,7 @@ export default function Home() {
               id: 104,
               title: "Apple Watch 2",
               price: 1799,
-              image: "/p-8.png",
+              image: "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg",
               category: "Watch",
             });
             toast.success("Item added to cart!");

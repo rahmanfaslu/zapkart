@@ -1,379 +1,6 @@
 {
-  "wishlist": [
-    {
-      "id": "101",
-      "title": "Sony PlayStation 4",
-      "price": 19999,
-      "image": "/gaming.png",
-      "category": "Gaming",
-      "userId": "1",
-      "productId": 101
-    },
-    {
-      "id": "101",
-      "title": "Sony PlayStation 4",
-      "price": 19999,
-      "image": "/gaming.png",
-      "category": "Gaming",
-      "userId": "1",
-      "productId": 101
-    },
-    {
-      "id": "102",
-      "title": "I Phone 16 pro",
-      "price": 111099,
-      "image": "/p-6.png",
-      "category": "Phones",
-      "userId": "1",
-      "productId": 102
-    },
-    {
-      "id": "2",
-      "title": "Rocky Mountain",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-      "price": 5250,
-      "category": "Headphones",
-      "onSale": false,
-      "userId": "f59b",
-      "productId": "2"
-    },
-    {
-      "id": "2",
-      "title": "Rocky Mountain",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-      "price": 5250,
-      "category": "Headphones",
-      "onSale": false,
-      "userId": "3487",
-      "productId": "2"
-    }
-  ],
-  "cart": [
-    {
-      "id": "ec48f12f-45ad-4c70-b8c4-a064e325eb96",
-      "userId": "risal@gmail.com",
-      "productId": "3",
-      "title": "Boat Roakerz 1922",
-      "price": 9250,
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "quantity": 1
-    },
-    {
-      "id": "8a455858-4fd3-4b34-bdb9-c3adaaa3ef99",
-      "userId": "risal@gmail.com",
-      "productId": "4",
-      "title": "MacBook Pro M2",
-      "price": 102990,
-      "image": "/p-4.png",
-      "quantity": 1
-    },
-    {
-      "id": "1a3fd2e6-6c6a-427f-a4c1-1e9a1a186af7",
-      "userId": "adnan@gmail.com",
-      "productId": "3",
-      "title": "Boat Roakerz 1922",
-      "price": 9250,
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "quantity": 1
-    }
-  ],
-  "orders": [
-    {
-      "id": "1675",
-      "items": [
-        {
-          "id": "2",
-          "title": "Rocky Mountain",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "price": 5250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 1,
-          "userId": "f59b"
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "upi",
-      "total": 5250,
-      "date": "25/07/2025, 15:19:09",
-      "userId": "f59b",
-      "status": "Cancelled"
-    },
-    {
-      "id": "8f3c",
-      "items": [
-        {
-          "id": "3",
-          "title": "Boat Roakerz 1922",
-          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-          "price": 9250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 1,
-          "userId": "f59b"
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "card",
-      "total": 9250,
-      "date": "25/07/2025, 15:19:24",
-      "userId": "f59b",
-      "status": "Delivered"
-    },
-    {
-      "id": "051b",
-      "items": [
-        {
-          "id": "2",
-          "title": "Rocky Mountain",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "price": 5250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 3,
-          "userId": "3487"
-        },
-        {
-          "id": "1",
-          "title": "Soney WH4500",
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-          "price": 999,
-          "category": "Audio",
-          "onSale": false,
-          "userId": "3487",
-          "dbId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 6249,
-      "date": "25/07/2025, 15:49:36",
-      "userId": "3487",
-      "status": "Delivered"
-    },
-    {
-      "id": "a200",
-      "items": [
-        {
-          "id": "2",
-          "title": "Rocky Mountain",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "price": 5250,
-          "category": "Audio",
-          "onSale": false,
-          "userId": "f59b",
-          "dbId": "2",
-          "quantity": 1
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 5250,
-      "date": "25/07/2025, 22:39:50",
-      "userId": "f59b",
-      "status": "Delivered"
-    },
-    {
-      "id": "2a0a",
-      "items": [
-        {
-          "id": "4",
-          "title": "MacBook Pro M2",
-          "image": "/p-4.png",
-          "price": 102990,
-          "category": "Laptops",
-          "originalPrice": 111990,
-          "onSale": true,
-          "userId": "1",
-          "dbId": "4",
-          "quantity": 1
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 102990,
-      "date": "26/07/2025, 12:12:38",
-      "userId": "1"
-    },
-    {
-      "id": "675b",
-      "items": [
-        {
-          "id": 102,
-          "title": "I Phone 16 pro",
-          "price": 111099,
-          "image": "/p-6.png",
-          "category": "Phones",
-          "quantity": 1
-        },
-        {
-          "id": "3",
-          "title": "Boat Roakerz 1922",
-          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-          "price": 9250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 3
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 120349,
-      "date": "26/07/2025, 12:55:42",
-      "userId": "1"
-    },
-    {
-      "id": "2469",
-      "items": [
-        {
-          "id": "1",
-          "title": "Soney WH4500",
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-          "price": 999,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 3
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "upi",
-      "total": 999,
-      "date": "26/07/2025, 14:24:14",
-      "userId": "1",
-      "status": "Delivered"
-    },
-    {
-      "id": "7014",
-      "items": [
-        {
-          "id": "4",
-          "title": "MacBook Pro M2",
-          "image": "/p-4.png",
-          "price": 102990,
-          "category": "Laptops",
-          "originalPrice": 111990,
-          "onSale": true,
-          "quantity": 1
-        },
-        {
-          "id": "3",
-          "title": "Boat Roakerz 1922",
-          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-          "price": 9250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 1
-        },
-        {
-          "id": "2",
-          "title": "Rocky Mountain",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "price": 5250,
-          "category": "Audio",
-          "onSale": false,
-          "quantity": 3
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 117490,
-      "date": "26/07/2025, 15:39:00",
-      "userId": "1"
-    },
-    {
-      "id": "a9f7",
-      "items": [
-        {
-          "id": "2",
-          "title": "Rocky Mountain",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "price": 5250,
-          "category": "Headphones",
-          "onSale": false,
-          "quantity": 1
-        },
-        {
-          "id": "1",
-          "title": "Soney WH4500",
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-          "price": 999,
-          "category": "Headphones",
-          "onSale": false,
-          "quantity": 1
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "cod",
-      "total": 6249,
-      "date": "26/07/2025, 23:49:55",
-      "userId": "1"
-    },
-    {
-      "id": "67e3",
-      "items": [
-        {
-          "id": "21920f77-68aa-4671-b35d-bd2f7d26c45a",
-          "userId": "adnan@gmail.com",
-          "productId": "2",
-          "title": "Rocky Mountain",
-          "price": 5250,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-          "quantity": 2
-        },
-        {
-          "id": "9c31ec78-ef72-45f8-af68-20de53083575",
-          "userId": "adnan@gmail.com",
-          "productId": 101,
-          "title": "Sony PlayStation 4",
-          "price": 19999,
-          "image": "/gaming.png",
-          "quantity": 6
-        },
-        {
-          "id": "fecc2098-d954-43d3-9a66-9bfe53d39b7c",
-          "userId": "adnan@gmail.com",
-          "productId": "3",
-          "title": "Boat Roakerz 1922",
-          "price": 9250,
-          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-          "quantity": 2
-        },
-        {
-          "id": "3597c84f-8657-48f4-ad06-a7d5e885aba1",
-          "userId": "adnan@gmail.com",
-          "productId": "1",
-          "title": "Soney WH4500",
-          "price": 999,
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-          "quantity": 2
-        },
-        {
-          "id": "45ae7c22-6749-46f3-956e-b48b6d1a5cef",
-          "userId": "adnan@gmail.com",
-          "productId": 103,
-          "title": "MacBook Pro M2",
-          "price": 1999,
-          "image": "/p-4.png",
-          "quantity": 1
-        },
-        {
-          "id": "e0578cae-1743-49eb-9cfa-305d622bcdce",
-          "userId": "adnan@gmail.com",
-          "productId": "13",
-          "title": "Samsung galexy A15 5g",
-          "price": 20999,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpu81VFIJeYkyU9jVJjUA-xcox_6um_JCcNw&s",
-          "quantity": 1
-        }
-      ],
-      "address": "Faslu_ rahman, 9207119148, Edasseri House KALIYATAMUKKU, Malappuram, Kerala - 676311",
-      "paymentMethod": "upi",
-      "total": 58496,
-      "date": "30/07/2025, 11:23:17",
-      "userId": "f59b"
-    }
-  ],
+  "wishlist": [],
+  "cart": [],
   "Products": [
     {
       "id": "1",
@@ -402,7 +29,7 @@
     {
       "id": "4",
       "title": "MacBook Pro M2",
-      "image": "/p-4.png",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s",
       "price": 102990,
       "category": "Laptops",
       "originalPrice": 111990,
@@ -411,7 +38,7 @@
     {
       "id": "5",
       "title": "Boat Airpods 322",
-      "image": "/p-7.png",
+      "image": "https://cdns3.thecosmicbyte.com/wp-content/uploads/white-bg-2.jpg.webp",
       "price": 1499,
       "category": "Audio",
       "onSale": false
@@ -427,7 +54,7 @@
     {
       "id": "7",
       "title": "Apple Watch 3",
-      "image": "/p-8.png",
+      "image": "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg",
       "price": 18250,
       "category": "Watches",
       "onSale": false
@@ -435,7 +62,7 @@
     {
       "id": "8",
       "title": "iPhone 16 Pro",
-      "image": "/p-6.png",
+      "image": "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg",
       "price": 111950,
       "category": "Phones",
       "originalPrice": 131990,
@@ -570,7 +197,7 @@
     {
       "id": "23",
       "title": "Sony PlayStation 4",
-      "image": "/gaming.png",
+      "image": "https://www.esrb.org/wp-content/uploads/2024/09/ps4.webp",
       "price": 154000,
       "category": "Gaming",
       "originalPrice": 131990,
