@@ -156,54 +156,54 @@ export default function Home() {
       
       <section id="home" className="bg-white py-12 shadow-sm">
         <div className="container mx-auto px-4">
-          <div 
+          <div
             className="relative overflow-hidden rounded-2xl"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-           
-            <div 
+
+            <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {products.map((product) => (
                 <div key={product.id} className="w-full flex-shrink-0">
-                  <div className={`${product.bgColor} h-125 rounded-2xl p-6 relative overflow-hidden`}>
-                    <div className="relative z-10 flex items-center justify-between">
-                      <div className="flex-1">
-                        <h1 className={`text-6xl md:text-7xl ${product.titleColor} pl-19 pt-20 font-bold`}>
+                  <div className={`${product.bgColor} h-auto sm:h-125 rounded-2xl p-6 relative overflow-hidden`}>
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between">
+                      <div className="flex-1 text-center sm:text-left">
+                        <h1 className={`text-4xl sm:text-6xl md:text-7xl ${product.titleColor} pl-0 sm:pl-19 pt-8 sm:pt-20 font-bold`}>
                           {product.title}
                         </h1>
-                        <h1 className={`text-3xl md:text-5xl ${product.subtitleColor} -mb-6 pl-19`}>
+                        <h1 className={`text-xl sm:text-3xl md:text-5xl ${product.subtitleColor} -mb-2 sm:-mb-6 pl-0 sm:pl-19`}>
                           {product.subtitle}
                         </h1>
-                        <h1 className={`text-sm md:text-base ${product.titleColor} leading-relaxed pt-8 pl-20 max-w-2xl`}>
+                        <h1 className={`text-xs sm:text-sm md:text-base ${product.titleColor} leading-relaxed pt-4 sm:pt-8 pl-0 sm:pl-20 max-w-full sm:max-w-2xl px-4 sm:px-0`}>
                           {product.description}
                         </h1>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           onClick={() => handleShopNow(product.title)}
-                          className={`px-6 py-2 ${product.buttonColor} ml-20 mt-4 text-white rounded-lg transition duration-300 font-semibold`}
+                          className={`px-4 py-1 sm:px-6 sm:py-2 ${product.buttonColor} ml-0 sm:ml-20 mt-4 text-white rounded-lg transition duration-300 font-semibold`}
                         >
                           Shop Now
                         </button>
                       </div>
-                      
-                      <div className="flex-1 flex justify-center items-center">
-                        <img 
-                          src={`/${product.image}`} 
+
+                      <div className="flex-1 flex justify-center items-center mt-6 sm:mt-0">
+                        <img
+                          src={`/${product.image}`}
                           alt={product.title}
-                          className={`w-80 h-80 object-contain drop-shadow-2xl hover:scale-103 transition-transform duration-300 ${
-                            product.id === 1 ? 'w-100 h-80 absolute top-[40px]' :
-                            product.id === 2 ? 'absolute top-[40px]' :
-                            product.id === 3 ? 'mr-10 pt-10 w-90 h-80' :
-                            product.id === 4 ? 'absolute top-[40px] w-120 h-80' : ''
+                          className={`w-40 h-40 sm:w-80 sm:h-80 object-contain drop-shadow-2xl hover:scale-103 transition-transform duration-300 ${
+                            product.id === 1 ? 'w-60 h-40 sm:w-100 sm:h-80 absolute top-auto sm:top-[40px]  sm:static' :
+                            product.id === 2 ? 'absolute top-auto sm:top-[40px]  sm:static' :
+                            product.id === 3 ? 'mr-0 sm:mr-10 pt-0 sm:pt-10 w-50 h-40 sm:w-90 sm:h-80' :
+                            product.id === 4 ? 'absolute top-auto sm:top-[40px] w-60 h-40 sm:w-120 sm:h-80  sm:static' : ''
                           }`}
                         />
                       </div>
                     </div>
-                    
-                    <div className="absolute right-10 top-1/2 transform -translate-y-1/2 w-64 h-64 mr-30 opacity-20">
+
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-32 h-32 sm:w-64 sm:h-64 mr-0 sm:mr-30 opacity-20">
                       <div className="w-full h-full rounded-full border-current"></div>
                     </div>
                   </div>
@@ -211,25 +211,25 @@ export default function Home() {
               ))}
             </div>
 
-         
+
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-20"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1 sm:p-2 rounded-full shadow-lg transition-all duration-200 z-20"
             >
-              <ChevronLeft size={24} className="text-gray-700" />
-            </button>
-            
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-20"
-            >
-              <ChevronRight size={24} className="text-gray-700" />
+              <ChevronLeft size={20} className="text-gray-700 sm:size={24}" />
             </button>
 
-          
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-1 sm:p-2 rounded-full shadow-lg transition-all duration-200 z-20"
+            >
+              <ChevronRight size={20} className="text-gray-700 sm:size={24}" />
+            </button>
+
+
             <div className="absolute top-4 right-4 z-20">
-              <div 
-                className={`w-3 h-3 rounded-full ${isAutoSliding ? 'bg-green-500' : 'bg-red-500'} opacity-70`} 
+              <div
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${isAutoSliding ? 'bg-green-500' : 'bg-red-500'} opacity-70`}
                 title={isAutoSliding ? 'Auto-slide active' : 'Auto-slide paused'}
               ></div>
             </div>
@@ -240,9 +240,9 @@ export default function Home() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  currentSlide === index 
-                    ? 'bg-blue-500 scale-125' 
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${
+                  currentSlide === index
+                    ? 'bg-blue-500 scale-125'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
@@ -590,117 +590,132 @@ export default function Home() {
 
       {/* Modal */}
       <Transition.Root show={isModalOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={() => setIsModalOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
-          </Transition.Child>
+  <Dialog as="div" className="relative z-50" onClose={() => setIsModalOpen(false)}>
+    <Transition.Child
+      as={Fragment}
+      enter="ease-out duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="ease-in duration-200"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
+    </Transition.Child>
 
-          <div className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  {selectedProduct && (
-                    <div className="flex flex-col md:flex-row gap-4">
-                      <img
-                        src={selectedProduct.image}
-                        alt={selectedProduct.title}
-                        className="w-full md:w-1/2 object-contain"
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex min-h-full items-center justify-center p-2 sm:p-4 text-center">
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <Dialog.Panel className="w-full max-w-sm sm:max-w-md md:max-w-2xl transform overflow-hidden rounded-2xl bg-white p-4 sm:p-6 text-left align-middle shadow-xl transition-all">
+            {selectedProduct && (
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                
+                {/* Mobile: Smaller image */}
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.title}
+                  className="w-full h-48 sm:h-56 md:w-1/2 md:h-auto object-contain rounded-lg"
+                />
+
+                <div className="flex-1 space-y-2 md:space-y-3">
+                  {/* Compact title */}
+                  <Dialog.Title as="h2" className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
+                    {selectedProduct.title}
+                  </Dialog.Title>
+
+                  {/* Smaller random text */}
+                  <p className="text-xs sm:text-sm text-gray-500 italic line-clamp-2">
+                    {randomText}
+                  </p>
+
+                  {/* Compact description */}
+                  <p className="text-gray-600 text-xs sm:text-sm line-clamp-3 md:line-clamp-none">
+                    {selectedProduct.description}
+                  </p>
+                  
+                  {/* Price and category in one row on mobile */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                    <p className="text-gray-900 font-bold text-lg sm:text-xl">
+                      ₹{selectedProduct.price}
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-600">
+                      {selectedProduct.category}
+                    </p>
+                  </div>
+
+                  {/* Compact wishlist and quantity row */}
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      className={`text-lg sm:text-xl ${
+                        wishlist.find((w) => w.id === selectedProduct.id)
+                          ? "text-red-600"
+                          : "text-gray-400 hover:text-red-600"
+                      } transition-colors`}
+                      onClick={() => {
+                        const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
+                        addToWishlist(selectedProduct);
+                        toast.success(
+                          isInWishlist
+                            ? "Removed from Wishlist"
+                            : "Added to Wishlist"
+                        );
+                      }}
+                    >
+                      <FaHeart />
+                    </button>
+
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium">Qty:</label>
+                      <input 
+                        type="number"
+                        min="1"
+                        value={modalQuantity}
+                        onChange={(e) =>
+                          setModalQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                        }
+                        className="w-12 sm:w-16 p-1 border rounded text-sm text-center"
                       />
-
-                      <div className="flex-1 space-y-3 mt-2">
-                        <Dialog.Title as="h2" className="text-3xl font-bold text-gray-800">
-                          {selectedProduct.title}
-                        </Dialog.Title>
-
-                        <p className="text-sm text-gray-500 italic">
-                          {randomText}
-                        </p>
-
-                        <p className="text-gray-600 text-sm">{selectedProduct.description}</p>
-                        <p className="text-black-700 font-bold text-lg">
-                          ₹{selectedProduct.price}
-                        </p>
-                        <p className="text-sm text-gray-700">
-                          Category: {selectedProduct.category}
-                        </p>
-
-                        <button
-                          className={`text-xl ${
-                            wishlist.find((w) => w.id === selectedProduct.id)
-                              ? "text-red-600"
-                              : "text-gray-400 hover:text-red-600"
-                          }`}
-                          onClick={() => {
-                            const isInWishlist = wishlist.find((w) => w.id === selectedProduct.id);
-                            addToWishlist(selectedProduct);
-                            toast.success(
-                              isInWishlist
-                                ? "Removed from Wishlist"
-                                : "Added to Wishlist"
-                            );
-                          }}
-                        >
-                          <FaHeart />
-                        </button>
-
-                        <div className="flex items-center gap-2">
-                          <label>Quantity:</label>
-                          <input 
-                            type="number"
-                            min="1"
-                            value={modalQuantity}
-                            onChange={(e) =>
-                              setModalQuantity(Math.max(1, parseInt(e.target.value) || 1))
-                            }
-                            className="w-16 p-1 border rounded"
-                          />
-                        </div>
-
-                        <div className="mt-4 flex gap-3">
-                          <button
-                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                            onClick={() => {
-                              addToCart(selectedProduct, modalQuantity); 
-                              toast.success("Added to cart!");
-                              setIsModalOpen(false);
-                              setModalQuantity(1); 
-                            }}
-                          >
-                            Add to Cart
-                          </button>
-
-                          <button
-                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-                            onClick={() => setIsModalOpen(false)}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
                     </div>
-                  )}
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition.Root>
+                  </div>
+
+                  {/* Compact button row */}
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      className="flex-1 bg-green-600 text-white py-2 px-3 rounded-lg hover:bg-green-700 transition-colors text-sm sm:text-base font-medium"
+                      onClick={() => {
+                        addToCart(selectedProduct, modalQuantity); 
+                        toast.success("Added to cart!");
+                        setIsModalOpen(false);
+                        setModalQuantity(1); 
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+
+                    <button
+                      className="px-3 bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-400 transition-colors text-sm sm:text-base"
+                      onClick={() => setIsModalOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Dialog.Panel>
+        </Transition.Child>
+      </div>
+    </div>
+  </Dialog>
+</Transition.Root>
     </div>
   );
 }

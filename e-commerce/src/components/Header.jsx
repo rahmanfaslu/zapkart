@@ -67,7 +67,7 @@ export default function Header() {
             <Link to="/products" className={navLinkClass}>Products</Link>
             <Link to="/order" className={navLinkClass}>Orders</Link>
 
-            <Link to="/whishlist" className="relative text-2xl text-gray-700 hover:text-blue-500">
+            <Link to="/wishlist" className="relative text-2xl text-gray-700 hover:text-blue-500">
               <FaHeart />
               {wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
@@ -124,7 +124,7 @@ export default function Header() {
 
           {/* Icons */}
           <div className="flex items-center space-x-4 lg:hidden">
-            <Link to="/whishlist" className="relative text-xl text-gray-700 hover:text-blue-500">
+            <Link to="/wishlist" className="relative text-xl text-gray-700 hover:text-blue-500">
               <FaHeart />
               {wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">

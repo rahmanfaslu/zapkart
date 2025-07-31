@@ -1,20 +1,20 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
-import React from 'react';
-import Header from './components/Header';
-import Whishlist from './pages/whishlist ';
+import Wishlist from './pages/Wishlist'; 
 import ProductPage from './pages/ProductPage';
 import OrderPage from './pages/OrderPage';
 import { useAuth } from './context/AuthContext';
 import Checkout from './pages/Checkout';
-import Footer from "./components/Footer";
-import { Toaster } from "react-hot-toast";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Toaster } from 'react-hot-toast';
 import AdminRoutes from './admin/routes/AdminRoutes';
 import PolicyPage from './pages/PolicyPage';
-import Profile from "./pages/Profile";
+import Profile from './pages/Profile';
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -43,12 +43,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<ProductPage />} />
-
           <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-          <Route path="/whishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} />
+          <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} /> {/* ✅ Fixed usage */}
           <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
           <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
-
           <Route path="/admin/*" element={<AdminRoutes />} />
           <Route path="/policies" element={<PolicyPage />} />
           <Route path="/profile" element={<Profile />} />
