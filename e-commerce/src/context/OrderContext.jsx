@@ -1,46 +1,41 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import toast from "react-hot-toast";
 
 const OrderContext = createContext();
+export const useOrder = () => useContext(OrderContext);
 
-export function OrderProvider({ children }) {
-  const { user } = useAuth();
+export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      if (!user?.id) return;
-      try {
-        const res = await axios.get(`http://localhost:3001/orders?userId=${user.id}`);
-        setOrders(res.data);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
-      }
-    };
-
-    fetchOrders();
-  }, [user]);
-
-  const placeOrder = async (newOrder) => {
+  const fetchUserOrders = async () => {
     try {
-      const orderToSave = {
-        ...newOrder,
-        userId: user.id,
-        date: new Date().toLocaleString(),
-      };
-      const res = await axios.post("http://localhost:3001/orders", orderToSave);
-      setOrders((prev) => [...prev, res.data]);
+      if (!user?.email) return;
+      const response = await axios.get(
+        `http://localhost:3001/orders?userId=${user.email}`
+      );
+      setOrders(response.data);
     } catch (error) {
-      console.error("Failed to place order:", error);
+      console.error("Error fetching orders:", error);
     }
   };
 
+  const placeOrder = async (order) => {
+  try {
+    const res = await axios.post("http://localhost:3001/orders", order);
+    return res.data;
+  } catch (error) {
+    console.error("Error placing order:", error);
+    throw error;
+  }
+};
+
+
   return (
-    <OrderContext.Provider value={{ orders, placeOrder }}>
+    <OrderContext.Provider value={{ orders, placeOrder, fetchUserOrders }}>
       {children}
     </OrderContext.Provider>
   );
-}
-
-export const useOrder = () => useContext(OrderContext);
+};

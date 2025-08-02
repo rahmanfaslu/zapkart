@@ -1,3 +1,4 @@
+// WishlistContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
@@ -22,11 +23,10 @@ export const WishlistProvider = ({ children }) => {
 
       try {
         const res = await axios.get(`http://localhost:3001/wishlist?userId=${user.id}`);
-        
         const mappedWishlist = res.data.map((item) => ({
           ...item,
-          dbId: item.id, 
-          id: item.productId || item.id, 
+          dbId: item.id,
+          id: item.productId || item.id,
         }));
 
         setWishlist(mappedWishlist);
@@ -57,11 +57,15 @@ export const WishlistProvider = ({ children }) => {
 
     try {
       if (existing) {
-        await axios.delete(`http://localhost:3001/wishlist/${existing.dbId}`);
+        // Remove if already exists
+        if (existing.dbId) {
+          await axios.delete(`http://localhost:3001/wishlist/${existing.dbId}`);
+        }
         const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
         setWishlist(updatedWishlist);
         syncWithLocalStorage(updatedWishlist);
       } else {
+        // Add to wishlist
         const newItem = {
           ...product,
           userId: user.id,
@@ -69,28 +73,33 @@ export const WishlistProvider = ({ children }) => {
         };
 
         const res = await axios.post("http://localhost:3001/wishlist", newItem);
-        const updatedWishlist = [
-          ...wishlist,
-          {
-            ...product,
-            dbId: res.data.id,
-            id: product.id,
-          }
-        ];
+        const newItemWithDbId = {
+          ...product,
+          dbId: res.data.id,
+          id: product.id,
+        };
+
+        const updatedWishlist = [...wishlist, newItemWithDbId];
         setWishlist(updatedWishlist);
         syncWithLocalStorage(updatedWishlist);
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
       setError("Failed to update wishlist");
-      
+
+      // Fallback: localStorage
       const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
+
       if (existing) {
         const updated = localWishlist.filter(item => item.id !== product.id);
         localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
         setWishlist(updated);
       } else {
-        const newItem = { ...product, userId: user.id, id: product.id };
+        const newItem = {
+          ...product,
+          userId: user.id,
+          id: product.id,
+        };
         const updated = [...localWishlist, newItem];
         localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
         setWishlist(updated);
@@ -104,9 +113,6 @@ export const WishlistProvider = ({ children }) => {
     try {
       if (product.dbId) {
         await axios.delete(`http://localhost:3001/wishlist/${product.dbId}`);
-      } 
-      else {
-        await axios.delete(`http://localhost:3001/wishlist/${product.id}`);
       }
 
       const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
@@ -115,7 +121,7 @@ export const WishlistProvider = ({ children }) => {
     } catch (error) {
       console.error("Error removing from wishlist:", error);
       setError("Failed to remove item");
-      
+
       const localWishlist = JSON.parse(localStorage.getItem(`wishlist_${user.id}`) || '[]');
       const updated = localWishlist.filter(item => item.id !== product.id);
       localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(updated));
@@ -131,12 +137,11 @@ export const WishlistProvider = ({ children }) => {
   };
 
   return (
-    <WishlistContext.Provider 
-      value={{ 
-        wishlist, 
-        addToWishlist, 
-        removeFromWishlist, 
-        // clearWishlist,
+    <WishlistContext.Provider
+      value={{
+        wishlist,
+        addToWishlist,
+        removeFromWishlist,
         loading,
         error
       }}
@@ -153,5 +158,3 @@ export const useWishlist = () => {
   }
   return context;
 };
-
-//changed

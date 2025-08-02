@@ -14,20 +14,29 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`http://localhost:3001/cart?userId=${userId}`)
-        .then((res) => setCartItems(res.data))
-        .catch((err) => console.error("Error loading cart:", err));
+      fetchCartItems();
     } else {
       setCartItems([]);
     }
   }, [userId]);
 
+  const fetchCartItems = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3001/cart?userId=${userId}`);
+      setCartItems(res.data);
+    } catch (err) {
+      console.error("Error loading cart:", err);
+    }
+  };
+
   const addToCart = async (product, quantity = 1) => {
     const existing = cartItems.find((item) => item.productId === product.id);
 
     if (existing) {
-      const updated = { ...existing, quantity: existing.quantity + quantity };
+      const updated = { 
+        ...existing, 
+        quantity: existing.quantity + quantity 
+      };
       await axios.put(`http://localhost:3001/cart/${existing.id}`, updated);
       setCartItems((prev) =>
         prev.map((item) => (item.id === existing.id ? updated : item))
@@ -75,10 +84,17 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = async () => {
-    for (const item of cartItems) {
-      await axios.delete(`http://localhost:3001/cart/${item.id}`);
+    try {
+      await Promise.all(
+        cartItems.map(item => 
+          axios.delete(`http://localhost:3001/cart/${item.id}`)
+        )
+      );
+      setCartItems([]);
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+      throw error;
     }
-    setCartItems([]);
   };
 
   return (
@@ -87,7 +103,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
-        // clearCart,
+        clearCart,
         incrementQuantity,
         decrementQuantity,
       }}
