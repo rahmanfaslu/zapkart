@@ -276,26 +276,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Additional Stats Row */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Average Order Value</h4>
-          <p className="text-2xl font-bold text-gray-800 mt-2">₹{metrics.avgOrderValue.toFixed(2)}</p>
-          <p className="text-sm text-green-600 mt-1">↗️ +12% from last week</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Conversion Rate</h4>
-          <p className="text-2xl font-bold text-gray-800 mt-2">{metrics.conversionRate}%</p>
-          <p className="text-sm text-green-600 mt-1">↗️ +0.5% from last week</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-purple-500">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Customer Satisfaction</h4>
-          <p className="text-2xl font-bold text-gray-800 mt-2">{metrics.satisfaction}/5</p>
-          <p className="text-sm text-green-600 mt-1">↗️ +0.2 from last month</p>
-        </div>
-      </div>
+      
     </div>
   );
 }

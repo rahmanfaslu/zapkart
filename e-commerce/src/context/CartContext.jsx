@@ -84,18 +84,28 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = async () => {
-    try {
-      await Promise.all(
-        cartItems.map(item => 
-          axios.delete(`http://localhost:3001/cart/${item.id}`)
-        )
-      );
-      setCartItems([]);
-    } catch (error) {
-      console.error("Error clearing cart:", error);
-      throw error;
-    }
-  };
+  try {
+    if (!userId) return;
+
+    // Fetch cart items for the logged-in user directly from the DB
+    const res = await axios.get(`http://localhost:3001/cart?userId=${userId}`);
+    const userCartItems = res.data;
+
+    // Delete each item one by one from server
+    await Promise.all(
+      userCartItems.map((item) =>
+        axios.delete(`http://localhost:3001/cart/${item.id}`)
+      )
+    );
+
+    // Clear local state
+    setCartItems([]);
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    throw error;
+  }
+};
+
 
   return (
     <CartContext.Provider

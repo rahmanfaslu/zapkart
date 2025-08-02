@@ -163,7 +163,7 @@
     {
       "id": "18",
       "title": "Beat Solo 2",
-      "image": "http://localhost:5173/beat%20solo.png",
+      "image": "https://m.media-amazon.com/images/I/71RNbjAJwLL._SX679_.jpg",
       "price": 19000,
       "category": "Headphones",
       "originalPrice": 131990,
@@ -266,35 +266,28 @@
   ],
   "orders": [
     {
-      "id": "d848",
+      "id": "725e",
       "userId": "adnan@gmail.com",
       "items": [
         {
           "productId": "3",
           "title": "Boat Roakerz 1922",
           "price": 9250,
-          "quantity": 4,
+          "quantity": 1,
           "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547"
         },
         {
           "productId": "2",
           "title": "Rocky Mountain",
           "price": 5250,
-          "quantity": 2,
+          "quantity": 1,
           "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s"
         },
         {
-          "productId": "1",
-          "title": "Soney WH4500",
-          "price": 999,
-          "quantity": 1,
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png"
-        },
-        {
-          "productId": 103,
+          "productId": "4",
           "title": "MacBook Pro M2",
-          "price": 1999,
-          "quantity": 2,
+          "price": 102990,
+          "quantity": 1,
           "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s"
         }
       ],
@@ -307,123 +300,27 @@
         "pincode": "676311"
       },
       "paymentMethod": "cod",
-      "total": 52497,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:06:49.864Z"
+      "total": 117490,
+      "status": "Shipped",
+      "createdAt": "2025-08-02T08:44:26.403Z"
     },
     {
-      "id": "6c09",
+      "id": "a070",
       "userId": "adnan@gmail.com",
       "items": [
         {
-          "productId": "1",
-          "title": "Soney WH4500",
-          "price": 999,
-          "quantity": 4,
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png"
+          "productId": "2",
+          "title": "Rocky Mountain",
+          "price": 5250,
+          "quantity": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s"
         },
         {
-          "productId": "6",
-          "title": "Beat Solo 4",
-          "price": 13550,
-          "quantity": 2,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcmFdqfPQMxNNBYzJMP1lwXcYKzfm4nhU5WA&s"
-        }
-      ],
-      "shippingAddress": {
-        "name": "adnan",
-        "phone": "12345678908",
-        "address": "Edasseri House KALIYATAMUKKU",
-        "city": "Malappuram",
-        "state": "Kerala",
-        "pincode": "676311"
-      },
-      "paymentMethod": "card",
-      "total": 31096,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:36:25.301Z"
-    },
-    {
-      "id": "e9ef",
-      "userId": "adnan@gmail.com",
-      "items": [
-        {
-          "productId": "1",
-          "title": "Soney WH4500",
-          "price": 999,
-          "quantity": 4,
-          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png"
-        },
-        {
-          "productId": "6",
-          "title": "Beat Solo 4",
-          "price": 13550,
-          "quantity": 2,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcmFdqfPQMxNNBYzJMP1lwXcYKzfm4nhU5WA&s"
-        }
-      ],
-      "shippingAddress": {
-        "name": "adnan",
-        "phone": "12345678908",
-        "address": "Edasseri House KALIYATAMUKKU",
-        "city": "Malappuram",
-        "state": "Kerala",
-        "pincode": "676311"
-      },
-      "paymentMethod": "card",
-      "total": 31096,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:36:28.647Z"
-    },
-    {
-      "id": "b8a6",
-      "userId": "adnan@gmail.com",
-      "items": [
-        {
-          "productId": "7",
-          "title": "Apple Watch 3",
-          "price": 18250,
+          "productId": "3",
+          "title": "Boat Roakerz 1922",
+          "price": 9250,
           "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg"
-        },
-        {
-          "productId": "8",
-          "title": "iPhone 16 Pro",
-          "price": 111950,
-          "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg"
-        }
-      ],
-      "shippingAddress": {
-        "name": "adnan",
-        "phone": "12345678908",
-        "address": "Edasseri House KALIYATAMUKKU",
-        "city": "Malappuram",
-        "state": "Kerala",
-        "pincode": "676311"
-      },
-      "paymentMethod": "upi",
-      "total": 130200,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:38:52.093Z"
-    },
-    {
-      "id": "ea6d",
-      "userId": "adnan@gmail.com",
-      "items": [
-        {
-          "productId": "7",
-          "title": "Apple Watch 3",
-          "price": 18250,
-          "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg"
-        },
-        {
-          "productId": "8",
-          "title": "iPhone 16 Pro",
-          "price": 111950,
-          "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg"
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547"
         }
       ],
       "shippingAddress": {
@@ -435,41 +332,9 @@
         "pincode": "676311"
       },
       "paymentMethod": "cod",
-      "total": 130200,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:39:07.682Z"
-    },
-    {
-      "id": "eacd",
-      "userId": "adnan@gmail.com",
-      "items": [
-        {
-          "productId": "7",
-          "title": "Apple Watch 3",
-          "price": 18250,
-          "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg"
-        },
-        {
-          "productId": "8",
-          "title": "iPhone 16 Pro",
-          "price": 111950,
-          "quantity": 1,
-          "image": "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg"
-        }
-      ],
-      "shippingAddress": {
-        "name": "adnan",
-        "phone": "12345678908",
-        "address": "Edasseri House KALIYATAMUKKU",
-        "city": "Malappuram",
-        "state": "Kerala",
-        "pincode": "676311"
-      },
-      "paymentMethod": "cod",
-      "total": 130200,
-      "status": "processing",
-      "createdAt": "2025-08-02T07:39:57.694Z"
+      "total": 14500,
+      "status": "Delivered",
+      "createdAt": "2025-08-02T08:49:15.023Z"
     }
   ]
 }
