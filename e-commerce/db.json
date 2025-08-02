@@ -11,7 +11,17 @@
       "productId": "2"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "33ed4c22-f3e2-4082-9e76-a91f96788aa5",
+      "userId": "test@example.com",
+      "productId": "4",
+      "title": "MacBook Pro M2",
+      "price": 102990,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s",
+      "quantity": 1
+    }
+  ],
   "Products": [
     {
       "id": "1",
@@ -301,7 +311,7 @@
       },
       "paymentMethod": "cod",
       "total": 117490,
-      "status": "Shipped",
+      "status": "Cancelled",
       "createdAt": "2025-08-02T08:44:26.403Z"
     },
     {
@@ -335,6 +345,38 @@
       "total": 14500,
       "status": "Delivered",
       "createdAt": "2025-08-02T08:49:15.023Z"
+    },
+    {
+      "id": "6b5d",
+      "userId": "risal@gmail.com",
+      "items": [
+        {
+          "productId": "3",
+          "title": "Boat Roakerz 1922",
+          "price": 9250,
+          "quantity": 1,
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547"
+        },
+        {
+          "productId": "8",
+          "title": "iPhone 16 Pro",
+          "price": 111950,
+          "quantity": 2,
+          "image": "https://m.media-amazon.com/images/I/61JvFLHZ6NL._UF1000,1000_QL80_.jpg"
+        }
+      ],
+      "shippingAddress": {
+        "name": "risal",
+        "phone": "12345678908",
+        "address": "Edasseri House KALIYATAMUKKU",
+        "city": "Malappuram",
+        "state": "Kerala",
+        "pincode": "676311"
+      },
+      "paymentMethod": "card",
+      "total": 233150,
+      "status": "Shipped",
+      "createdAt": "2025-08-02T09:14:00.669Z"
     }
   ]
 }

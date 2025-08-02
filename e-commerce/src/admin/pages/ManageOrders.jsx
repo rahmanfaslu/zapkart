@@ -15,10 +15,21 @@ export default function ManageOrders() {
   const [newStatus, setNewStatus] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(8);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchOrders();
-    fetchUsers();
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        await Promise.all([fetchOrders(), fetchUsers()]);
+      } catch (error) {
+        console.error("Error loading data:", error);
+        toast.error("Failed to load data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -28,18 +39,33 @@ export default function ManageOrders() {
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3001/orders");
-      setOrders(res.data);
+      if (!res.data || !Array.isArray(res.data)) {
+        throw new Error("Invalid orders data");
+      }
+      setOrders(res.data.map(order => ({
+        ...order,
+        date: order.date || new Date().toISOString(),
+        total: order.total || 0,
+        status: order.status || "Placed"
+      })));
     } catch (error) {
+      console.error("Error fetching orders:", error);
       toast.error("Failed to fetch orders");
+      setOrders([]);
     }
   };
 
   const fetchUsers = async () => {
     try {
       const res = await axios.get("http://localhost:3001/users");
+      if (!res.data || !Array.isArray(res.data)) {
+        throw new Error("Invalid users data");
+      }
       setUsers(res.data);
     } catch (error) {
+      console.error("Error fetching users:", error);
       toast.error("Failed to fetch users");
+      setUsers([]);
     }
   };
 
@@ -51,30 +77,37 @@ export default function ManageOrders() {
       toast.success("Order deleted");
       fetchOrders();
     } catch (error) {
+      console.error("Error deleting order:", error);
       toast.error("Failed to delete order");
     }
   };
 
   const filterAndSortOrders = () => {
     let filtered = [...orders];
+    
+    // Filter by status
     if (statusFilter !== "All") {
       filtered = filtered.filter((o) => o.status === statusFilter);
     }
+    
+    // Sort orders
     if (sortOption === "Date") {
       filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     } else if (sortOption === "Total") {
-      filtered.sort((a, b) => b.total - a.total);
+      filtered.sort((a, b) => (b.total || 0) - (a.total || 0));
     }
+    
     setFilteredOrders(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   const getCountByStatus = (status) =>
     orders.filter((o) => o.status === status).length;
 
   const getUserEmail = (userId) => {
+    if (!userId) return "Guest";
     const user = users.find((u) => u.id === userId);
-    return user?.email || "Guest";
+    return user?.email || `User ${userId}`;
   };
 
   const openStatusModal = (order) => {
@@ -84,6 +117,8 @@ export default function ManageOrders() {
   };
 
   const updateOrderStatus = async () => {
+    if (!selectedOrder) return;
+    
     try {
       await axios.patch(`http://localhost:3001/orders/${selectedOrder.id}`, {
         status: newStatus,
@@ -92,6 +127,7 @@ export default function ManageOrders() {
       setIsModalOpen(false);
       fetchOrders();
     } catch (err) {
+      console.error("Error updating order status:", err);
       toast.error("Failed to update order status");
     }
   };
@@ -101,10 +137,20 @@ export default function ManageOrders() {
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredOrders.length / ordersPerPage)));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
+
+  if (isLoading) {
+    return (
+      <section className="p-8 bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-lg text-gray-600">Loading orders...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="p-8 bg-gray-50 min-h-screen">
@@ -171,7 +217,9 @@ export default function ManageOrders() {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           {filteredOrders.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-xl text-gray-500">No orders found with current filters.</p>
+              <p className="text-xl text-gray-500">
+                {orders.length === 0 ? "No orders found." : "No orders match the current filters."}
+              </p>
             </div>
           ) : (
             <>
@@ -206,8 +254,10 @@ export default function ManageOrders() {
                           {order.status || "Placed"}
                         </span>
                       </td>
-                      <td className="px-8 py-6 text-gray-600">{new Date(order.date).toLocaleDateString()}</td>
-                      <td className="px-8 py-6 font-semibold">₹{order.total.toFixed(2)}</td>
+                      <td className="px-8 py-6 text-gray-600">
+                        {order.date ? new Date(order.date).toLocaleDateString() : "N/A"}
+                      </td>
+                      <td className="px-8 py-6 font-semibold">₹{(order.total || 0).toFixed(2)}</td>
                       <td className="px-8 py-6">
                         <div className="flex gap-3">
                           <button

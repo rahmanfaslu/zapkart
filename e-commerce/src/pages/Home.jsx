@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition } from '@headlessui/react';
 import axios from "axios";
 import toast from 'react-hot-toast';
 
