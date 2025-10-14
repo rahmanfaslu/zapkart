@@ -1,36 +1,6 @@
 {
-  "wishlist": [
-    {
-      "id": "2",
-      "title": "Rocky Mountain",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
-      "price": 5250,
-      "category": "Headphones",
-      "onSale": false,
-      "userId": "3487",
-      "productId": "2"
-    },
-    {
-      "id": "3",
-      "title": "Boat Roakerz 1922",
-      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
-      "price": 9250,
-      "category": "Headphones",
-      "onSale": false,
-      "userId": "3487",
-      "productId": "3"
-    }
-  ],
-  "cart": [
-    {
-      "id": "7311d734-903e-49de-b60e-b88360077bf7",
-      "productId": "1",
-      "title": "Soney WH45",
-      "price": 999,
-      "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png",
-      "quantity": 1
-    }
-  ],
+  "wishlist": [],
+  "cart": [],
   "Products": [
     {
       "title": "Soney WH45",
@@ -465,6 +435,59 @@
       "total": 9099,
       "status": "Cancelled",
       "createdAt": "2025-08-04T04:57:00.345Z"
+    },
+    {
+      "id": "5061",
+      "userId": "risal@gmail.com",
+      "items": [
+        {
+          "productId": "1",
+          "title": "Soney WH45",
+          "price": 999,
+          "quantity": 2,
+          "image": "https://media.tatacroma.com/Croma%20Assets/Entertainment/Headphones%20and%20Earphones/Images/262565_0_gsz0tr.png"
+        },
+        {
+          "productId": "7",
+          "title": "Apple Watch 3",
+          "price": 18250,
+          "quantity": 1,
+          "image": "https://m.media-amazon.com/images/I/71EoGntO5bL._UF1000,1000_QL80_.jpg"
+        },
+        {
+          "productId": "2",
+          "title": "Rocky Mountain",
+          "price": 5250,
+          "quantity": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s"
+        },
+        {
+          "productId": "3",
+          "title": "Boat Roakerz 1922",
+          "price": 9250,
+          "quantity": 1,
+          "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547"
+        },
+        {
+          "productId": "4",
+          "title": "MacBook Pro M2",
+          "price": 102990,
+          "quantity": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT7GotssV3m9aKSyMi7MIljpPiDXeb8ZJ00Q&s"
+        }
+      ],
+      "shippingAddress": {
+        "name": "risal",
+        "phone": "09207119149",
+        "address": "Edasseri House KALIYATAMUKKU",
+        "city": "Malappuram",
+        "state": "Kerala",
+        "pincode": "676311"
+      },
+      "paymentMethod": "cod",
+      "total": 137738,
+      "status": "processing",
+      "createdAt": "2025-10-14T10:50:31.643Z"
     }
   ]
 }

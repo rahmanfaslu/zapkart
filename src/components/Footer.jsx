@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300 pt-10 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-gray-700">
         <div>
-          <img src="/z.png" alt="Shingify.in Logo" className="w-12 h-12 mb-2" />
+          <img src="/shingify.png" alt="Shingify.in Logo" className="w-12 h-12 mb-2" />
           <h2 className="text-2xl font-bold text-white mb-3">Shingify.in</h2>
           <p className="text-sm text-gray-400">
             Your one-stop shop for the latest electronic gadgets.
