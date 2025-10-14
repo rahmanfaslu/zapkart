@@ -16,6 +16,7 @@ import PolicyPage from './pages/PolicyPage';
 import Profile from './pages/Profile';
 import Wishlist from './pages/wishlist';
 
+
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
