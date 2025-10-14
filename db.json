@@ -1,5 +1,26 @@
 {
-  "wishlist": [],
+  "wishlist": [
+    {
+      "id": "2",
+      "title": "Rocky Mountain",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmjR471k6ftYjoJxWIDhTjWNMc1jIJ1rxfCA&s",
+      "price": 5250,
+      "category": "Headphones",
+      "onSale": false,
+      "userId": "3487",
+      "productId": "2"
+    },
+    {
+      "id": "3",
+      "title": "Boat Roakerz 1922",
+      "image": "https://www.boat-lifestyle.com/cdn/shop/files/Artboard_1_2519fa28-1e18-46a1-b8af-5701d49789bb.png?v=1728873547",
+      "price": 9250,
+      "category": "Headphones",
+      "onSale": false,
+      "userId": "3487",
+      "productId": "3"
+    }
+  ],
   "cart": [
     {
       "id": "7311d734-903e-49de-b60e-b88360077bf7",

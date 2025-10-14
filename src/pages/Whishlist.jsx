@@ -6,7 +6,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import toast, { Toaster } from "react-hot-toast";
 import Footer from "../components/Footer"; // Add your actual footer import
 
-function Wishlist() {
+function Whishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart(); 
   const navigate = useNavigate();
@@ -75,4 +75,4 @@ function Wishlist() {
   );
 }
 
-export default Wishlist;
+export default Whishlist;

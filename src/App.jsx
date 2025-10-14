@@ -14,7 +14,8 @@ import { Toaster } from 'react-hot-toast';
 import AdminRoutes from './admin/routes/AdminRoutes';
 import PolicyPage from './pages/PolicyPage';
 import Profile from './pages/Profile';
-import Wishlist from './pages/wishlist';
+import Whishlist from './pages/Whishlist';
+
 
 
 
@@ -46,7 +47,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-          <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} /> 
+          <Route path="/wishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} /> 
           <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
           <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
           <Route path="/admin/*" element={<AdminRoutes />} />
