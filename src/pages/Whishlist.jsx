@@ -1,20 +1,22 @@
-import { useWishlist } from "../context/WishlistContext"; 
+import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import toast, { Toaster } from "react-hot-toast";
-import Footer from "../components/Footer"; // Add your actual footer import
 
 function Whishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const { addToCart } = useCart(); 
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const handleAddToCart = (item) => {
-    addToCart(item);
-    removeFromWishlist(item); 
-    toast.success("Item added to cart!");
+  const handleAddToCart = async (item) => {
+    try {
+      await addToCart(item.product._id);
+      await removeFromWishlist(item.product._id);
+    } catch (err) {
+      toast.error("Failed to add to cart");
+    }
   };
 
   return (
@@ -39,20 +41,20 @@ function Whishlist() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] max-w-7xl mx-auto">
             {wishlist.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="bg-gray-100 p-4 rounded-xl shadow-md text-center"
               >
                 <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-24 mx-auto mb-3"
+                  src={item.product?.images?.[0] || "/placeholder.png"}
+                  alt={item.product?.title || "Product"}
+                  className="w-24 mx-auto mb-3 object-contain"
                 />
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-gray-600">₹{item.price}</p>
+                <h3 className="text-lg font-semibold">{item.product?.title}</h3>
+                <p className="text-gray-600">₹{item.product?.price}</p>
 
                 <div className="flex justify-center gap-2 mt-3">
                   <button
-                    onClick={() => removeFromWishlist(item)}
+                    onClick={() => removeFromWishlist(item.product._id)}
                     className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm"
                   >
                     <FaTrash className="inline mr-1" />
@@ -69,8 +71,6 @@ function Whishlist() {
           </div>
         )}
       </main>
-
-      
     </div>
   );
 }

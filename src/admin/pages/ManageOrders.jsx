@@ -9,7 +9,6 @@ export default function ManageOrders() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortOption, setSortOption] = useState("");
-  const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [newStatus, setNewStatus] = useState("");
@@ -21,7 +20,7 @@ export default function ManageOrders() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        await Promise.all([fetchOrders(), fetchUsers()]);
+        await fetchOrders();
       } catch (error) {
         console.error("Error loading data:", error);
         toast.error("Failed to load data");
@@ -38,16 +37,18 @@ export default function ManageOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/orders");
+      const res = await axios.get("http://localhost:5000/api/admin/orders", { withCredentials: true });
       if (!res.data || !Array.isArray(res.data)) {
         throw new Error("Invalid orders data");
       }
-      setOrders(res.data.map(order => ({
-        ...order,
-        date: order.date || new Date().toISOString(),
-        total: order.total || 0,
-        status: order.status || "Placed"
-      })));
+      setOrders(
+        res.data.map(order => ({
+          ...order,
+          date: order.createdAt,
+          total: order.total || 0
+        }))
+      );
+
     } catch (error) {
       console.error("Error fetching orders:", error);
       toast.error("Failed to fetch orders");
@@ -55,25 +56,11 @@ export default function ManageOrders() {
     }
   };
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/users");
-      if (!res.data || !Array.isArray(res.data)) {
-        throw new Error("Invalid users data");
-      }
-      setUsers(res.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      toast.error("Failed to fetch users");
-      setUsers([]);
-    }
-  };
-
   const deleteOrder = async (id) => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/orders/${id}`);
+      await axios.delete(`http://localhost:5000/api/admin/orders/${id}`, { withCredentials: true });
       toast.success("Order deleted");
       fetchOrders();
     } catch (error) {
@@ -84,31 +71,25 @@ export default function ManageOrders() {
 
   const filterAndSortOrders = () => {
     let filtered = [...orders];
-    
+
     // Filter by status
     if (statusFilter !== "All") {
       filtered = filtered.filter((o) => o.status === statusFilter);
     }
-    
+
     // Sort orders
     if (sortOption === "Date") {
       filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     } else if (sortOption === "Total") {
       filtered.sort((a, b) => (b.total || 0) - (a.total || 0));
     }
-    
+
     setFilteredOrders(filtered);
     setCurrentPage(1);
   };
 
   const getCountByStatus = (status) =>
     orders.filter((o) => o.status === status).length;
-
-  const getUserEmail = (userId) => {
-    if (!userId) return "Guest";
-    const user = users.find((u) => u.id === userId);
-    return user?.email || `User ${userId}`;
-  };
 
   const openStatusModal = (order) => {
     setSelectedOrder(order);
@@ -118,11 +99,13 @@ export default function ManageOrders() {
 
   const updateOrderStatus = async () => {
     if (!selectedOrder) return;
-    
+
     try {
-      await axios.patch(`http://localhost:5000/orders/${selectedOrder.id}`, {
-        status: newStatus,
-      });
+      await axios.patch(`http://localhost:5000/api/admin/orders/${selectedOrder._id}`,
+        { status: newStatus },
+        {
+          withCredentials: true
+        });
       toast.success("Order status updated");
       setIsModalOpen(false);
       fetchOrders();
@@ -136,7 +119,7 @@ export default function ManageOrders() {
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-  
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredOrders.length / ordersPerPage)));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -236,20 +219,19 @@ export default function ManageOrders() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {currentOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-8 py-6 font-medium text-gray-800">#{order.id}</td>
-                      <td className="px-8 py-6 text-gray-600">{getUserEmail(order.userId)}</td>
+                    <tr key={order._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-8 py-6 font-medium text-gray-800">#{order._id.slice(-6)}</td>
+                      <td className="px-8 py-6 text-gray-600">{order.user?.email || "Guest"}</td>
                       <td className="px-8 py-6">
                         <span
-                          className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            order.status === "Delivered"
-                              ? "bg-green-100 text-green-800"
-                              : order.status === "Cancelled"
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${order.status === "Delivered"
+                            ? "bg-green-100 text-green-800"
+                            : order.status === "Cancelled"
                               ? "bg-red-100 text-red-800"
                               : order.status === "Shipped"
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
                         >
                           {order.status || "Placed"}
                         </span>
@@ -268,7 +250,7 @@ export default function ManageOrders() {
                             <FaEdit size={16} />
                           </button>
                           <button
-                            onClick={() => deleteOrder(order.id)}
+                            onClick={() => deleteOrder(order._id)}
                             className="p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow hover:shadow-md transition-all"
                             title="Delete Order"
                           >
@@ -295,7 +277,7 @@ export default function ManageOrders() {
                     >
                       <FaChevronLeft size={16} />
                     </button>
-                    
+
                     {Array.from({ length: Math.ceil(filteredOrders.length / ordersPerPage) }).map((_, index) => (
                       <button
                         key={index}
@@ -305,7 +287,7 @@ export default function ManageOrders() {
                         {index + 1}
                       </button>
                     ))}
-                    
+
                     <button
                       onClick={nextPage}
                       disabled={currentPage === Math.ceil(filteredOrders.length / ordersPerPage)}

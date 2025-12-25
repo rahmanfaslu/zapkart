@@ -30,7 +30,7 @@ const AdminSidebar = () => {
   }, [isMobile]);
 
   const handleLogout = () => {
-    localStorage.removeItem("admin");  
+    localStorage.removeItem("admin");
     navigate("/login");
   };
 
@@ -57,15 +57,12 @@ const AdminSidebar = () => {
       )}
 
       <aside
-        className={`bg-white min-h-screen border-r border-gray-200 p-6 transition-all duration-300 ${
-          isMobile
-            ? `fixed top-0 left-0 z-40 h-full ${
-                isCollapsed ? "-translate-x-full" : "translate-x-0"
-              }`
+        className={`bg-white h-screen border-r border-gray-200 p-6 transition-all duration-300 fixed top-0 left-0 z-40 overflow-y-auto ${isMobile
+            ? `${isCollapsed ? "-translate-x-full" : "translate-x-0"}`
             : "w-64"
-        }`}
+          }`}
       >
-        
+
         <div className="mb-8 flex justify-between items-center">
           {!isCollapsed && (
             <div>
@@ -90,11 +87,10 @@ const AdminSidebar = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center w-full p-4 rounded-lg font-medium transition-all duration-200 ${
-                  isActive
+                className={`flex items-center w-full p-4 rounded-lg font-medium transition-all duration-200 ${isActive
                     ? 'bg-blue-500 text-white shadow-md'
                     : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                }`}
+                  }`}
                 title={isCollapsed ? item.name : ""}
               >
                 <span className={isCollapsed ? "" : "mr-3"}>{item.icon}</span>
@@ -113,9 +109,8 @@ const AdminSidebar = () => {
 
         <button
           onClick={handleLogout}
-          className={`flex items-center w-full p-4 ${
-            isCollapsed ? "justify-center" : ""
-          } bg-red-50 hover:bg-red-100 text-red-600 font-medium rounded-lg transition-colors duration-200`}
+          className={`flex items-center w-full p-4 ${isCollapsed ? "justify-center" : ""
+            } bg-red-50 hover:bg-red-100 text-red-600 font-medium rounded-lg transition-colors duration-200`}
           title={isCollapsed ? "Logout" : ""}
         >
           <FiLogOut size={20} />

@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaTrash, FaEdit, FaPlus, FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-hot-toast";
+import getImageSrc from "../../utils/getImageSrc";
 
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -18,8 +19,17 @@ export default function ManageProducts() {
   const [editingId, setEditingId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8); 
+  const [productsPerPage] = useState(8);
   const nameInputRef = useRef(null);
+
+  const adminApi = axios.create({
+    baseURL: "http://localhost:5000/api/admin",
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  });
+
 
   useEffect(() => {
     fetchProducts();
@@ -27,9 +37,9 @@ export default function ManageProducts() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/Products");
+      const res = await adminApi.get("/products");
       setProducts(res.data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch products");
     }
   };
@@ -53,8 +63,8 @@ export default function ManageProducts() {
 
     const isDuplicate = products.some(
       (p) =>
-        p.title.toLowerCase() === title.toLowerCase() &&
-        p.id !== editingId
+        p.title?.toLowerCase() === title.toLowerCase() &&
+        p._id !== editingId
     );
     if (isDuplicate) {
       toast.error("Duplicate product title");
@@ -63,16 +73,13 @@ export default function ManageProducts() {
 
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/Products/${editingId}`, formData);
+        await adminApi.put(`/products/${editingId}`, formData);
         toast.success("Product updated");
       } else {
-        const newId = Math.max(...products.map(p => parseInt(p.id)), 0) + 1;
-        await axios.post("http://localhost:5000/Products", {
-          ...formData,
-          id: newId.toString()
-        });
+        await adminApi.post("/products", formData);
         toast.success("Product added");
       }
+
       resetForm();
       fetchProducts();
     } catch (error) {
@@ -103,14 +110,14 @@ export default function ManageProducts() {
       originalPrice: product.originalPrice || "",
       onSale: product.onSale || false,
     });
-    setEditingId(product.id);
+    setEditingId(product._id);
     setIsOpen(true);
   };
 
   const deleteProduct = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:5000/Products/${id}`);
+      await axios.delete(`http://localhost:5000/api/products/${id}`,);
       toast.success("Product deleted");
       fetchProducts();
     } catch (error) {
@@ -118,16 +125,15 @@ export default function ManageProducts() {
     }
   };
 
-  // Pagination
   const categories = [...new Set(products.map((p) => p.category))];
   const filteredProducts = products.filter(
     (p) => filterCategory === "All" || p.category === filterCategory
   );
-  
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredProducts.length / productsPerPage)));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -137,7 +143,7 @@ export default function ManageProducts() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold text-blue-800 flex items-center gap-3">
-          Manage Products
+            Manage Products
           </h1>
           <button
             onClick={() => setIsOpen(true)}
@@ -156,7 +162,7 @@ export default function ManageProducts() {
               value={filterCategory}
               onChange={(e) => {
                 setFilterCategory(e.target.value);
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
             >
               <option value="All">All Categories</option>
@@ -183,15 +189,15 @@ export default function ManageProducts() {
             <tbody className="divide-y divide-gray-200">
               {currentProducts.length > 0 ? (
                 currentProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={product._id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-8 py-6">
                       <img
-                        src={product.image}
-                        alt={product.title}
+                        src={getImageSrc(product)}
+                        alt={product.title || product.name}
                         className="w-16 h-16 rounded-lg object-cover"
                       />
                     </td>
-                    <td className="px-8 py-6 font-medium text-gray-800">{product.title}</td>
+                    <td className="px-8 py-6 font-medium text-gray-800">{product.name}</td>
                     <td className="px-8 py-6">
                       <span className="font-semibold">₹{product.price}</span>
                       {product.onSale && product.originalPrice && (
@@ -214,7 +220,7 @@ export default function ManageProducts() {
                           <FaEdit size={16} />
                         </button>
                         <button
-                          onClick={() => deleteProduct(product.id)}
+                          onClick={() => deleteProduct(product._id)}
                           className="bg-red-500 hover:bg-red-600 p-3 text-white rounded-lg shadow hover:shadow-md transition-all"
                           title="Delete"
                         >
@@ -248,7 +254,7 @@ export default function ManageProducts() {
                 >
                   <FaChevronLeft size={16} />
                 </button>
-                
+
                 {Array.from({ length: Math.ceil(filteredProducts.length / productsPerPage) }).map((_, index) => (
                   <button
                     key={index}
@@ -258,7 +264,7 @@ export default function ManageProducts() {
                     {index + 1}
                   </button>
                 ))}
-                
+
                 <button
                   onClick={nextPage}
                   disabled={currentPage === Math.ceil(filteredProducts.length / productsPerPage)}
@@ -330,7 +336,7 @@ export default function ManageProducts() {
                           <option key={c} value={c}>{c}</option>
                         ))}
                       </select>
-                    </div> 
+                    </div>
                     <div className="md:col-span-2">
                       <label className="block text-lg font-medium text-gray-700 mb-2">Image URL *</label>
                       <input

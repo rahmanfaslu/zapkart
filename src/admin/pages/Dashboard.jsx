@@ -30,58 +30,88 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        // Fetch all data in parallel
+      try { 
         const [productsRes, ordersRes, usersRes] = await Promise.all([
-          axios.get("http://localhost:5000/Products"),
-          axios.get("http://localhost:5000/orders"),
-          axios.get("http://localhost:5000/users")
+          axios.get("http://localhost:5000/api/products"),
+          axios.get("http://localhost:5000/api/admin/orders", { withCredentials: true }),
+          axios.get("http://localhost:5000/api/admin/users", { withCredentials: true })
         ]);
 
-        // Calculate metrics
-        const totalRevenue = ordersRes.data.reduce((sum, order) => sum + order.total, 0);
-        const avgOrderValue = ordersRes.data.length > 0 
-          ? totalRevenue / ordersRes.data.length 
+        const orders = ordersRes.data || [];
+        const products = productsRes.data || [];
+        const users = usersRes.data || [];
+ 
+        const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+        const avgOrderValue = orders.length > 0
+          ? totalRevenue / orders.length
           : 0;
-        
-        // Calculate delivery status (mock calculation - adjust based on your actual data)
+ 
         const statusCounts = {
-          Delivered: ordersRes.data.filter(o => o.status === "Delivered").length,
-          Pending: ordersRes.data.filter(o => !o.status || o.status === "Pending").length,
-          Cancelled: ordersRes.data.filter(o => o.status === "Cancelled").length
+          Delivered: orders.filter(o => o.status === "Delivered" || o.status === "delivered").length,
+          Pending: orders.filter(o => !o.status || o.status === "Pending" || o.status === "pending" || o.status === "processing" || o.status === "Placed").length,
+          Shipped: orders.filter(o => o.status === "Shipped" || o.status === "shipped").length,
+          Cancelled: orders.filter(o => o.status === "Cancelled" || o.status === "cancelled").length
         };
 
-        // Calculate weekly revenue (mock - you might want to implement this properly)
         const today = new Date();
-        const lastWeek = Array.from({ length: 7 }, (_, i) => {
+        const weeklyData = Array.from({ length: 7 }, (_, i) => {
           const date = new Date(today);
           date.setDate(date.getDate() - 6 + i);
+          date.setHours(0, 0, 0, 0);
+
+          const nextDate = new Date(date);
+          nextDate.setDate(nextDate.getDate() + 1);
+ 
+          const dayRevenue = orders
+            .filter(order => {
+              const orderDate = new Date(order.createdAt);
+              return orderDate >= date && orderDate < nextDate;
+            })
+            .reduce((sum, order) => sum + (order.total || 0), 0);
+
           return {
             day: date.toLocaleDateString('en-US', { weekday: 'short' }),
-            revenue: Math.floor(Math.random() * 30000) + 10000 // Replace with actual calculation
+            revenue: dayRevenue
           };
         });
 
         setMetrics({
-          products: productsRes.data.length,
-          orders: ordersRes.data.length,
-          users: usersRes.data.length,
+          products: products.length,
+          orders: orders.length,
+          users: users.length,
           totalRevenue,
           avgOrderValue,
-          conversionRate: 3.2, // This would need actual calculation
-          satisfaction: 4.8 // This would come from reviews/ratings
+          conversionRate: users.length > 0 ? ((orders.length / users.length) * 100).toFixed(1) : 0,
+          satisfaction: 4.8
         });
 
         setDeliveryStatus([
           { name: "Delivered", value: statusCounts.Delivered, color: "#10b981" },
           { name: "Pending", value: statusCounts.Pending, color: "#f59e0b" },
+          { name: "Shipped", value: statusCounts.Shipped, color: "#3b82f6" },
           { name: "Cancelled", value: statusCounts.Cancelled, color: "#ef4444" }
         ]);
 
-        setWeeklyRevenue(lastWeek);
+        setWeeklyRevenue(weeklyData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
+        setMetrics({
+          products: 0,
+          orders: 0,
+          users: 0,
+          totalRevenue: 0,
+          avgOrderValue: 0,
+          conversionRate: 0,
+          satisfaction: 0
+        });
+        setDeliveryStatus([
+          { name: "Delivered", value: 0, color: "#10b981" },
+          { name: "Pending", value: 0, color: "#f59e0b" },
+          { name: "Shipped", value: 0, color: "#3b82f6" },
+          { name: "Cancelled", value: 0, color: "#ef4444" }
+        ]);
+        setWeeklyRevenue([]);
         setLoading(false);
       }
     };
@@ -89,7 +119,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  // Custom label function for pie chart
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
     const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -97,11 +126,11 @@ export default function Dashboard() {
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text 
-        x={x} 
-        y={y} 
-        fill="white" 
-        textAnchor={x > cx ? 'start' : 'end'} 
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
         fontSize="12"
         fontWeight="bold"
@@ -123,7 +152,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50 p-6">
       <h2 className="text-3xl font-bold mb-8 text-gray-800">Admin Dashboard</h2>
 
-      {/* All Metrics in a Single Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-xl shadow-lg text-white transform hover:scale-105 transition-transform duration-200">
           <div className="flex items-center justify-between">
@@ -134,7 +162,7 @@ export default function Dashboard() {
             <div className="text-4xl opacity-80">📦</div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-xl shadow-lg text-white transform hover:scale-105 transition-transform duration-200">
           <div className="flex items-center justify-between">
             <div>
@@ -144,7 +172,7 @@ export default function Dashboard() {
             <div className="text-4xl opacity-80">🛒</div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-6 rounded-xl shadow-lg text-white transform hover:scale-105 transition-transform duration-200">
           <div className="flex items-center justify-between">
             <div>
@@ -154,7 +182,7 @@ export default function Dashboard() {
             <div className="text-4xl opacity-80">👤</div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6 rounded-xl shadow-lg text-white transform hover:scale-105 transition-transform duration-200">
           <div className="flex items-center justify-between">
             <div>
@@ -168,8 +196,7 @@ export default function Dashboard() {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Redesigned Pie Chart for Delivery Status */}
+
         <div className="bg-white p-8 rounded-2xl shadow-xl">
           <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
             <span className="mr-3">🚚</span>
@@ -189,15 +216,15 @@ export default function Dashboard() {
                 dataKey="value"
               >
                 {deliveryStatus.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
+                  <Cell
+                    key={`cell-${index}`}
                     fill={entry.color}
                     stroke="white"
                     strokeWidth={2}
                   />
                 ))}
               </Pie>
-              <Tooltip 
+              <Tooltip
                 contentStyle={{
                   backgroundColor: '#ffffffff',
                   color: 'white',
@@ -206,8 +233,8 @@ export default function Dashboard() {
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                 }}
               />
-              <Legend 
-                verticalAlign="bottom" 
+              <Legend
+                verticalAlign="bottom"
                 height={60}
                 iconType="circle"
                 wrapperStyle={{
@@ -220,7 +247,6 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        {/* Bar Chart for Last Week Revenue */}
         <div className="bg-white p-8 rounded-2xl shadow-xl">
           <h3 className="text-2xl font-bold text-gray-700 mb-6 flex items-center">
             <span className="mr-3">📊</span>
@@ -237,19 +263,19 @@ export default function Dashboard() {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis 
-                dataKey="day" 
+              <XAxis
+                dataKey="day"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 12, fill: '#6b7280' }}
               />
-              <YAxis 
+              <YAxis
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 12, fill: '#6b7280' }}
-                tickFormatter={(value) => `₹${value/1000}k`}
+                tickFormatter={(value) => `₹${value / 1000}k`}
               />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{
                   backgroundColor: '#1f2937',
                   color: 'white',
@@ -260,15 +286,15 @@ export default function Dashboard() {
                 formatter={(value) => [`₹${value.toLocaleString()}`, 'Revenue']}
                 labelStyle={{ color: '#d1d5db' }}
               />
-              <Bar 
-                dataKey="revenue" 
+              <Bar
+                dataKey="revenue"
                 radius={[4, 4, 0, 0]}
                 fill="url(#colorGradient)"
               />
               <defs>
                 <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={1}/>
-                  <stop offset="100%" stopColor="#1d4ed8" stopOpacity={1}/>
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
+                  <stop offset="100%" stopColor="#1d4ed8" stopOpacity={1} />
                 </linearGradient>
               </defs>
             </BarChart>
@@ -276,7 +302,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      
+
     </div>
   );
 }

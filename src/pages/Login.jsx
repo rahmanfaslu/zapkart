@@ -18,7 +18,6 @@ function Login() {
       if (success) {
         toast.success("Login successful");
         
-        // Role-based redirection
         const user = JSON.parse(localStorage.getItem("user"));
         if (user?.role === "admin") {
           navigate("/admin/dashboard");

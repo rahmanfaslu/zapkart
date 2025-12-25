@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Header() {
   const navLinkClass = "text-gray-700 hover:text-blue-600 cursor-pointer transition";
   const { wishlist = [], clearWishlist } = useWishlist() || {};
-  const { cartItems = [], clearCart } = useCart() || {};
+  const { cartItems = [], clearLocalCart } = useCart() || {};
   const { user, logout } = useAuth() || {};
   const [searchInput, setSearchInput] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    clearCart?.();
+    clearLocalCart?.();
     clearWishlist?.();
     logout?.();
     navigate('/login');
@@ -57,7 +57,7 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-blue-700 cursor-pointer">Shingify.in</Link>
 
@@ -171,16 +171,16 @@ export default function Header() {
 
                   {dropdownOpen && (
                     <div className="mt-2 w-full bg-white border border-gray-200 rounded shadow-md">
-                     <Link
-                     to="/profile"
-                     className="block px-4 py-2 text-sm hover:bg-gray-100"
-                     onClick={() => {
-                    setDropdownOpen(false);
-                     closeMobileMenu();
-                         }}
-                    >
-                      Profile
-                  </Link>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          closeMobileMenu();
+                        }}
+                      >
+                        Profile
+                      </Link>
 
                       <button
                         onClick={handleLogout}

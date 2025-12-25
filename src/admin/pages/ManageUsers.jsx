@@ -11,6 +11,14 @@ export default function ManageUsers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(8);
 
+  const adminApi = axios.create({
+    baseURL: "http://localhost:5000/api/admin",
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  });
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -21,40 +29,36 @@ export default function ManageUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/users");
+      const res = await adminApi.get("/users");
       setUsers(res.data);
     } catch (error) {
       toast.error("Failed to fetch users");
-      console.error(error);
     }
   };
 
-  const deleteUser = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) return;
+  const deleteUser = async (_id) => {
+    if (!window.confirm("Are you sure?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/users/${id}`);
+      await adminApi.delete(`/users/${_id}`);
       toast.success("User deleted");
       fetchUsers();
-    } catch (error) {
-      toast.error("Failed to delete user");
-      console.error(error);
+    } catch {
+      toast.error("Delete failed");
     }
   };
 
-  const toggleBlockUser = async (id, isCurrentlyBlocked) => {
+
+  const toggleBlockUser = async (_id) => {
     try {
-      await axios.patch(`http://localhost:5000/users/${id}`, {
-        isBlocked: !isCurrentlyBlocked,
-      });
-      toast.success(isCurrentlyBlocked ? "User unblocked" : "User blocked");
+      await adminApi.patch(`/users/${_id}/block`);
+      toast.success("Status updated");
       fetchUsers();
-    } catch (error) {
-      toast.error("Failed to update user status");
-      console.error(error);
+    } catch {
+      toast.error("Update failed");
     }
   };
+
 
   const applyFilters = () => {
     let filtered = [...users];
@@ -70,14 +74,14 @@ export default function ManageUsers() {
     }
 
     setFilteredUsers(filtered);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   // Pagination
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-  
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredUsers.length / usersPerPage)));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -87,7 +91,7 @@ export default function ManageUsers() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold text-blue-800 flex items-center gap-3">
-             Manage Users
+            Manage Users
           </h1>
         </div>
 
@@ -132,7 +136,7 @@ export default function ManageUsers() {
               <table className="min-w-full text-lg">
                 <thead className="bg-blue-600 text-white">
                   <tr>
-                    <th className="px-8 py-5 text-left">ID</th>
+                    <th className="px-8 py-5 text-left">_id</th>
                     <th className="px-8 py-5 text-left">Name</th>
                     <th className="px-8 py-5 text-left">Email</th>
                     <th className="px-8 py-5 text-left">Role</th>
@@ -140,41 +144,38 @@ export default function ManageUsers() {
                     <th className="px-8 py-5 text-left">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="div_ide-y div_ide-gray-200">
                   {currentUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-8 py-6 font-medium text-gray-800">{user.id}</td>
+                    <tr key={user._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-8 py-6 font-medium text-gray-800">{user._id}</td>
                       <td className="px-8 py-6 capitalize">{user.name || "—"}</td>
                       <td className="px-8 py-6 text-gray-600">{user.email}</td>
                       <td className="px-8 py-6">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
-                        }`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+                          }`}>
                           {user.role || "user"}
                         </span>
                       </td>
                       <td className="px-8 py-6">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          user.isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                        }`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                          }`}>
                           {user.isBlocked ? "Blocked" : "Active"}
                         </span>
                       </td>
                       <td className="px-8 py-6">
                         <div className="flex gap-3">
                           <button
-                            onClick={() => toggleBlockUser(user.id, user.isBlocked)}
-                            className={`p-3 rounded-lg shadow hover:shadow-md transition-all ${
-                              user.isBlocked 
-                                ? 'bg-green-600 hover:bg-green-700 text-white' 
+                            onClick={() => toggleBlockUser(user._id, user.isBlocked)}
+                            className={`p-3 rounded-lg shadow hover:shadow-md transition-all ${user.isBlocked
+                                ? 'bg-green-600 hover:bg-green-700 text-white'
                                 : 'bg-red-600 hover:bg-red-700 text-white'
-                            }`}
+                              }`}
                             title={user.isBlocked ? "Unblock User" : "Block User"}
                           >
                             {user.isBlocked ? <FaLockOpen size={16} /> : <FaLock size={16} />}
                           </button>
                           <button
-                            onClick={() => deleteUser(user.id)}
+                            onClick={() => deleteUser(user._id)}
                             className="p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow hover:shadow-md transition-all"
                             title="Delete User"
                           >
@@ -201,7 +202,7 @@ export default function ManageUsers() {
                     >
                       <FaChevronLeft size={16} />
                     </button>
-                    
+
                     {Array.from({ length: Math.ceil(filteredUsers.length / usersPerPage) }).map((_, index) => (
                       <button
                         key={index}
@@ -211,7 +212,7 @@ export default function ManageUsers() {
                         {index + 1}
                       </button>
                     ))}
-                    
+
                     <button
                       onClick={nextPage}
                       disabled={currentPage === Math.ceil(filteredUsers.length / usersPerPage)}

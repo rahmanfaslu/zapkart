@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Cart from './pages/Cart'; 
+import Cart from './pages/Cart';
 import ProductPage from './pages/ProductPage';
 import OrderPage from './pages/OrderPage';
 import { useAuth } from './context/AuthContext';
@@ -29,11 +29,13 @@ const LayoutWrapper = ({ children }) => {
   const isAdminPath = location.pathname.startsWith('/admin');
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       {!isAdminPath && <Header />}
-      {children}
+      <main className="flex-grow">
+        {children}
+      </main>
       {!isAdminPath && <Footer />}
-    </>
+    </div>
   );
 };
 
@@ -47,7 +49,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-          <Route path="/wishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} /> 
+          <Route path="/wishlist" element={<PrivateRoute><Whishlist /></PrivateRoute>} />
           <Route path="/order" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
           <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
           <Route path="/admin/*" element={<AdminRoutes />} />

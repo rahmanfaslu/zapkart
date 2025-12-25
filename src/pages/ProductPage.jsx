@@ -9,6 +9,7 @@ import { BiSortAlt2 } from "react-icons/bi";
 import { IoSearchOutline } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import toast from "react-hot-toast";
+import getImageSrc from "../utils/getImageSrc";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,7 @@ function Products() {
   const [category, setCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("");
 
-  const { wishlist, addToWishlist } = useWishlist();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
   const location = useLocation();
 
@@ -49,8 +50,7 @@ function Products() {
   }, [location.state]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/Products")
+    axios.get("http://localhost:5000/api/products")
       .then((res) => {
         setProducts(res.data);
         setFilteredProducts(res.data);
@@ -63,7 +63,7 @@ function Products() {
 
     if (searchQuery) {
       updatedProducts = updatedProducts.filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.name || item.title)?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -80,7 +80,7 @@ function Products() {
     }
 
     setFilteredProducts(updatedProducts);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   }, [searchQuery, category, sortOrder, products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -147,7 +147,7 @@ function Products() {
         ) : (
           currentProducts.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="w-[97%] rounded-xl bg-white shadow-lg p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.03] duration-300"
             >
               <div
@@ -160,30 +160,30 @@ function Products() {
                 }}
               >
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={getImageSrc(item)}
+                  alt={item.name || item.title}
                   className="mb-4 object-contain w-32 scale-125 transition-transform duration-300 mx-auto"
                 />
                 <p className="text-sm text-gray-500 mb-1">{item.category}</p>
-                <h2 className="text-base font-semibold text-gray-800 mb-1">{item.title}</h2>
+                <h2 className="text-base font-semibold text-gray-800 mb-1">{item.name || item.title}</h2>
                 <p className="text-purple-700 font-bold text-lg mb-4">₹{item.price}</p>
               </div>
 
               <div className="flex justify-center items-center gap-3 mt-auto">
                 <button
-                  className={`text-xl ${
-                    wishlist.find((w) => w.id === item.id)
-                      ? "text-red-600"
-                      : "text-gray-400 hover:text-red-600"
-                  }`}
-                  onClick={() => {
-                    const isInWishlist = wishlist.find((w) => w.id === item.id);
-                    addToWishlist(item);
-                    toast.success(
-                      isInWishlist
-                        ? "Removed from Wishlist"
-                        : "Added to Wishlist"
+                  className={`text-xl ${wishlist.find((w) => w.product?._id === item._id)
+                    ? "text-red-600"
+                    : "text-gray-400 hover:text-red-600"
+                    }`}
+                  onClick={async () => {
+                    const isInWishlist = wishlist.find(
+                      (w) => w.product?._id === item._id
                     );
+                    if (isInWishlist) {
+                      await removeFromWishlist(item._id);
+                    } else {
+                      await addToWishlist(item._id);
+                    }
                   }}
                 >
                   <FaHeart />
@@ -191,9 +191,12 @@ function Products() {
 
                 <button
                   className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-full text-sm"
-                  onClick={() => {
-                    addToCart(item);
-                    toast.success("Item added to cart!");
+                  onClick={async () => {
+                    try {
+                      await addToCart(item._id);
+                    } catch (err) {
+                      toast.error("Failed to add to cart");
+                    }
                   }}
                 >
                   Add to Cart

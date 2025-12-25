@@ -1,12 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function Profile() {
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(null);  
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/users/profile", { withCredentials: true })
+      .then(res => setUser(res.data))
+      .catch(() => setUser(null));
+  }, []);
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    // Do not compare with any client-side stored password
+    if (newPassword !== confirmPassword) {
+      return setMessage("Passwords do not match");
+    }
+
+    try {
+      const res = await axios.patch(
+        "http://localhost:5000/api/users/change-password",
+        { oldPassword, newPassword },
+        { withCredentials: true }
+      );
+
+      // Show toast and force logout (server clears cookie)
+      toast.success(res.data.message || "Password changed successfully!");
+
+      // Clear client-side auth state and redirect to login
+      try { await logout(); } catch (e) { /* ignore */ }
+      navigate("/login");
+
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Error updating password");
+    }
+  };
 
   if (!user) {
     return (
@@ -15,37 +54,6 @@ export default function Profile() {
       </div>
     );
   }
-
-  const handleChangePassword = async (e) => {
-    e.preventDefault();
-
-    if (oldPassword !== user.password) {
-      setMessage("Old password is incorrect.");
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      setMessage("New passwords do not match.");
-      return;
-    }
-
-    try {
-      await axios.patch(`http://localhost:5000/users/${user.id}`, {
-        password: newPassword,
-      });
-
-      const updatedUser = { ...user, password: newPassword };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-      setUser(updatedUser);
-      setOldPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-      setMessage("Password changed successfully!");
-    } catch (error) {
-      console.error("Error updating password:", error);
-      setMessage("Failed to change password. Please try again.");
-    }
-  };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">

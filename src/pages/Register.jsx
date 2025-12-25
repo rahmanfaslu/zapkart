@@ -12,29 +12,35 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  setError("");
 
-    if (!formData.name || !formData.email || !formData.password) {
-      setError('All fields are required!');
-      return;
-    }
-    const res = await fetch(`http://localhost:5000/users?email=${formData.email}`);
-    const existingUser = await res.json();
+  if (!formData.name || !formData.email || !formData.password) {
+    setError("All fields are required!");
+    return;
+  }
 
-    if (existingUser.length > 0) {
-      setError('User already exists!');
-      return;
-    }
-
-    await fetch('http://localhost:5000/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  try {
+   const res = await fetch("http://localhost:5000/api/users/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     });
 
-    toast.success('Registered successfully!');
-    navigate('/login');
-  };
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.message || "Registration failed");
+      return;
+    }
+
+    toast.success("Registered successfully!");
+    navigate("/login");
+  } catch (err) {
+    setError("Something went wrong");
+  }
+};
+
 
   return (
     <div className="min-h-147 flex items-center justify-center bg-gradient-to-br from-sky-100 to-blue-200 px-4">

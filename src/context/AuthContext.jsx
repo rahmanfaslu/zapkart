@@ -4,6 +4,8 @@ import { toast } from "react-hot-toast";
 
 const AuthContext = createContext();
 
+axios.defaults.withCredentials = true;
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -12,66 +14,66 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!user;
 
+  useEffect(() => {
+    const fetchCurrent = async () => {
+      if (user) return; // already have user from localStorage
+      try {
+        const res = await axios.get("http://localhost:5000/api/users/me");
+        const apiUser = res.data;
+        const normalizedUser = { ...apiUser, _id: apiUser._id || apiUser.id };
+        setUser(normalizedUser);
+        localStorage.setItem("user", JSON.stringify(normalizedUser));
+      } catch (err) {
+        // no active session or not authenticated; clear stored user to avoid stale state
+        setUser(null);
+        localStorage.removeItem("user");
+      }
+    };
+    fetchCurrent();
+  }, []);
+
+  /* LOGIN */
   const login = async (email, password) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/users?email=${email}&password=${password}`
+      const res = await axios.post(
+        "http://localhost:5000/api/users/login",
+        { email, password }
       );
+      const apiUser = res.data?.user || res.data;
+      const normalizedUser = { ...apiUser, _id: apiUser.id || apiUser._id };
+      setUser(normalizedUser);
+      localStorage.setItem("user", JSON.stringify(normalizedUser));
 
-      if (res.data.length > 0) {
-        const userData = res.data[0];
-        
-        if (userData.isBlocked) {
-          toast.error("Your account has been blocked. Please contact support.");
-          return false;
-        }
-
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("Login failed. Please try again.");
+      return true;
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Login failed");
       return false;
     }
   };
 
-  const logout = () => {
+
+
+  /* LOGOUT */
+  const logout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/users/logout");
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+
     setUser(null);
     localStorage.removeItem("user");
   };
 
-  const checkBlockStatus = async (userId) => {
-    try {
-      const res = await axios.get(`http://localhost:5000/users/${userId}`);
-      if (res.data.isBlocked) {
-        logout();
-        toast.error("Your account has been blocked. Please contact support.");
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error checking block status:", error);
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    if (user?.id) {
-      checkBlockStatus(user.id);
-      
-      const interval = setInterval(() => {
-        if (user?.id) checkBlockStatus(user.id);
-      }, 300000);
-      
-      return () => clearInterval(interval);
-    }
-  }, [user?.id]);
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, checkBlockStatus }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        isAuthenticated
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

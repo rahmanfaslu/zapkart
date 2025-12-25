@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
-import toast from "react-hot-toast";
 
 const OrderContext = createContext();
 export const useOrder = () => useContext(OrderContext);
@@ -12,29 +11,36 @@ export const OrderProvider = ({ children }) => {
 
   const fetchUserOrders = async () => {
     try {
-      if (!user?.email) return;
-      const response = await axios.get(
-        `http://localhost:5000/orders?userId=${user.email}`
-      );
-      setOrders(response.data);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+      if (!user) return;
+
+      const res = await axios.get("http://localhost:5000/api/orders", {
+        withCredentials: true,
+      });
+
+      setOrders(res.data);
+    } catch (err) {
+      console.error("Fetch orders failed:", err);
     }
   };
 
-  const placeOrder = async (order) => {
-  try {
-    const res = await axios.post("http://localhost:5000/orders", order);
-    return res.data;
-  } catch (error) {
-    console.error("Error placing order:", error);
-    throw error;
-  }
-};
+  const placeOrder = async (orderData) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/orders",
+        orderData,
+        { withCredentials: true }
+      );
 
+      await fetchUserOrders();
+      return res.data;
+    } catch (err) {
+      console.error("Place order failed:", err);
+      throw err;
+    }
+  };
 
   return (
-    <OrderContext.Provider value={{ orders, placeOrder, fetchUserOrders }}>
+    <OrderContext.Provider value={{ orders, fetchUserOrders, placeOrder }}>
       {children}
     </OrderContext.Provider>
   );
