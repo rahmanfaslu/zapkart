@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { useAuth } from "./AuthContext";
+import toast from "react-hot-toast";
 
 const OrderContext = createContext();
 export const useOrder = () => useContext(OrderContext);
@@ -13,10 +14,7 @@ export const OrderProvider = ({ children }) => {
     try {
       if (!user) return;
 
-      const res = await axios.get("http://localhost:5000/api/orders", {
-        withCredentials: true,
-      });
-
+      const res = await api.get("/api/orders");
       setOrders(res.data);
     } catch (err) {
       console.error("Fetch orders failed:", err);
@@ -24,13 +22,30 @@ export const OrderProvider = ({ children }) => {
   };
 
   const placeOrder = async (orderData) => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/orders",
-        orderData,
-        { withCredentials: true }
+    // Check if user is logged in before placing order
+    if (!user?._id) {
+      toast.error(
+        (t) => (
+          <span>
+            Please login to place an order.{" "}
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+                window.location.href = "/login";
+              }}
+              className="font-bold underline text-blue-600"
+            >
+              Login
+            </button>
+          </span>
+        ),
+        { duration: 4000 }
       );
+      throw new Error("User not logged in");
+    }
 
+    try {
+      const res = await api.post("/api/orders", orderData);
       await fetchUserOrders();
       return res.data;
     } catch (err) {

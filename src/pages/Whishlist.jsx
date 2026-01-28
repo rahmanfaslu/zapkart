@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function Whishlist() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -22,7 +22,6 @@ function Whishlist() {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-grow py-10 bg-white px-4">
-        <Toaster />
         <h1 className="text-center text-5xl font-bold mb-10 text-blue-600">Wishlist</h1>
 
         {wishlist.length === 0 ? (

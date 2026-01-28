@@ -4,13 +4,16 @@ import { useOrder } from "../context/OrderContext";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { createOrder, verifyPayment } from "../services/paymentService";
 
 export default function CheckoutPage() {
   const { placeOrder } = useOrder();
   const { cartItems } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("cod");
 
   const [address, setAddress] = useState({
     name: user?.name || "",
@@ -21,39 +24,85 @@ export default function CheckoutPage() {
     pincode: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
-
   const handleChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + (item.productId?.price || 0) * item.quantity,
+    0
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!cartItems.length) {
-      toast.error("Your cart is empty!");
-      return;
+    if (!cartItems.length) return toast.error("Your cart is empty");
+
+    const isValid = Object.values(address).every(v => v.trim());
+    if (!isValid) return toast.error("Fill all address fields");
+
+    if (paymentMethod === "cod") {
+      placeCodOrder();
+    } else {
+      handleRazorpayPayment();
     }
+  };
 
-    const isValid = Object.values(address).every(v => v.trim() !== "");
-    if (!isValid) {
-      toast.error("Please fill all address fields");
-      return;
-    }
-
-    setIsProcessing(true);
-
+  const placeCodOrder = async () => {
     try {
+      setIsProcessing(true);
+
       await placeOrder({
         shippingAddress: address,
-        paymentMethod,
+        paymentMethod: "COD",
       });
 
-      toast.success("Order placed successfully!");
+      toast.success("Order placed successfully");
       navigate("/order");
-    } catch (err) {
-      toast.error("Failed to place order");
+    } catch {
+      toast.error("Order failed");
     } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleRazorpayPayment = async () => {
+    try {
+      setIsProcessing(true);
+
+      const { data: order } = await createOrder(totalAmount);
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "Shingify",
+        description: "Order Payment",
+        order_id: order.id,
+        handler: async (response) => {
+          await verifyPayment(response);
+
+          await placeOrder({
+            shippingAddress: address,
+            paymentMethod: "Razorpay",
+            paymentResult: response,
+          });
+
+          toast.success("Payment successful");
+          navigate("/order");
+        },
+        modal: {
+          ondismiss: () => {
+            toast.error("Payment cancelled");
+            setIsProcessing(false);
+          }
+        },
+        theme: { color: "#000" }
+      };
+
+      new window.Razorpay(options).open();
+    } catch {
+      toast.error("Payment failed");
       setIsProcessing(false);
     }
   };
@@ -81,7 +130,7 @@ export default function CheckoutPage() {
 
           <div>
             <h3 className="font-semibold mb-2">Payment Method</h3>
-            {["cod", "upi", "card"].map((m) => (
+            {["cod", "upi", "card"].map(m => (
               <label key={m} className="flex items-center gap-2">
                 <input
                   type="radio"

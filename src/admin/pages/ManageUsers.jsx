@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../utils/axiosInstance";
 import { FaTrash, FaLock, FaLockOpen, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 
@@ -11,14 +11,6 @@ export default function ManageUsers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(8);
 
-  const adminApi = axios.create({
-    baseURL: "http://localhost:5000/api/admin",
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-    }
-  });
-
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -29,7 +21,7 @@ export default function ManageUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await adminApi.get("/users");
+      const res = await api.get("/api/admin/users");
       setUsers(res.data);
     } catch (error) {
       toast.error("Failed to fetch users");
@@ -40,7 +32,7 @@ export default function ManageUsers() {
     if (!window.confirm("Are you sure?")) return;
 
     try {
-      await adminApi.delete(`/users/${_id}`);
+      await api.delete(`/api/admin/users/${_id}`);
       toast.success("User deleted");
       fetchUsers();
     } catch {
@@ -51,7 +43,7 @@ export default function ManageUsers() {
 
   const toggleBlockUser = async (_id) => {
     try {
-      await adminApi.patch(`/users/${_id}/block`);
+      await api.patch(`/api/admin/users/${_id}/block`);
       toast.success("Status updated");
       fetchUsers();
     } catch {
@@ -167,8 +159,8 @@ export default function ManageUsers() {
                           <button
                             onClick={() => toggleBlockUser(user._id, user.isBlocked)}
                             className={`p-3 rounded-lg shadow hover:shadow-md transition-all ${user.isBlocked
-                                ? 'bg-green-600 hover:bg-green-700 text-white'
-                                : 'bg-red-600 hover:bg-red-700 text-white'
+                              ? 'bg-green-600 hover:bg-green-700 text-white'
+                              : 'bg-red-600 hover:bg-red-700 text-white'
                               }`}
                             title={user.isBlocked ? "Unblock User" : "Block User"}
                           >

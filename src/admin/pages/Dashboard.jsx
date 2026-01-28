@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../utils/axiosInstance";
 import {
   PieChart,
   Pie,
@@ -30,22 +30,22 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try { 
+      try {
         const [productsRes, ordersRes, usersRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/products"),
-          axios.get("http://localhost:5000/api/admin/orders", { withCredentials: true }),
-          axios.get("http://localhost:5000/api/admin/users", { withCredentials: true })
+          api.get("/api/products"),
+          api.get("/api/admin/orders"),
+          api.get("/api/admin/users")
         ]);
 
         const orders = ordersRes.data || [];
         const products = productsRes.data || [];
         const users = usersRes.data || [];
- 
+
         const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
         const avgOrderValue = orders.length > 0
           ? totalRevenue / orders.length
           : 0;
- 
+
         const statusCounts = {
           Delivered: orders.filter(o => o.status === "Delivered" || o.status === "delivered").length,
           Pending: orders.filter(o => !o.status || o.status === "Pending" || o.status === "pending" || o.status === "processing" || o.status === "Placed").length,
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
           const nextDate = new Date(date);
           nextDate.setDate(nextDate.getDate() + 1);
- 
+
           const dayRevenue = orders
             .filter(order => {
               const orderDate = new Date(order.createdAt);

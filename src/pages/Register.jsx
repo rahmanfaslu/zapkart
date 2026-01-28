@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
+import { registerSchema } from "../validation/authValidation";
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -15,13 +17,19 @@ export default function Register() {
   e.preventDefault();
   setError("");
 
-  if (!formData.name || !formData.email || !formData.password) {
-    setError("All fields are required!");
+  const { error } = registerSchema.validate(formData, {
+    abortEarly: false
+  });
+
+  if (error) {
+    error.details.forEach((err) => {
+      toast.error(err.message);
+    });
     return;
   }
 
   try {
-   const res = await fetch("http://localhost:5000/api/users/register", {
+    const res = await fetch("http://localhost:5000/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
@@ -30,16 +38,17 @@ export default function Register() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "Registration failed");
+      toast.error(data.message || "Registration failed");
       return;
     }
 
     toast.success("Registered successfully!");
     navigate("/login");
   } catch (err) {
-    setError("Something went wrong");
+    toast.error("Something went wrong");
   }
 };
+
 
 
   return (
@@ -58,6 +67,7 @@ export default function Register() {
               placeholder="Enter your name"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              autoComplete="off"
               required
             />
           </div>
@@ -70,6 +80,7 @@ export default function Register() {
               placeholder="Enter your email"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              autoComplete="off"
               required
             />
           </div>
@@ -82,6 +93,7 @@ export default function Register() {
               placeholder="Create a password"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              autoComplete="new-password"
               required
             />
           </div>

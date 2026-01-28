@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import axios from "axios";
+import api from "../../utils/axiosInstance";
 import { FaTrash, FaEdit, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import { Dialog, Transition } from "@headlessui/react";
@@ -37,7 +37,7 @@ export default function ManageOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/orders", { withCredentials: true });
+      const res = await api.get("/api/admin/orders");
       if (!res.data || !Array.isArray(res.data)) {
         throw new Error("Invalid orders data");
       }
@@ -60,7 +60,7 @@ export default function ManageOrders() {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/orders/${id}`, { withCredentials: true });
+      await api.delete(`/api/admin/orders/${id}`);
       toast.success("Order deleted");
       fetchOrders();
     } catch (error) {
@@ -101,11 +101,7 @@ export default function ManageOrders() {
     if (!selectedOrder) return;
 
     try {
-      await axios.patch(`http://localhost:5000/api/admin/orders/${selectedOrder._id}`,
-        { status: newStatus },
-        {
-          withCredentials: true
-        });
+      await api.patch(`/api/admin/orders/${selectedOrder._id}`, { status: newStatus });
       toast.success("Order status updated");
       setIsModalOpen(false);
       fetchOrders();

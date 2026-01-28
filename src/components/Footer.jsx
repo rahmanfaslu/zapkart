@@ -1,8 +1,8 @@
 // src/components/Footer.jsx
-import React from "react";
+import React, { memo } from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
-export default function Footer() {
+const Footer = memo(function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-10 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-gray-700">
@@ -36,7 +36,7 @@ export default function Footer() {
 
         <div>
           <h3 className="text-lg font-semibold text-white mb-3">Connect</h3>
-          <p className="text-sm mb-3">support@Shingify.in.com</p>
+          <p className="text-sm mb-3">contact.shingify@gmail.com</p>
           <div className="flex space-x-4 text-xl">
             <a href="#" className="hover:text-white"><FaFacebook /></a>
             <a href="#" className="hover:text-white"><FaTwitter /></a>
@@ -51,4 +51,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+export default Footer;

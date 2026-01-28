@@ -36,7 +36,7 @@ export default function PolicyPage() {
 
       <section className="space-y-2">
         <h2 className="text-2xl font-semibold">Contact Us</h2>
-        <p>Email: <a href="mailto:support@shingify.in" className="text-blue-600 underline">faslur501@gmail.com</a></p>
+        <p>Email: <a href="mailto:support@shingify.in" className="text-blue-600 underline">contact.shingify@gmail.com</a></p>
         <p>Phone: +91-9207119149</p>
         <p>Address: Shingify.in, kinfra Park, kakkanchery, kerela</p>
       </section>

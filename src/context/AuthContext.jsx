@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { toast } from "react-hot-toast";
 
 const AuthContext = createContext();
-
-axios.defaults.withCredentials = true;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
@@ -13,32 +11,40 @@ export function AuthProvider({ children }) {
   });
 
   const isAuthenticated = !!user;
-
   useEffect(() => {
-    const fetchCurrent = async () => {
-      if (user) return; // already have user from localStorage
+    const handleSessionExpired = () => {
+      setUser(null);
+      toast.error("Session expired. Please log in again.", { id: "session-expired" });
+    };
+
+    window.addEventListener("auth:sessionExpired", handleSessionExpired);
+    return () => window.removeEventListener("auth:sessionExpired", handleSessionExpired);
+  }, []);
+
+  // Verify session on mount
+  useEffect(() => {
+    const verifySession = async () => {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) return;
+
       try {
-        const res = await axios.get("http://localhost:5000/api/users/me");
+        const res = await api.get("/api/users/me");
         const apiUser = res.data;
         const normalizedUser = { ...apiUser, _id: apiUser._id || apiUser.id };
         setUser(normalizedUser);
         localStorage.setItem("user", JSON.stringify(normalizedUser));
       } catch (err) {
-        // no active session or not authenticated; clear stored user to avoid stale state
         setUser(null);
         localStorage.removeItem("user");
       }
     };
-    fetchCurrent();
+    verifySession();
   }, []);
 
   /* LOGIN */
   const login = async (email, password) => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/users/login",
-        { email, password }
-      );
+      const res = await api.post("/api/users/login", { email, password });
       const apiUser = res.data?.user || res.data;
       const normalizedUser = { ...apiUser, _id: apiUser.id || apiUser._id };
       setUser(normalizedUser);
@@ -51,12 +57,10 @@ export function AuthProvider({ children }) {
     }
   };
 
-
-
   /* LOGOUT */
   const logout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/users/logout");
+      await api.post("/api/users/logout");
     } catch (err) {
       console.error("Logout error:", err);
     }

@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import {
   FiHome,
   FiBox,
@@ -10,7 +10,7 @@ import {
   FiX
 } from "react-icons/fi";
 
-const AdminSidebar = () => {
+const AdminSidebar = memo(function AdminSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -58,8 +58,8 @@ const AdminSidebar = () => {
 
       <aside
         className={`bg-white h-screen border-r border-gray-200 p-6 transition-all duration-300 fixed top-0 left-0 z-40 overflow-y-auto ${isMobile
-            ? `${isCollapsed ? "-translate-x-full" : "translate-x-0"}`
-            : "w-64"
+          ? `${isCollapsed ? "-translate-x-full" : "translate-x-0"}`
+          : "w-64"
           }`}
       >
 
@@ -88,8 +88,8 @@ const AdminSidebar = () => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center w-full p-4 rounded-lg font-medium transition-all duration-200 ${isActive
-                    ? 'bg-blue-500 text-white shadow-md'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-blue-500 text-white shadow-md'
+                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 title={isCollapsed ? item.name : ""}
               >
@@ -127,6 +127,6 @@ const AdminSidebar = () => {
       )}
     </>
   );
-};
+});
 
 export default AdminSidebar;

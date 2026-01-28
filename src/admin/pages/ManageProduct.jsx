@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, Fragment } from "react";
-import axios from "axios";
+import api from "../../utils/axiosInstance";
 import { FaTrash, FaEdit, FaPlus, FaEye, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-hot-toast";
@@ -22,14 +22,6 @@ export default function ManageProducts() {
   const [productsPerPage] = useState(8);
   const nameInputRef = useRef(null);
 
-  const adminApi = axios.create({
-    baseURL: "http://localhost:5000/api/admin",
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-    }
-  });
-
 
   useEffect(() => {
     fetchProducts();
@@ -37,7 +29,7 @@ export default function ManageProducts() {
 
   const fetchProducts = async () => {
     try {
-      const res = await adminApi.get("/products");
+      const res = await api.get("/api/admin/products");
       setProducts(res.data);
     } catch {
       toast.error("Failed to fetch products");
@@ -73,10 +65,10 @@ export default function ManageProducts() {
 
     try {
       if (editingId) {
-        await adminApi.put(`/products/${editingId}`, formData);
+        await api.put(`/api/admin/products/${editingId}`, formData);
         toast.success("Product updated");
       } else {
-        await adminApi.post("/products", formData);
+        await api.post("/api/admin/products", formData);
         toast.success("Product added");
       }
 
@@ -117,7 +109,7 @@ export default function ManageProducts() {
   const deleteProduct = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`,);
+      await api.delete(`/api/products/${id}`);
       toast.success("Product deleted");
       fetchProducts();
     } catch (error) {

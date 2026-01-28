@@ -10,16 +10,17 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Dialog, Transition } from '@headlessui/react';
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import toast from 'react-hot-toast';
 import getImageSrc from "../utils/getImageSrc";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [allProducts, setAllProducts] = useState([]);
+  const [sliderProducts, setSliderProducts] = useState([]);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
   const { cartItems, addToCart } = useCart();
-  const { wishlist, addToWishlist } = useWishlist();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,77 +29,27 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  const marketingTexts = [
-    "Best choice for everyday use!",
-    "Loved by thousands of customers.",
-    "Limited stock. Hurry up!",
-    "Top-rated product in its category.",
-    "You won't regret this purchase!"
-  ];
-
-  const products = [
-    {
-      id: 1,
-      title: "Beat Solo 2",
-      subtitle: "Wireless Headset",
-      description: "The Beats Solo 4 Cloud Pink blend premium design, immersive spatial audio, and all-day comfort in a lightweight package",
-      bgColor: "bg-blue-100",
-      titleColor: "text-gray-800",
-      subtitleColor: "text-blue-500",
-      buttonColor: "bg-blue-500 hover:bg-blue-700",
-      image: "beat solo.png",
-      imageClasses: "scale-200"
-    },
-    {
-      id: 2,
-      title: "AirPods Pro",
-      subtitle: "Premium Earbuds",
-      description: "Experience next-level sound with Active Noise Cancellation, Transparency mode, and Spatial Audio technology",
-      bgColor: "bg-purple-100",
-      titleColor: "text-gray-800",
-      subtitleColor: "text-purple-500",
-      buttonColor: "bg-purple-500 hover:bg-purple-700",
-      image: "airpodes.png"
-    },
-    {
-      id: 3,
-      title: "Mac Studio",
-      subtitle: "Powerful Computer",
-      description: "A compact powerhouse built for creators, with lightning-fast M-series performance and pro-level features",
-      bgColor: "bg-green-100",
-      titleColor: "text-gray-800",
-      subtitleColor: "text-green-500",
-      buttonColor: "bg-green-500 hover:bg-green-700",
-      image: "machub.png"
-    },
-    {
-      id: 4,
-      title: "MacBook Pro",
-      subtitle: "Sports Wireless",
-      description: "Designed for athletes with secure-fit ear hooks, sweat resistance, and powerful sound that motivates your workout",
-      bgColor: "bg-red-100",
-      titleColor: "text-gray-800",
-      subtitleColor: "text-red-500",
-      buttonColor: "bg-red-500 hover:bg-red-700",
-      image: "macbook pro.png"
-    }
-  ];
+  useEffect(() => {
+    api.get("/api/products/slider")
+      .then((res) => setSliderProducts(res.data))
+      .catch((err) => console.error("Error fetching slider products:", err));
+  }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products")
+    api.get("/api/products")
       .then((res) => setAllProducts(res.data))
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
   useEffect(() => {
-    if (!isAutoSliding) return;
+    if (!isAutoSliding || sliderProducts.length === 0) return;
 
     const slideInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % products.length);
+      setCurrentSlide((prev) => (prev + 1) % sliderProducts.length);
     }, 3000);
 
     return () => clearInterval(slideInterval);
-  }, [isAutoSliding, products.length]);
+  }, [isAutoSliding, sliderProducts.length]);
 
   const getRandomText = () => {
     return marketingTexts[Math.floor(Math.random() * marketingTexts.length)];
@@ -111,37 +62,25 @@ export default function Home() {
     navigate("/products", { state: { category } });
   };
 
-  const handleShopNow = (productTitle) => {
-    let foundProduct = null;
-
-    if (productTitle === "Beat Solo 2") {
-      foundProduct = allProducts.find(p => p.title === "Beat Solo 2");
-    } else if (productTitle === "AirPods Pro") {
-      foundProduct = allProducts.find(p => p.title === "Airpdes Pro" || p.title === "AirPods Pro");
-    } else if (productTitle === "Mac Studio") {
-      foundProduct = allProducts.find(p => p.title === "Apple Mac Studio");
-    } else if (productTitle === "MacBook Pro") {
-      foundProduct = allProducts.find(p => p.title === "MacBook Pro M2");
+  const handleShopNow = (sliderProduct) => {
+    if (!sliderProduct.category) {
+      console.warn("Slider product missing category");
+      return;
     }
 
-    if (foundProduct) {
-      setSelectedProduct(foundProduct);
-      setModalQuantity(1);
-      setRandomText(getRandomText());
-      setIsModalOpen(true);
-    } else {
-      toast.success("Product not found in database");
-    }
+    navigate("/products", {
+      state: { category: sliderProduct.category }
+    });
   };
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % products.length);
+    setCurrentSlide((prev) => (prev + 1) % sliderProducts.length);
     setIsAutoSliding(false);
     setTimeout(() => setIsAutoSliding(true), 3000);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
+    setCurrentSlide((prev) => (prev - 1 + sliderProducts.length) % sliderProducts.length);
     setIsAutoSliding(false);
     setTimeout(() => setIsAutoSliding(true), 3000);
   };
@@ -170,8 +109,8 @@ export default function Home() {
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              {products.map((product) => (
-                <div key={product.id} className="w-full flex-shrink-0">
+              {sliderProducts.map((product) => (
+                <div key={product._id} className="w-full flex-shrink-0">
                   <div className={`${product.bgColor}  md:h-125 h-auto rounded-2xl p-6 relative overflow-hidden`}>
 
                     {/* Desktop Layout */}
@@ -189,8 +128,8 @@ export default function Home() {
                           </h1>
                           <button
                             type="button"
-                            onClick={() => handleShopNow(product.title)}
-                            className={`px-6 py-2 ${product.buttonColor} ml-20 mt-4 text-white rounded-lg transition duration-300 font-semibold`}
+                            onClick={() => handleShopNow(product)}
+                            className={`px-6 py-2 ${product.buttonColor || 'bg-blue-600 hover:bg-blue-700'} ml-20 mt-4 text-white rounded-lg transition duration-300 font-semibold`}
                           >
                             Shop Now
                           </button>
@@ -200,10 +139,10 @@ export default function Home() {
                           <img
                             src={`/${product.image}`}
                             alt={product.title}
-                            className={`w-80 h-80 object-contain drop-shadow-2xl hover:scale-103 transition-transform duration-300 ${product.id === 1 ? 'w-100 h-80 absolute top-[40px]' :
-                              product.id === 2 ? 'absolute top-[40px]' :
-                                product.id === 3 ? 'mr-10 pt-10 w-90 h-80' :
-                                  product.id === 4 ? 'absolute top-[40px] w-120 h-80' : ''
+                            className={`w-80 h-80 object-contain drop-shadow-2xl hover:scale-103 transition-transform duration-300 ${product.sliderOrder === 1 ? 'w-100 h-80 absolute top-[40px]' :
+                              product.sliderOrder === 2 ? 'absolute top-[40px]' :
+                                product.sliderOrder === 3 ? 'mr-10 pt-10 w-90 h-80' :
+                                  product.sliderOrder === 4 ? 'absolute top-[40px] w-120 h-80' : ''
                               }`}
                           />
                         </div>
@@ -239,8 +178,8 @@ export default function Home() {
                         {/* Button */}
                         <button
                           type="button"
-                          onClick={() => handleShopNow(product.title)}
-                          className={`px-8 py-3 ${product.buttonColor} text-white rounded-lg transition duration-300 font-semibold text-lg shadow-lg hover:shadow-xl`}
+                          onClick={() => handleShopNow(product)}
+                          className={`px-8 py-3 ${product.buttonColor || 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg transition duration-300 font-semibold text-lg shadow-lg hover:shadow-xl`}
                         >
                           Shop Now
                         </button>
@@ -281,7 +220,7 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center mt-6 space-x-2">
-            {products.map((_, index) => (
+            {sliderProducts.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
@@ -412,14 +351,17 @@ export default function Home() {
 
               <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
                 <button
-                  className={`text-lg md:text-xl p-2 rounded-full transition-colors ${wishlist.find((w) => w.id === product._id)
+                  className={`text-lg md:text-xl p-2 rounded-full transition-colors ${wishlist.find((w) => w.productId === product._id)
                     ? "text-red-600 bg-red-50"
                     : "text-gray-400 hover:text-red-600 hover:bg-red-50"
                     }`}
                   onClick={async () => {
-                    const isInWishlist = wishlist.find((w) => w.id === product._id);
-                    await addToWishlist(product);
-                    toast.success(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist");
+                    const isInWishlist = wishlist.find((w) => w.productId === product._id);
+                    if (isInWishlist) {
+                      await removeFromWishlist(product._id);
+                    } else {
+                      await addToWishlist(product._id);
+                    }
                   }}
                 >
                   <FaHeart />
@@ -510,18 +452,17 @@ export default function Home() {
                         {/* Compact wishlist and quantity row */}
                         <div className="flex items-center justify-between gap-2">
                           <button
-                            className={`text-lg sm:text-xl ${wishlist.find((w) => w.id === selectedProduct._id)
+                            className={`text-lg sm:text-xl ${wishlist.find((w) => w.productId === selectedProduct._id)
                               ? "text-red-600"
                               : "text-gray-400 hover:text-red-600"
                               } transition-colors`}
-                            onClick={() => {
-                              const isInWishlist = wishlist.find((w) => w.id === selectedProduct._id);
-                              addToWishlist(selectedProduct);
-                              toast.success(
-                                isInWishlist
-                                  ? "Removed from Wishlist"
-                                  : "Added to Wishlist"
-                              );
+                            onClick={async () => {
+                              const isInWishlist = wishlist.find((w) => w.productId === selectedProduct._id);
+                              if (isInWishlist) {
+                                await removeFromWishlist(selectedProduct._id);
+                              } else {
+                                await addToWishlist(selectedProduct._id);
+                              }
                             }}
                           >
                             <FaHeart />

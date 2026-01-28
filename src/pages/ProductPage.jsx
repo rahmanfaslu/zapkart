@@ -1,5 +1,5 @@
 import { useEffect, useState, Fragment } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
@@ -14,6 +14,7 @@ import getImageSrc from "../utils/getImageSrc";
 function Products() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [category, setCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("");
@@ -43,6 +44,15 @@ function Products() {
 
   const [randomText, setRandomText] = useState("");
 
+  // Debounce search query - filters after 300ms of no typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   useEffect(() => {
     if (location.state && location.state.category) {
       setCategory(location.state.category);
@@ -50,7 +60,7 @@ function Products() {
   }, [location.state]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products")
+    api.get("/api/products")
       .then((res) => {
         setProducts(res.data);
         setFilteredProducts(res.data);
@@ -61,9 +71,9 @@ function Products() {
   useEffect(() => {
     let updatedProducts = [...products];
 
-    if (searchQuery) {
+    if (debouncedSearchQuery) {
       updatedProducts = updatedProducts.filter((item) =>
-        (item.name || item.title)?.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.name || item.title)?.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
       );
     }
 
@@ -81,7 +91,7 @@ function Products() {
 
     setFilteredProducts(updatedProducts);
     setCurrentPage(1);
-  }, [searchQuery, category, sortOrder, products]);
+  }, [debouncedSearchQuery, category, sortOrder, products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -247,5 +257,3 @@ function Products() {
 }
 
 export default Products;
-
-//changes

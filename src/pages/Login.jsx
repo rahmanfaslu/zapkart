@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { loginSchema } from "../validation/authValidation";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,27 +12,35 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const success = await login(email, password);
-      
-      if (success) {
-        toast.success("Login successful");
-        
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user?.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/");
-        }
-      } else {
-        toast.error("Invalid credentials or account blocked!");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      toast.error("Something went wrong. Please try again.");
+  e.preventDefault();
+
+  const { error } = loginSchema.validate(
+    { email, password },
+    { abortEarly: false }
+  );
+
+  if (error) {
+    error.details.forEach((err) => {
+      toast.error(err.message);
+    });
+    return;
+  }
+
+  try {
+    const success = await login(email, password);
+
+    if (success) {
+      toast.success("Login successful");
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      navigate(user?.role === "admin" ? "/admin/dashboard" : "/");
+    } else {
+      toast.error("Invalid credentials or account blocked!");
     }
-  };
+  } catch (err) {
+    toast.error("Something went wrong. Please try again.");
+  }
+};
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-blue-50 px-4 py-8">
@@ -49,6 +58,7 @@ function Login() {
               className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
               required
             />
           </div>
@@ -61,6 +71,7 @@ function Login() {
               className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
               required
             />
           </div>
