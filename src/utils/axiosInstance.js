@@ -1,6 +1,8 @@
- import axios from "axios";
+import axios from "axios";
 
 const API_BASE_URL = "https://shigify-backend.onrender.com";
+
+axios.defaults.withCredentials = true;
 
 // Create axios instance
 const api = axios.create({

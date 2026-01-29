@@ -25,12 +25,13 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (user?._id) {
-      fetchCart();
-    } else {
-      setCartItems([]);
-    }
-  }, [user?._id, fetchCart]);
+  if (user) {
+    fetchCart();
+  } else {
+    setCartItems([]);
+  }
+}, [user, fetchCart]);
+
 
   const addToCart = useCallback(async (productId, quantity = 1) => {
     // Check if user is logged in before attempting to add to cart
