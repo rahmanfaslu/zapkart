@@ -36,6 +36,10 @@ export default function Register() {
     });
 
     const data = await res.json();
+    
+    localStorage.setItem("token", data.token)
+localStorage.setItem("user", JSON.stringify(data.user))
+
 
     if (!res.ok) {
       toast.error(data.message || "Registration failed");
