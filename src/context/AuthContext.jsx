@@ -42,8 +42,12 @@ export function AuthProvider({ children }) {
         setUser(normalizedUser);
         localStorage.setItem("user", JSON.stringify(normalizedUser));
       } catch (err) {
-        setUser(null);
-        localStorage.removeItem("user");
+        console.error("Session verification error:", err);
+        // Only clear if it's a definitive 401 and not a retry-able failure
+        if (err.response?.status === 401 && !err.config?._retry) {
+          setUser(null);
+          localStorage.removeItem("user");
+        }
       }
     };
     verifySession();

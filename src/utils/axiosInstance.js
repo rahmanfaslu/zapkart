@@ -63,9 +63,12 @@ api.interceptors.response.use(
             try {
                 // Try to refresh the token - send refreshToken in body as fallback
                 const user = JSON.parse(localStorage.getItem("user"));
+                console.log("Attempting token refresh...");
                 const res = await api.post("/api/users/refresh-token", {
                     refreshToken: user?.refreshToken
                 });
+
+                console.log("Refresh response received:", res.data);
 
                 // Update token in localStorage
                 if (res.data?.token || res.data?.accessToken) {
