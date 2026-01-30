@@ -14,11 +14,77 @@ import api from "../utils/axiosInstance";
 import toast from 'react-hot-toast';
 import getImageSrc from "../utils/getImageSrc";
 
+// Tailwind Safelist for dynamic slider classes (ensures they are not purged)
+const SLIDER_SAFELIST = {
+  bg: ['bg-blue-100', 'bg-purple-100', 'bg-green-100', 'bg-red-100'],
+  button: [
+    'bg-blue-500', 'bg-purple-500', 'bg-green-500', 'bg-red-500',
+    'hover:bg-blue-700', 'hover:bg-purple-700', 'hover:bg-green-700', 'hover:bg-red-700'
+  ],
+  text: ['text-blue-500', 'text-purple-500', 'text-green-500', 'text-red-500']
+}
+
+const INITIAL_SLIDER_DATA = [
+  {
+    _id: "initial-1",
+    title: "Beat Solo 2",
+    subtitle: "Wireless Headset",
+    description: "The Beats Solo 4 Cloud Pink blend premium design, immersive spatial audio, and all-day comfort in a lightweight package",
+    bgColor: "bg-blue-100",
+    titleColor: "text-gray-800",
+    subtitleColor: "text-blue-500",
+    buttonColor: "bg-blue-500 hover:bg-blue-700",
+    image: "beat solo.png",
+    sliderOrder: 1,
+    category: "Headphones"
+  },
+  {
+    _id: "initial-2",
+    title: "AirPods Pro",
+    subtitle: "Premium Earbuds",
+    description: "Experience next-level sound with Active Noise Cancellation, Transparency mode, and Spatial Audio technology",
+    bgColor: "bg-purple-100",
+    titleColor: "text-gray-800",
+    subtitleColor: "text-purple-500",
+    buttonColor: "bg-purple-500 hover:bg-purple-700",
+    image: "airpodes.png",
+    sliderOrder: 2,
+    category: "Headphones"
+  },
+  {
+    _id: "initial-3",
+    title: "Mac Studio",
+    subtitle: "Powerful Computer",
+    description: "A compact powerhouse built for creators, with lightning-fast M-series performance and pro-level features",
+    bgColor: "bg-green-100",
+    titleColor: "text-gray-800",
+    subtitleColor: "text-green-500",
+    buttonColor: "bg-green-500 hover:bg-green-700",
+    image: "machub.png",
+    sliderOrder: 3,
+    category: "Laptops"
+  },
+  {
+    _id: "initial-4",
+    title: "MacBook Pro",
+    subtitle: "Sports Wireless",
+    description: "Designed for athletes with secure-fit ear hooks, sweat resistance, and powerful sound that motivates your workout",
+    bgColor: "bg-red-100",
+    titleColor: "text-gray-800",
+    subtitleColor: "text-red-500",
+    buttonColor: "bg-red-500 hover:bg-red-700",
+    image: "macbook pro.png",
+    sliderOrder: 4,
+    category: "Laptops"
+  }
+];
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [allProducts, setAllProducts] = useState([]);
-  const [sliderProducts, setSliderProducts] = useState([]);
+  const [sliderProducts, setSliderProducts] = useState(INITIAL_SLIDER_DATA);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { cartItems, addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
@@ -37,8 +103,14 @@ export default function Home() {
 
   useEffect(() => {
     api.get("/api/products")
-      .then((res) => setAllProducts(res.data))
-      .catch((err) => console.error("Error fetching products:", err));
+      .then((res) => {
+        setAllProducts(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -139,6 +211,9 @@ export default function Home() {
                           <img
                             src={`/${product.image}`}
                             alt={product.title}
+                            loading={product.sliderOrder === 1 ? "eager" : "lazy"}
+                            decoding="async"
+                            {...(product.sliderOrder === 1 ? { fetchPriority: "high" } : {})}
                             className={`w-80 h-80 object-contain drop-shadow-2xl hover:scale-103 transition-transform duration-300 ${product.sliderOrder === 1 ? 'w-100 h-80 absolute top-[40px]' :
                               product.sliderOrder === 2 ? 'absolute top-[40px]' :
                                 product.sliderOrder === 3 ? 'mr-10 pt-10 w-90 h-80' :
@@ -171,6 +246,8 @@ export default function Home() {
                           <img
                             src={`/${product.image}`}
                             alt={product.title}
+                            loading={product.sliderOrder === 1 ? "eager" : "lazy"}
+                            decoding="async"
                             className="w-64 h-64 object-contain drop-shadow-2xl"
                           />
                         </div>
@@ -307,7 +384,13 @@ export default function Home() {
               <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-blue-500 py-2 rounded-full hover:bg-blue-300 transition duration-300 font-semibold z-10 relative">
                 Click
               </button>
-              <img src="https://static.vecteezy.com/system/resources/previews/024/724/530/non_2x/virtual-reality-or-vr-headset-isolated-on-transparent-background-vr-glasses-for-360-environment-games-or-simulation-training-generative-ai-free-png.png" alt="Oculus" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+              <img
+                src="https://static.vecteezy.com/system/resources/previews/024/724/530/non_2x/virtual-reality-or-vr-headset-isolated-on-transparent-background-vr-glasses-for-360-environment-games-or-simulation-training-generative-ai-free-png.png"
+                alt="Oculus"
+                loading="lazy"
+                decoding="async"
+                className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90"
+              />
             </div>
 
             <div
@@ -320,7 +403,13 @@ export default function Home() {
               <button type="button" className="w-20 h-10 ml-4 md:ml-[35px] bg-white text-green-600 py-2 rounded-full hover:bg-green-300 transition duration-300 font-semibold z-10 relative">
                 Click
               </button>
-              <img src="https://www.pngarts.com/files/12/Portable-Bluetooth-Speaker-PNG-Photo.png" alt="Speaker" className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90" />
+              <img
+                src="https://www.pngarts.com/files/12/Portable-Bluetooth-Speaker-PNG-Photo.png"
+                alt="Speaker"
+                loading="lazy"
+                decoding="async"
+                className="absolute bottom-0 right-3 w-40 md:w-50 opacity-90"
+              />
             </div>
           </div>
         </div>
@@ -333,55 +422,73 @@ export default function Home() {
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7 max-w-7xl mx-auto px-4 md:px-8">
-          {featuredProducts.map((product) => (
-            <div
-              key={product._id}
-              className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-            >
-              <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
-                <img
-                  src={getImageSrc(product)}
-                  alt={product.name || product.title}
-                  className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105"
-                />
+          {isLoading ? (
+            // Skeleton Loader
+            [1, 2, 3, 4].map((i) => (
+              <div key={i} className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center animate-pulse">
+                <div className="w-full h-32 md:h-36 bg-gray-200 rounded-lg mb-4"></div>
+                <div className="w-1/2 h-3 bg-gray-200 rounded mb-2"></div>
+                <div className="w-3/4 h-4 bg-gray-200 rounded mb-2"></div>
+                <div className="w-1/4 h-5 bg-gray-200 rounded mb-4"></div>
+                <div className="flex gap-2 w-full mt-auto">
+                  <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                  <div className="flex-1 h-10 bg-gray-200 rounded-full"></div>
+                </div>
               </div>
-              <p className="text-xs md:text-sm text-gray-500 mb-1">{product.category}</p>
-              <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">{product.name || product.title}</h2>
-              <p className="text-black font-bold text-base md:text-lg mb-4">₹{product.price}</p>
+            ))
+          ) : (
+            featuredProducts.map((product) => (
+              <div
+                key={product._id}
+                className="max-w-xs mx-auto w-full rounded-xl bg-white shadow-lg p-4 md:p-5 flex flex-col items-center text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+              >
+                <div className="w-full h-32 md:h-36 flex items-center justify-center mb-4 overflow-hidden">
+                  <img
+                    src={getImageSrc(product)}
+                    alt={product.name || product.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+                <p className="text-xs md:text-sm text-gray-500 mb-1">{product.category}</p>
+                <h2 className="text-sm md:text-base font-semibold text-gray-800 mb-1 line-clamp-2">{product.name || product.title}</h2>
+                <p className="text-black font-bold text-base md:text-lg mb-4">₹{product.price}</p>
 
-              <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
-                <button
-                  className={`text-lg md:text-xl p-2 rounded-full transition-colors ${wishlist.find((w) => w.productId === product._id)
-                    ? "text-red-600 bg-red-50"
-                    : "text-gray-400 hover:text-red-600 hover:bg-red-50"
-                    }`}
-                  onClick={async () => {
-                    const isInWishlist = wishlist.find((w) => w.productId === product._id);
-                    if (isInWishlist) {
-                      await removeFromWishlist(product._id);
-                    } else {
-                      await addToWishlist(product._id);
-                    }
-                  }}
-                >
-                  <FaHeart />
-                </button>
+                <div className="flex justify-center items-center gap-2 md:gap-3 mt-auto w-full">
+                  <button
+                    className={`text-lg md:text-xl p-2 rounded-full transition-colors ${wishlist.find((w) => w.product?._id === product._id)
+                      ? "text-red-600 bg-red-50"
+                      : "text-gray-400 hover:text-red-600 hover:bg-red-50"
+                      }`}
+                    onClick={async () => {
+                      const isInWishlist = wishlist.find((w) => w.product?._id === product._id);
+                      if (isInWishlist) {
+                        await removeFromWishlist(product._id);
+                      } else {
+                        await addToWishlist(product._id);
+                      }
+                    }}
+                  >
+                    <FaHeart />
+                  </button>
 
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
-                  onClick={async () => {
-                    try {
-                      await addToCart(product._id);
-                    } catch (err) {
-                      toast.error("Failed to add to cart");
-                    }
-                  }}
-                >
-                  Add to Cart
-                </button>
+                  <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors flex-1 max-w-[120px]"
+                    onClick={async () => {
+                      try {
+                        await addToCart(product._id);
+                      } catch (err) {
+                        toast.error("Failed to add to cart");
+                      }
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
 
@@ -420,6 +527,8 @@ export default function Home() {
                       <img
                         src={selectedProduct.image}
                         alt={selectedProduct.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-48 sm:h-56 md:w-1/2 md:h-auto object-contain rounded-lg"
                       />
 
@@ -452,12 +561,12 @@ export default function Home() {
                         {/* Compact wishlist and quantity row */}
                         <div className="flex items-center justify-between gap-2">
                           <button
-                            className={`text-lg sm:text-xl ${wishlist.find((w) => w.productId === selectedProduct._id)
+                            className={`text-lg sm:text-xl ${wishlist.find((w) => w.product?._id === selectedProduct._id)
                               ? "text-red-600"
                               : "text-gray-400 hover:text-red-600"
                               } transition-colors`}
                             onClick={async () => {
-                              const isInWishlist = wishlist.find((w) => w.productId === selectedProduct._id);
+                              const isInWishlist = wishlist.find((w) => w.product?._id === selectedProduct._id);
                               if (isInWishlist) {
                                 await removeFromWishlist(selectedProduct._id);
                               } else {

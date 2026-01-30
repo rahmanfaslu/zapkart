@@ -172,6 +172,8 @@ function Products() {
                 <img
                   src={getImageSrc(item)}
                   alt={item.name || item.title}
+                  loading="lazy"
+                  decoding="async"
                   className="mb-4 object-contain w-32 scale-125 transition-transform duration-300 mx-auto"
                 />
                 <p className="text-sm text-gray-500 mb-1">{item.category}</p>

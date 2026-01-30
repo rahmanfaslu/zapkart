@@ -46,6 +46,8 @@ function Whishlist() {
                 <img
                   src={item.product?.images?.[0] || "/placeholder.png"}
                   alt={item.product?.title || "Product"}
+                  loading="lazy"
+                  decoding="async"
                   className="w-24 mx-auto mb-3 object-contain"
                 />
                 <h3 className="text-lg font-semibold">{item.product?.title}</h3>

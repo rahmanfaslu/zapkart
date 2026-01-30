@@ -46,6 +46,8 @@ function CartPage() {
                 <img
                   src={getImageSrc(item.productId)}
                   alt={item.productId.title || item.productId.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-24 h-24 object-contain rounded"
                 />
 
