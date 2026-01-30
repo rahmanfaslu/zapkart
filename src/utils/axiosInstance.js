@@ -2,13 +2,23 @@ import axios from "axios";
 
 const API_BASE_URL = "https://shigify-backend.onrender.com";
 
-axios.defaults.withCredentials = true;
-
 // Create axios instance
 const api = axios.create({
     baseURL: API_BASE_URL,
     withCredentials: true,
 });
+
+// Request interceptor to add bearer token
+api.interceptors.request.use(
+    (config) => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user?.token) {
+            config.headers.Authorization = `Bearer ${user.token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 // Flag to prevent multiple refresh attempts
 let isRefreshing = false;
@@ -51,8 +61,21 @@ api.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                // Try to refresh the token
-                await api.post("/api/users/refresh-token");
+                // Try to refresh the token - send refreshToken in body as fallback
+                const user = JSON.parse(localStorage.getItem("user"));
+                const res = await api.post("/api/users/refresh-token", {
+                    refreshToken: user?.refreshToken
+                });
+
+                // Update token in localStorage
+                if (res.data?.token || res.data?.accessToken) {
+                    const newToken = res.data.token || res.data.accessToken;
+                    const updatedUser = { ...user, token: newToken };
+                    localStorage.setItem("user", JSON.stringify(updatedUser));
+
+                    // Update header for retrying original request
+                    originalRequest.headers.Authorization = `Bearer ${newToken}`;
+                }
 
                 processQueue(null);
                 isRefreshing = false;

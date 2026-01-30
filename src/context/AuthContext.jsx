@@ -30,7 +30,15 @@ export function AuthProvider({ children }) {
       try {
         const res = await api.get("/api/users/me");
         const apiUser = res.data;
-        const normalizedUser = { ...apiUser, _id: apiUser._id || apiUser.id };
+        const currentUser = JSON.parse(storedUser);
+
+        const normalizedUser = {
+          ...apiUser,
+          _id: apiUser._id || apiUser.id,
+          token: currentUser.token,
+          refreshToken: currentUser.refreshToken
+        };
+
         setUser(normalizedUser);
         localStorage.setItem("user", JSON.stringify(normalizedUser));
       } catch (err) {
@@ -45,8 +53,17 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const res = await api.post("/api/users/login", { email, password });
-      const apiUser = res.data?.user || res.data;
-      const normalizedUser = { ...apiUser, _id: apiUser.id || apiUser._id };
+      const apiUser = res.data?.user;
+      const token = res.data?.token;
+      const refreshToken = res.data?.refreshToken;
+
+      const normalizedUser = {
+        ...apiUser,
+        _id: apiUser?.id || apiUser?._id,
+        token,
+        refreshToken
+      };
+
       setUser(normalizedUser);
       localStorage.setItem("user", JSON.stringify(normalizedUser));
 
